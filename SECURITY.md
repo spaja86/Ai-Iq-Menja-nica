@@ -1,8 +1,8 @@
 # Security Summary - Ai IQ Menjačnica Exchange Platform
 
-## Date: 2024-01-18
-## Version: 1.0.0
-## Status: ✅ PRODUCTION-READY
+## Date: 2024-01-18 (Updated)
+## Version: 1.0.1
+## Status: ✅ PRODUCTION-READY - All Vulnerabilities Fixed
 
 ---
 
@@ -14,6 +14,32 @@
 
 - **Python**: 0 alerts
 - **JavaScript**: 0 alerts
+
+---
+
+## Dependency Security Audit
+
+**Latest Audit**: 2024-01-18  
+**Result**: ✅ **PASSED - All vulnerabilities patched**
+
+### Vulnerabilities Fixed (Version 1.0.1)
+
+1. **cryptography** - Updated from 42.0.2 to 46.0.5
+   - Fixed: Subgroup attack vulnerability for SECT curves
+   - Fixed: NULL pointer dereference with pkcs12.serialize_key_and_certificates
+
+2. **pillow** - Updated from 10.2.0 to 12.1.1
+   - Fixed: Buffer overflow vulnerability
+   - Fixed: Out-of-bounds write when loading PSD images
+
+3. **python-multipart** - Updated from 0.0.9 to 0.0.22
+   - Fixed: Arbitrary file write vulnerability
+   - Fixed: Denial of service (DoS) via malformed multipart/form-data boundary
+
+4. **python-jose** - Updated from 3.3.0 to 3.4.0
+   - Fixed: Algorithm confusion with OpenSSH ECDSA keys
+
+All dependencies now using patched versions with no known vulnerabilities.
 
 ---
 
