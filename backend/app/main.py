@@ -11,7 +11,7 @@ import time
 from app.core.config import settings
 from app.db.session import init_db, get_db
 from app.db.bootstrap import bootstrap_database
-from app.api.routers import auth, market, trading
+from app.api.routers import auth, market, trading, payments, ledger, admin
 
 
 # Lifespan events
@@ -88,6 +88,9 @@ async def global_exception_handler(request: Request, exc: Exception):
 app.include_router(auth.router, prefix=settings.API_V1_PREFIX)
 app.include_router(market.router, prefix=settings.API_V1_PREFIX)
 app.include_router(trading.router, prefix=settings.API_V1_PREFIX)
+app.include_router(payments.router, prefix=settings.API_V1_PREFIX)
+app.include_router(ledger.router, prefix=settings.API_V1_PREFIX)
+app.include_router(admin.router, prefix=settings.API_V1_PREFIX)
 
 
 # Root endpoints
