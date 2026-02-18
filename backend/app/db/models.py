@@ -261,8 +261,8 @@ class Payment(Base):
     # Type
     is_deposit = Column(Boolean, default=True)  # True for deposit, False for withdrawal
     
-    # Metadata
-    metadata = Column(Text, nullable=True)  # JSON string for provider-specific data
+    # Provider data
+    provider_data = Column(Text, nullable=True)  # JSON string for provider-specific data
     
     created_at = Column(DateTime, default=datetime.utcnow, index=True)
     completed_at = Column(DateTime, nullable=True)

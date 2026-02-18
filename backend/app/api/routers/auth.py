@@ -173,18 +173,22 @@ def refresh_token(token_data: TokenRefresh, db: Session = Depends(get_db)):
 
 
 @router.post("/2fa/setup", response_model=User2FASetup)
-def setup_2fa(db: Session = Depends(get_db), current_user: User = None):
+def setup_2fa(db: Session = Depends(get_db)):
     """
     Setup 2FA for user account
     
     Returns:
         - TOTP secret
         - QR code as base64 image
+    
+    Note: In production, this requires authentication
     """
-    # In production, use proper authentication dependency
-    # For now, using a placeholder
-    if not current_user:
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED)
+    # TODO: Implement proper authentication dependency
+    # For now, return error
+    raise HTTPException(
+        status_code=status.HTTP_501_NOT_IMPLEMENTED,
+        detail="2FA setup requires authentication. This endpoint will be implemented with JWT middleware."
+    )
     
     # Generate TOTP secret
     secret = generate_totp_secret()
@@ -204,61 +208,28 @@ def setup_2fa(db: Session = Depends(get_db), current_user: User = None):
 
 
 @router.post("/2fa/verify")
-def verify_2fa(verify_data: User2FAVerify, db: Session = Depends(get_db), current_user: User = None):
+def verify_2fa(verify_data: User2FAVerify, db: Session = Depends(get_db)):
     """
     Verify and enable 2FA
+    
+    Note: In production, this requires authentication
     """
-    if not current_user:
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED)
-    
-    if not current_user.totp_secret:
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail="2FA not set up. Call /2fa/setup first"
-        )
-    
-    # Verify code
-    if not verify_totp(current_user.totp_secret, verify_data.code):
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Invalid 2FA code"
-        )
-    
-    # Enable 2FA
-    current_user.is_2fa_enabled = True
-    db.commit()
-    
-    log_audit(db, current_user.id, "2fa_enabled", True, "2FA enabled")
-    
-    return {"message": "2FA enabled successfully"}
+    # TODO: Implement proper authentication dependency
+    raise HTTPException(
+        status_code=status.HTTP_501_NOT_IMPLEMENTED,
+        detail="2FA verify requires authentication. This endpoint will be implemented with JWT middleware."
+    )
 
 
 @router.post("/2fa/disable")
-def disable_2fa(verify_data: User2FAVerify, db: Session = Depends(get_db), current_user: User = None):
+def disable_2fa(verify_data: User2FAVerify, db: Session = Depends(get_db)):
     """
     Disable 2FA (requires verification code)
+    
+    Note: In production, this requires authentication
     """
-    if not current_user:
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED)
-    
-    if not current_user.is_2fa_enabled:
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail="2FA is not enabled"
-        )
-    
-    # Verify code
-    if not verify_totp(current_user.totp_secret, verify_data.code):
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Invalid 2FA code"
-        )
-    
-    # Disable 2FA
-    current_user.is_2fa_enabled = False
-    current_user.totp_secret = None
-    db.commit()
-    
-    log_audit(db, current_user.id, "2fa_disabled", True, "2FA disabled")
-    
-    return {"message": "2FA disabled successfully"}
+    # TODO: Implement proper authentication dependency
+    raise HTTPException(
+        status_code=status.HTTP_501_NOT_IMPLEMENTED,
+        detail="2FA disable requires authentication. This endpoint will be implemented with JWT middleware."
+    )

@@ -33,11 +33,12 @@ coinbase-commerce==1.0.1
 
 # Blockchain/Crypto
 web3==6.15.1
-bitcoin-rpc==0.6.0
+python-bitcoinrpc==1.0
 
 # Utilities
 pydantic==2.6.1
 pydantic-settings==2.1.0
+email-validator==2.1.1
 python-dotenv==1.0.1
 pillow==10.2.0
 httpx==0.27.0
@@ -47,9 +48,6 @@ python-json-logger==2.0.7
 
 # WebSocket
 websockets==12.0
-
-# CORS
-python-cors==1.0.0
 
 # Development
 pytest==8.0.0

@@ -130,7 +130,7 @@ async def stripe_webhook(
             amount=amount,
             status=PaymentStatus.COMPLETED,
             is_deposit=True,
-            metadata=json.dumps(payment_intent)
+            provider_data=json.dumps(payment_intent)
         )
         db.add(payment)
         
@@ -214,7 +214,7 @@ async def paypal_webhook(
             amount=amount,
             status=PaymentStatus.COMPLETED,
             is_deposit=True,
-            metadata=json.dumps(payload)
+            provider_data=json.dumps(payload)
         )
         db.add(payment)
         
@@ -317,7 +317,7 @@ async def coinbase_webhook(
             amount=amount,
             status=PaymentStatus.COMPLETED,
             is_deposit=True,
-            metadata=json.dumps(event)
+            provider_data=json.dumps(event)
         )
         db.add(payment)
         
@@ -401,7 +401,7 @@ async def bitpay_webhook(
             amount=amount,
             status=PaymentStatus.COMPLETED,
             is_deposit=True,
-            metadata=json.dumps(payload)
+            provider_data=json.dumps(payload)
         )
         db.add(payment)
         
