@@ -6,7 +6,7 @@ services:
     image: postgres:16-alpine
     environment:
       POSTGRES_USER: exchange
-      POSTGRES_PASSWORD: changeме123
+      POSTGRES_PASSWORD: changeme123
       POSTGRES_DB: aiiq_exchange
     ports:
       - "5432:5432"
