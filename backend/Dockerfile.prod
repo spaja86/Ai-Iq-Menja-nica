@@ -1,0 +1,37 @@
+FROM python:3.11-slim as builder
+
+WORKDIR /build
+COPY requirements.txt .
+RUN pip install --user --no-cache-dir -r requirements.txt
+
+FROM python:3.11-slim
+
+RUN useradd -m -u 1000 spaja && apt-get update && apt-get install -y --no-install-recommends postgresql-client curl && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /app
+COPY --from=builder /root/.local /home/spaja/.local
+COPY --chown=spaja:spaja app ./app
+COPY --chown=spaja:spaja alembic ./alembic
+COPY --chown=spaja:spaja alembic.ini .
+
+ENV PATH=/home/spaja/.local/bin:$PATH
+ENV PYTHONUNBUFFERED=1
+ENV PYTHONDONTWRITEBYTECODE=1
+
+USER spaja
+
+EXPOSE 7777
+
+HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
+    CMD curl -f http://localhost:7777/health || exit 1
+
+CMD ["gunicorn", \
+     "--workers=4", \
+     "--worker-class=uvicorn.workers.UvicornWorker", \
+     "--bind=0.0.0.0:7777", \
+     "--access-logfile=-", \
+     "--error-logfile=-", \
+     "--log-level=info", \
+     "--timeout=60", \
+     "--graceful-timeout=30", \
+     "app.main:app"]

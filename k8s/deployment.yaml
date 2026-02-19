@@ -1,0 +1,95 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: spaja-prod
+
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: spaja-secrets
+  namespace: spaja-prod
+type: Opaque
+stringData:
+  database-url: postgresql+asyncpg://spaja:password@postgres:5432/spaja
+  redis-url: redis://:password@redis:6379/0
+  jwt-secret: your_jwt_secret_key
+  stripe-api-key: sk_live_xxx
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spaja-api
+  namespace: spaja-prod
+spec:
+  replicas: 3
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  selector:
+    matchLabels:
+      app: spaja-api
+  template:
+    metadata:
+      labels:
+        app: spaja-api
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "8000"
+    spec:
+      containers:
+      - name: api
+        image: spaja86/ai-iq-menjacnica:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 7777
+        env:
+        - name: ENVIRONMENT
+          value: "production"
+        - name: DATABASE_URL
+          valueFrom:
+            secretKeyRef:
+              name: spaja-secrets
+              key: database-url
+        - name: JWT_SECRET_KEY
+          valueFrom:
+            secretKeyRef:
+              name: spaja-secrets
+              key: jwt-secret
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 7777
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 7777
+          initialDelaySeconds: 10
+          periodSeconds: 5
+        resources:
+          requests:
+            cpu: 500m
+            memory: 512Mi
+          limits:
+            cpu: 1000m
+            memory: 1Gi
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: spaja-api-service
+  namespace: spaja-prod
+spec:
+  type: LoadBalancer
+  selector:
+    app: spaja-api
+  ports:
+  - port: 443
+    targetPort: 7777
+    protocol: TCP
