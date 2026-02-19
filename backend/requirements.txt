@@ -1,7 +1,7 @@
 # FastAPI and core dependencies
-fastapi==0.104.1
+fastapi==0.109.1
 uvicorn[standard]==0.24.0
-python-multipart==0.0.6
+python-multipart==0.0.22
 pydantic==2.5.0
 pydantic-settings==2.1.0
 
@@ -14,7 +14,7 @@ alembic==1.12.1
 python-jose[cryptography]==3.3.0
 passlib[bcrypt]==1.7.4
 pyotp==2.9.0
-cryptography==41.0.7
+cryptography==46.0.5
 
 # Redis
 redis==5.0.1
