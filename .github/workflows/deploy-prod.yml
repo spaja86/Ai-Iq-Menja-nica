@@ -12,6 +12,9 @@ env:
 jobs:
   test-and-build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
     steps:
       - uses: actions/checkout@v4
       
@@ -44,6 +47,8 @@ jobs:
   deploy:
     needs: test-and-build
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     if: github.ref == 'refs/heads/main'
     steps:
       - uses: actions/checkout@v4
