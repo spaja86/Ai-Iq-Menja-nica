@@ -11,10 +11,10 @@ metadata:
   namespace: spaja-prod
 type: Opaque
 stringData:
-  database-url: postgresql+asyncpg://spaja:password@postgres:5432/spaja
-  redis-url: redis://:password@redis:6379/0
-  jwt-secret: your_jwt_secret_key
-  stripe-api-key: sk_live_xxx
+  database-url: REPLACE_WITH_ACTUAL_DATABASE_URL
+  redis-url: REPLACE_WITH_ACTUAL_REDIS_URL
+  jwt-secret: REPLACE_WITH_ACTUAL_JWT_SECRET
+  stripe-api-key: REPLACE_WITH_ACTUAL_STRIPE_KEY
 
 ---
 apiVersion: apps/v1

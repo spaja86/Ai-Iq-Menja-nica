@@ -23,7 +23,8 @@ class ConnectionManager:
         for connection in self.active_connections:
             try:
                 await connection.send_json(message)
-            except:
+            except Exception:
+                # Connection may be closed, skip
                 pass
 
 

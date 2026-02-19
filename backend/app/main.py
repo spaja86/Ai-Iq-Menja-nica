@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.middleware.trustedhost import TrustedHostMiddleware
 from starlette.middleware.gzip import GZipMiddleware
+from contextlib import asynccontextmanager
 import logging.config
 from app.core.config import settings
 from app.core.logging import LOGGING_CONFIG
@@ -12,6 +13,24 @@ from app.db.database import engine, Base
 logging.config.dictConfig(LOGGING_CONFIG)
 logger = logging.getLogger(__name__)
 
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    """Lifespan context manager for startup and shutdown events."""
+    # Startup
+    logger.info("✅ Ai IQ Menjačnica API starting up...")
+    # Create database tables
+    async with engine.begin() as conn:
+        await conn.run_sync(Base.metadata.create_all)
+    
+    yield
+    
+    # Shutdown
+    logger.info("🛑 Ai IQ Menjačnica API shutting down...")
+    # Close connections
+    await engine.dispose()
+
+
 # Create FastAPI app
 app = FastAPI(
     title="Ai IQ Menjačnica API",
@@ -19,7 +38,8 @@ app = FastAPI(
     version="1.0.0",
     docs_url="/api/v1/docs",
     redoc_url="/api/v1/redoc",
-    openapi_url="/api/v1/openapi.json"
+    openapi_url="/api/v1/openapi.json",
+    lifespan=lifespan
 )
 
 # Security middleware
@@ -53,20 +73,6 @@ app.include_router(payments.router, prefix="/api/v1/payments", tags=["payments"]
 app.include_router(admin.router, prefix="/api/v1/admin", tags=["admin"])
 app.include_router(websocket.router, prefix="/ws", tags=["websocket"])
 
-@app.on_event("startup")
-async def startup():
-    logger.info("✅ Ai IQ Menjačnica API starting up...")
-    # Create database tables
-    async with engine.begin() as conn:
-        await conn.run_sync(Base.metadata.create_all)
-    # Initialize connections
-    pass
-
-@app.on_event("shutdown")
-async def shutdown():
-    logger.info("🛑 Ai IQ Menjačnica API shutting down...")
-    # Close connections
-    pass
 
 @app.get("/health")
 async def health_check():
