@@ -1,5 +1,5 @@
 """
-Authentication API routes - login, register, 2FA, JWT tokens.
+Authentication API routes - login, register, 2FA, JWT tokens, email verification.
 """
 from datetime import datetime, timedelta
 from typing import Optional
@@ -10,6 +10,7 @@ from pydantic import BaseModel, EmailStr
 
 from app.core.database import get_db
 from app.core.security import security
+from app.core.email import email_service
 from app.models import User, UserRole, AuditLog
 from app.core.config import settings
 
@@ -44,6 +45,19 @@ class Enable2FA(BaseModel):
 
 class Verify2FA(BaseModel):
     totp_code: str
+
+
+class VerifyEmail(BaseModel):
+    token: str
+
+
+class RequestPasswordReset(BaseModel):
+    email: EmailStr
+
+
+class ResetPassword(BaseModel):
+    token: str
+    new_password: str
 
 
 # Dependency for getting current user
@@ -104,6 +118,15 @@ async def register(
     db.add(user)
     db.commit()
     db.refresh(user)
+    
+    # Create verification token
+    verification_token = security.create_access_token(
+        {"sub": user.id, "type": "verification"},
+        expires_delta=timedelta(hours=settings.VERIFICATION_TOKEN_EXPIRE_HOURS)
+    )
+    
+    # Send verification email
+    email_service.send_verification_email(user.email, verification_token)
     
     # Log registration
     audit_log = AuditLog(
@@ -289,3 +312,158 @@ async def disable_2fa(
     db.commit()
     
     return {"message": "2FA disabled successfully"}
+
+
+@router.post("/verify-email")
+async def verify_email(
+    data: VerifyEmail,
+    db: Session = Depends(get_db)
+):
+    """Verify user email with token."""
+    # Verify token
+    payload = security.verify_token(data.token)
+    
+    if not payload or payload.get("type") != "verification":
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Invalid or expired verification token"
+        )
+    
+    user_id = payload.get("sub")
+    user = db.query(User).filter(User.id == user_id).first()
+    
+    if not user:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="User not found"
+        )
+    
+    if user.is_verified:
+        return {"message": "Email already verified"}
+    
+    # Mark user as verified
+    user.is_verified = True
+    db.commit()
+    
+    # Send welcome email
+    email_service.send_welcome_email(user.email, user.full_name or "User")
+    
+    # Log verification
+    audit_log = AuditLog(
+        user_id=user.id,
+        action="email_verified",
+        resource_type="user",
+        resource_id=str(user.id),
+        status="success"
+    )
+    db.add(audit_log)
+    db.commit()
+    
+    return {"message": "Email verified successfully"}
+
+
+@router.post("/resend-verification")
+async def resend_verification(
+    email: EmailStr,
+    db: Session = Depends(get_db)
+):
+    """Resend verification email."""
+    user = db.query(User).filter(User.email == email).first()
+    
+    if not user:
+        # Don't reveal if email exists
+        return {"message": "If the email exists, a verification link has been sent"}
+    
+    if user.is_verified:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Email already verified"
+        )
+    
+    # Create verification token
+    verification_token = security.create_access_token(
+        {"sub": user.id, "type": "verification"},
+        expires_delta=timedelta(hours=settings.VERIFICATION_TOKEN_EXPIRE_HOURS)
+    )
+    
+    # Send verification email
+    email_service.send_verification_email(user.email, verification_token)
+    
+    return {"message": "Verification email sent"}
+
+
+@router.post("/request-password-reset")
+async def request_password_reset(
+    data: RequestPasswordReset,
+    db: Session = Depends(get_db)
+):
+    """Request password reset email."""
+    user = db.query(User).filter(User.email == data.email).first()
+    
+    # Don't reveal if email exists
+    if not user:
+        return {"message": "If the email exists, a password reset link has been sent"}
+    
+    # Create reset token
+    reset_token = security.create_access_token(
+        {"sub": user.id, "type": "password_reset"},
+        expires_delta=timedelta(hours=settings.RESET_TOKEN_EXPIRE_HOURS)
+    )
+    
+    # Send reset email
+    email_service.send_password_reset_email(user.email, reset_token)
+    
+    # Log password reset request
+    audit_log = AuditLog(
+        user_id=user.id,
+        action="password_reset_requested",
+        resource_type="user",
+        resource_id=str(user.id),
+        status="success"
+    )
+    db.add(audit_log)
+    db.commit()
+    
+    return {"message": "If the email exists, a password reset link has been sent"}
+
+
+@router.post("/reset-password")
+async def reset_password(
+    data: ResetPassword,
+    db: Session = Depends(get_db)
+):
+    """Reset password with token."""
+    # Verify token
+    payload = security.verify_token(data.token)
+    
+    if not payload or payload.get("type") != "password_reset":
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Invalid or expired reset token"
+        )
+    
+    user_id = payload.get("sub")
+    user = db.query(User).filter(User.id == user_id).first()
+    
+    if not user:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="User not found"
+        )
+    
+    # Update password
+    user.hashed_password = security.hash_password(data.new_password)
+    db.commit()
+    
+    # Log password change
+    audit_log = AuditLog(
+        user_id=user.id,
+        action="password_changed",
+        resource_type="user",
+        resource_id=str(user.id),
+        status="success"
+    )
+    db.add(audit_log)
+    db.commit()
+    
+    return {"message": "Password reset successfully"}
