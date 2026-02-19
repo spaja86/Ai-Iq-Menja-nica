@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.middleware.gzip import GZIPMiddleware
 from fastapi.middleware.trustedhost import TrustedHostMiddleware
+from starlette.middleware.gzip import GZipMiddleware
 import logging.config
 from app.core.config import settings
 from app.core.logging import LOGGING_CONFIG
@@ -23,7 +23,11 @@ app = FastAPI(
 )
 
 # Security middleware
-app.add_middleware(TrustedHostMiddleware, allowed_hosts=["xn--aiiqmenjanica-xvb.com", "*.xn--aiiqmenjanica-xvb.com"])
+if settings.environment == "prod":
+    app.add_middleware(
+        TrustedHostMiddleware, 
+        allowed_hosts=["xn--aiiqmenjanica-xvb.com", "*.xn--aiiqmenjanica-xvb.com"]
+    )
 
 # CORS
 app.add_middleware(
@@ -39,7 +43,7 @@ app.add_middleware(
 )
 
 # Compression
-app.add_middleware(GZIPMiddleware, minimum_size=1000)
+app.add_middleware(GZipMiddleware, minimum_size=1000)
 
 # Include routers
 app.include_router(auth.router, prefix="/api/v1/auth", tags=["auth"])
