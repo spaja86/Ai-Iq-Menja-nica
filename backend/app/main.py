@@ -8,7 +8,7 @@ from prometheus_fastapi_instrumentator import Instrumentator
 
 from app.core.config import settings
 from app.core.database import init_db
-from app.api import auth, trading, wallet, payments, admin, websocket
+from app.api import auth, trading, wallet, payments, admin, websocket, codes
 
 
 # Create FastAPI application
@@ -47,6 +47,7 @@ app.include_router(wallet.router)
 app.include_router(payments.router)
 app.include_router(admin.router)
 app.include_router(websocket.router)
+app.include_router(codes.router)
 
 
 # Prometheus metrics (if enabled)
