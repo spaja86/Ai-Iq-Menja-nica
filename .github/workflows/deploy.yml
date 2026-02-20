@@ -1,0 +1,76 @@
+name: Deploy to Production
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+jobs:
+  deploy-k8s:
+    name: Deploy to Kubernetes
+    runs-on: ubuntu-latest
+    environment: production
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Configure kubectl
+      uses: azure/k8s-set-context@v3
+      with:
+        method: kubeconfig
+        kubeconfig: ${{ secrets.KUBE_CONFIG }}
+    
+    - name: Create namespace
+      run: |
+        kubectl create namespace crypto-exchange --dry-run=client -o yaml | kubectl apply -f -
+        kubectl create namespace monitoring --dry-run=client -o yaml | kubectl apply -f -
+    
+    - name: Deploy secrets
+      run: |
+        kubectl create secret generic crypto-exchange-secrets \
+          --from-literal=database-url="${{ secrets.DATABASE_URL }}" \
+          --from-literal=secret-key="${{ secrets.SECRET_KEY }}" \
+          --from-literal=stripe-api-key="${{ secrets.STRIPE_API_KEY }}" \
+          --namespace=crypto-exchange \
+          --dry-run=client -o yaml | kubectl apply -f -
+    
+    - name: Deploy ConfigMaps
+      run: |
+        kubectl apply -f k8s/configmap.yaml -n crypto-exchange
+    
+    - name: Deploy PostgreSQL
+      run: |
+        kubectl apply -f k8s/postgres.yaml -n crypto-exchange
+    
+    - name: Deploy Redis
+      run: |
+        kubectl apply -f k8s/redis.yaml -n crypto-exchange
+    
+    - name: Deploy Backend
+      run: |
+        kubectl apply -f k8s/deployment.yaml -n crypto-exchange
+        kubectl apply -f k8s/service.yaml -n crypto-exchange
+    
+    - name: Deploy Ingress
+      run: |
+        kubectl apply -f k8s/ingress.yaml -n crypto-exchange
+    
+    - name: Deploy Monitoring
+      run: |
+        kubectl apply -f k8s/monitoring/ -n monitoring
+    
+    - name: Wait for deployment
+      run: |
+        kubectl rollout status deployment/crypto-exchange-backend -n crypto-exchange
+        kubectl rollout status deployment/crypto-exchange-frontend -n crypto-exchange
+    
+    - name: Run database migrations
+      run: |
+        kubectl exec -n crypto-exchange deployment/crypto-exchange-backend -- alembic upgrade head
+    
+    - name: Verify deployment
+      run: |
+        kubectl get pods -n crypto-exchange
+        kubectl get services -n crypto-exchange
+        kubectl get ingress -n crypto-exchange
