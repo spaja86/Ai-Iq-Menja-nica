@@ -2,6 +2,15 @@
 
 Enterprise-grade cryptocurrency exchange platform with production-ready security, compliance, and trading features.
 
+## 🌐 Connect With Us
+
+- **Email**: spajicn@yahoo.com, spajicn@gmail.com
+- **Facebook**: [@Spaja86](https://www.facebook.com/Spaja86)
+- **Facebook Business**: [AI IQ Menjačnica](https://www.facebook.com/profile.php?id=61583240952997)
+- **Instagram**: [@spaja.1986](https://www.instagram.com/spaja.1986)
+- **TikTok**: [@spaja.1986](https://www.tiktok.com/@spaja.1986)
+- **YouTube**: [@spajanikopenevolution](https://www.youtube.com/@spajanikopenevolution)
+
 ## 🚀 Features
 
 ### Backend (FastAPI)

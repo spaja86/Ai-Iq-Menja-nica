@@ -103,6 +103,13 @@ class EmailService:
                 <div class="footer">
                     <p>© 2026 AI IQ Exchange. All rights reserved.</p>
                     <p>Contact: {{ support_email }}</p>
+                    <p style="margin-top: 10px;">
+                        Follow us: 
+                        <a href="https://www.facebook.com/Spaja86" style="color: #667eea; text-decoration: none;">Facebook</a> | 
+                        <a href="https://www.instagram.com/spaja.1986" style="color: #667eea; text-decoration: none;">Instagram</a> | 
+                        <a href="https://www.tiktok.com/@spaja.1986" style="color: #667eea; text-decoration: none;">TikTok</a> | 
+                        <a href="https://www.youtube.com/@spajanikopenevolution" style="color: #667eea; text-decoration: none;">YouTube</a>
+                    </p>
                 </div>
             </div>
         </body>
@@ -164,6 +171,13 @@ class EmailService:
                 <div class="footer">
                     <p>© 2026 AI IQ Exchange. All rights reserved.</p>
                     <p>Contact: {{ support_email }}</p>
+                    <p style="margin-top: 10px;">
+                        Follow us: 
+                        <a href="https://www.facebook.com/Spaja86" style="color: #667eea; text-decoration: none;">Facebook</a> | 
+                        <a href="https://www.instagram.com/spaja.1986" style="color: #667eea; text-decoration: none;">Instagram</a> | 
+                        <a href="https://www.tiktok.com/@spaja.1986" style="color: #667eea; text-decoration: none;">TikTok</a> | 
+                        <a href="https://www.youtube.com/@spajanikopenevolution" style="color: #667eea; text-decoration: none;">YouTube</a>
+                    </p>
                 </div>
             </div>
         </body>
@@ -236,6 +250,13 @@ class EmailService:
                 <div class="footer">
                     <p>© 2026 AI IQ Exchange. All rights reserved.</p>
                     <p>Need help? Contact: {{ support_email }}</p>
+                    <p style="margin-top: 10px;">
+                        Follow us: 
+                        <a href="https://www.facebook.com/Spaja86" style="color: #667eea; text-decoration: none;">Facebook</a> | 
+                        <a href="https://www.instagram.com/spaja.1986" style="color: #667eea; text-decoration: none;">Instagram</a> | 
+                        <a href="https://www.tiktok.com/@spaja.1986" style="color: #667eea; text-decoration: none;">TikTok</a> | 
+                        <a href="https://www.youtube.com/@spajanikopenevolution" style="color: #667eea; text-decoration: none;">YouTube</a>
+                    </p>
                 </div>
             </div>
         </body>
