@@ -3,13 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About Us - Ai Iq Menjačnica</title>
+    <meta name="description" content="Learn about Ai Iq Menjačnica — our mission, vision, core values, and the team behind our AI-powered exchange platform.">
+    <title>About Us — Ai Iq Menjačnica</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
     <header>
-        <h1>Ai Iq Menjačnica</h1>
-        <nav>
+        <a href="index.html" class="site-title">Ai Iq <span>Menjačnica</span></a>
+        <button class="hamburger" id="hamburger" aria-label="Toggle navigation">
+            <span></span><span></span><span></span>
+        </button>
+        <nav id="main-nav">
             <ul>
                 <li><a href="index.html">Home</a></li>
                 <li><a href="about.html">About</a></li>
@@ -18,13 +23,125 @@
             </ul>
         </nav>
     </header>
+
     <main>
-        <h2>About Us</h2>
-        <p>Welcome to Ai Iq Menjačnica! We provide AI-based solutions for currency exchange and trading.</p>
-        <p>Our mission is to leverage the power of artificial intelligence to deliver smart, reliable, and user-friendly financial services.</p>
+        <!-- Page hero -->
+        <div class="page-hero">
+            <div class="container">
+                <h2>About Us</h2>
+                <p>We are a team of AI engineers and financial experts on a mission to make smarter exchange accessible to everyone.</p>
+            </div>
+        </div>
+
+        <!-- Mission & Vision -->
+        <section>
+            <div class="container">
+                <span class="section-label">Who We Are</span>
+                <h2>Mission &amp; Vision</h2>
+                <div class="cards">
+                    <div class="card">
+                        <span class="card-icon">🎯</span>
+                        <h3>Our Mission</h3>
+                        <p>To leverage the power of artificial intelligence to deliver smart, reliable, and user-friendly financial exchange services — making every transaction more efficient and transparent.</p>
+                    </div>
+                    <div class="card">
+                        <span class="card-icon">🔭</span>
+                        <h3>Our Vision</h3>
+                        <p>To become the leading AI-driven exchange and trading platform, trusted by individuals and businesses across the region and beyond.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Core Values -->
+        <section>
+            <div class="container">
+                <span class="section-label">What We Stand For</span>
+                <h2>Our Core Values</h2>
+                <p class="section-subtitle">Everything we build is guided by these principles.</p>
+                <div class="values-grid">
+                    <div class="value-item">
+                        <h3>🤝 Integrity</h3>
+                        <p>Transparent pricing, honest communication, and no hidden fees — always.</p>
+                    </div>
+                    <div class="value-item">
+                        <h3>🚀 Innovation</h3>
+                        <p>We continuously improve our AI models and product to stay ahead of the market.</p>
+                    </div>
+                    <div class="value-item">
+                        <h3>🛡️ Security</h3>
+                        <p>Your data and assets are protected with bank-grade security standards.</p>
+                    </div>
+                    <div class="value-item">
+                        <h3>🌍 Accessibility</h3>
+                        <p>Smart financial tools should be available to everyone, regardless of background.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Team -->
+        <section>
+            <div class="container">
+                <span class="section-label">The Team</span>
+                <h2>People behind the platform</h2>
+                <p class="section-subtitle">A multidisciplinary team of AI researchers, software engineers, and finance professionals.</p>
+                <div class="team-grid">
+                    <div class="team-card">
+                        <div class="team-avatar">👤</div>
+                        <h3>Nikola Spajić</h3>
+                        <p>Founder &amp; CEO</p>
+                    </div>
+                    <div class="team-card">
+                        <div class="team-avatar">👤</div>
+                        <h3>AI Engineer</h3>
+                        <p>Head of Machine Learning</p>
+                    </div>
+                    <div class="team-card">
+                        <div class="team-avatar">👤</div>
+                        <h3>Finance Lead</h3>
+                        <p>Chief Financial Officer</p>
+                    </div>
+                    <div class="team-card">
+                        <div class="team-avatar">👤</div>
+                        <h3>Product Designer</h3>
+                        <p>Head of UX &amp; Design</p>
+                    </div>
+                </div>
+            </div>
+        </section>
     </main>
+
     <footer>
-        <p>Contact: <a href="mailto:spajicn@yahoo.com">spajicn@yahoo.com</a>, <a href="mailto:spajicn@gmail.com">spajicn@gmail.com</a></p>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <a href="index.html" class="footer-brand">Ai Iq <span>Menjačnica</span></a>
+                    <p>AI-powered currency exchange and trading solutions designed to make your financial transactions smarter, faster, and more efficient.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Navigation</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="services.html">Services</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Contact</h4>
+                    <ul>
+                        <li><a href="mailto:spajicn@yahoo.com">spajicn@yahoo.com</a></li>
+                        <li><a href="mailto:spajicn@gmail.com">spajicn@gmail.com</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Ai Iq Menjačnica. All rights reserved.</p>
+            </div>
+        </div>
     </footer>
+
+    <script src="js/main.js"></script>
 </body>
 </html>
