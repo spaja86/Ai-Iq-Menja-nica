@@ -1,24 +1,52 @@
-<html>
+<!-- Full Market Trade UI with BUY/SELL options -->
+<!DOCTYPE html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Market Trade</title>
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-    <div class="trade-ui">
-        <h2>Market Trade UI</h2>
-        <button onclick="setMode('BUY')">BUY</button>
-        <button onclick="setMode('SELL')">SELL</button>
-        <select>
-            <option value="RSD">Fiat: RSD</option>
-            <option value="EUR">Fiat: EUR</option>
-        </select>
-        <div id="search-area">
-            <input type="text" id="search" placeholder="Search coins...">
-            <button id="load-more">Load More</button>
-        </div>
-        <div id="results">
-            <!-- Results will be displayed here -->
-        </div>
-    </div>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="services.html">Services</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="trade.html">Trejd (Market)</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <section id="market-trade">
+            <h1>Market Trade</h1>
+            <div>
+                <label for="trade-type">Trade Type:</label>
+                <select id="trade-type">
+                    <option value="buy">Buy</option>
+                    <option value="sell">Sell</option>
+                </select>
+            </div>
+            <div>
+                <label for="currency">Currency:</label>
+                <select id="currency">
+                    <option value="RSD">RSD</option>
+                    <option value="EUR">EUR</option>
+                </select>
+            </div>
+            <div>
+                <label for="mode">Mode:</label>
+                <select id="mode">
+                    <option value="A">Search + Load More</option>
+                    <option value="B">Searchable Dropdown</option>
+                </select>
+            </div>
+            <div id="results"></div>
+            <p>Fee: <span id="fee">2%</span></p>
+            <button id="trade-button">Submit</button>
+        </section>
+    </main>
     <script src="js/trade.js"></script>
 </body>
 </html>
