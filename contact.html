@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Contact Ai Iq Menjačnica – reach our team for support, inquiries, or partnership opportunities.">
+    <title>Contact – Ai Iq Menjačnica</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <header>
+        <div class="header-inner">
+            <a href="index.html" class="logo">💱 <span>Ai Iq</span> Menjačnica</a>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="services.html">Services</a></li>
+                    <li><a href="contact.html" class="active">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <!-- Page Hero -->
+        <section class="page-hero">
+            <span class="tag">Get In Touch</span>
+            <h1 style="margin-top: 0.75rem;">Contact Us / Kontaktirajte Nas</h1>
+            <p>Have questions? Our team is here to help. / Imate pitanja? Naš tim je tu da pomogne.</p>
+        </section>
+
+        <!-- Contact Section -->
+        <section class="section">
+            <div class="container">
+                <div class="contact-grid">
+
+                    <!-- Contact Form -->
+                    <div class="contact-form">
+                        <h2>Send a Message / Pošaljite Poruku</h2>
+                        <form id="contactForm" novalidate>
+                            <div class="form-group">
+                                <label for="name">Full Name / Ime i Prezime</label>
+                                <input type="text" id="name" name="name" placeholder="Your full name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email Address / Email Adresa</label>
+                                <input type="email" id="email" name="email" placeholder="your@email.com" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="subject">Subject / Tema</label>
+                                <select id="subject" name="subject">
+                                    <option value="">Select a topic...</option>
+                                    <option value="Crypto Trading Inquiry">Crypto Trading Inquiry</option>
+                                    <option value="Currency Exchange">Currency Exchange</option>
+                                    <option value="AI Consulting">AI Consulting</option>
+                                    <option value="Technical Support">Technical Support</option>
+                                    <option value="Partnership">Partnership</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="message">Message / Poruka</label>
+                                <textarea id="message" name="message" placeholder="Describe your inquiry..." required></textarea>
+                            </div>
+                            <div id="formMsg" style="display:none; margin-bottom:1rem; padding:0.75rem 1rem; border-radius:8px; font-size:0.9rem;"></div>
+                            <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center;">
+                                📬 Send Message / Pošalji
+                            </button>
+                        </form>
+                        <script>
+                            document.getElementById('contactForm').addEventListener('submit', function (e) {
+                                e.preventDefault();
+                                var name    = document.getElementById('name').value.trim();
+                                var email   = document.getElementById('email').value.trim();
+                                var subject = document.getElementById('subject').value || 'General Inquiry';
+                                var message = document.getElementById('message').value.trim();
+                                var msg     = document.getElementById('formMsg');
+
+                                if (!name || !email || !message) {
+                                    msg.style.display = 'block';
+                                    msg.style.background = 'rgba(239,68,68,0.15)';
+                                    msg.style.color = '#f87171';
+                                    msg.style.border = '1px solid rgba(239,68,68,0.3)';
+                                    msg.textContent = 'Please fill in all required fields. / Molimo popunite sva obavezna polja.';
+                                    return;
+                                }
+
+                                var body = 'Name: ' + name + '\nEmail: ' + email + '\n\n' + message;
+                                var mailto = 'mailto:spajicn@gmail.com?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+                                window.location.href = mailto;
+
+                                msg.style.display = 'block';
+                                msg.style.background = 'rgba(16,185,129,0.15)';
+                                msg.style.color = '#34d399';
+                                msg.style.border = '1px solid rgba(16,185,129,0.3)';
+                                msg.textContent = 'Your email client will open to send the message. / Vaš email klijent će se otvoriti.';
+                            });
+                        </script>
+                    </div>
+
+                    <!-- Contact Info -->
+                    <div class="contact-info">
+                        <h2>Contact Information / Kontakt Informacije</h2>
+
+                        <div class="contact-item">
+                            <div class="contact-item-icon">📧</div>
+                            <div class="contact-item-text">
+                                <h4>Email</h4>
+                                <p><a href="mailto:spajicn@yahoo.com">spajicn@yahoo.com</a></p>
+                                <p><a href="mailto:spajicn@gmail.com">spajicn@gmail.com</a></p>
+                            </div>
+                        </div>
+
+                        <div class="contact-item">
+                            <div class="contact-item-icon">🕒</div>
+                            <div class="contact-item-text">
+                                <h4>Support Hours / Radno Vreme</h4>
+                                <p>AI Support: 24/7 automated</p>
+                                <p>Human Support: Mon–Fri, 09:00–17:00 CET</p>
+                            </div>
+                        </div>
+
+                        <div class="contact-item">
+                            <div class="contact-item-icon">⚡</div>
+                            <div class="contact-item-text">
+                                <h4>Response Time / Vreme Odgovora</h4>
+                                <p>We typically respond within 24 hours.</p>
+                                <p>/ Obično odgovaramo u roku od 24 sata.</p>
+                            </div>
+                        </div>
+
+                        <div class="contact-item">
+                            <div class="contact-item-icon">🌐</div>
+                            <div class="contact-item-text">
+                                <h4>Social Media</h4>
+                                <p>Follow us for the latest updates on crypto markets and AI insights.</p>
+                                <p style="margin-top: 0.5rem;">/ Pratite nas za najnovije vesti o kripto tržištu i AI.</p>
+                            </div>
+                        </div>
+
+                        <!-- Quick Links Card -->
+                        <div class="card" style="margin-top: 1.5rem;">
+                            <div class="card-icon">🚀</div>
+                            <h3>Quick Links</h3>
+                            <ul class="value-list" style="margin-top: 0.5rem;">
+                                <li><a href="services.html" style="color: var(--primary);">View All Services</a></li>
+                                <li><a href="about.html" style="color: var(--primary);">Learn About Us</a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-inner">
+            <div class="footer-top">
+                <div class="footer-brand">
+                    <div class="logo">💱 <span>Ai Iq</span> Menjačnica</div>
+                    <p>AI-powered cryptocurrency and currency exchange platform. / Platforma za razmenu kriptovaluta i valuta uz pomoć AI.</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Navigation</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="services.html">Services</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Contact</h4>
+                    <ul>
+                        <li><a href="mailto:spajicn@yahoo.com">spajicn@yahoo.com</a></li>
+                        <li><a href="mailto:spajicn@gmail.com">spajicn@gmail.com</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Ai Iq Menjačnica. All rights reserved.</p>
+                <p>Built with AI intelligence 🤖</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
