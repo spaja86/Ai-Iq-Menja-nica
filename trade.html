@@ -1,19 +1,24 @@
-<!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/styles.css">
-    <script src="js/trade.js"></script>
-    <title>Market Trade</title>
 </head>
 <body>
-    <h1>Market Trade Page</h1>
-    <div id="live-pricing">
-        <!-- Live pricing content goes here -->
+    <div class="trade-ui">
+        <h2>Market Trade UI</h2>
+        <button onclick="setMode('BUY')">BUY</button>
+        <button onclick="setMode('SELL')">SELL</button>
+        <select>
+            <option value="RSD">Fiat: RSD</option>
+            <option value="EUR">Fiat: EUR</option>
+        </select>
+        <div id="search-area">
+            <input type="text" id="search" placeholder="Search coins...">
+            <button id="load-more">Load More</button>
+        </div>
+        <div id="results">
+            <!-- Results will be displayed here -->
+        </div>
     </div>
-    <footer>
-        <p>Market Trade page footer</p>
-    </footer>
+    <script src="js/trade.js"></script>
 </body>
 </html>
