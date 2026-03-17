@@ -1,27 +1,33 @@
-// Trade logic
+// Front-end implementation for trade functionality
 
-class MarketTrade {
-    constructor(feePercentage = 0.01) {
-        this.feePercentage = feePercentage;
-    }
+const tradeButton = document.getElementById('trade-button');
+const tradeTypeInput = document.getElementById('trade-type');
+const currencyInput = document.getElementById('currency');
+const modeInput = document.getElementById('mode');
+const resultsContainer = document.getElementById('results');
 
-    buy(amount, price) {
-        const totalCost = amount * price;
-        const fee = totalCost * this.feePercentage;
-        return totalCost + fee;
-    }
-
-    sell(amount, price) {
-        const totalRevenue = amount * price;
-        const fee = totalRevenue * this.feePercentage;
-        return totalRevenue - fee;
-    }
+// Functions to fetch data
+async function fetchCoinData() {
+    const response = await fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false');
+    return await response.json();
 }
 
-// Example usage:
-const trade = new MarketTrade();
-const buyCost = trade.buy(100, 10); // 100 units at $10 each
-const sellRevenue = trade.sell(100, 15); // Selling 100 units at $15 each
+async function fetchExchangeRate() {
+    const response = await fetch('https://open.er-api.com/v6/latest/EUR'); // Example API Endpoint of exchangerate.host
+    return await response.json();
+}
 
-console.log('Buy Cost:', buyCost);
-console.log('Sell Revenue:', sellRevenue);
+tradeButton.addEventListener('click', async () => {
+    const mode = modeInput.value;
+    const currency = currencyInput.value;
+    const tradeType = tradeTypeInput.value;
+
+    const coinData = await fetchCoinData();
+    const exchangeRate = await fetchExchangeRate();
+    // Compute quotes and render results
+
+    // Logic to compute and display results based on selected mode and trade type
+});
+
+// Load More functionality
+// Implementation of Searchable Dropdown
