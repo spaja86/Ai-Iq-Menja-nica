@@ -1,0 +1,169 @@
+/* =========================================================
+   Ai IQ Menjačnica — Animations
+   ========================================================= */
+
+/* --- Ticker Scroll --- */
+@keyframes ticker-scroll {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* --- Neon Glow Pulse --- */
+@keyframes neonPulse {
+  0%, 100% {
+    text-shadow: 0 0 8px rgba(0,255,136,0.5),
+                 0 0 20px rgba(0,255,136,0.3);
+  }
+  50% {
+    text-shadow: 0 0 20px rgba(0,255,136,0.9),
+                 0 0 50px rgba(0,255,136,0.6),
+                 0 0 80px rgba(0,255,136,0.3);
+  }
+}
+
+@keyframes neonBoxPulse {
+  0%, 100% { box-shadow: 0 0 8px rgba(0,255,136,0.3); }
+  50%       { box-shadow: 0 0 24px rgba(0,255,136,0.7), 0 0 50px rgba(0,255,136,0.3); }
+}
+
+/* --- Fade In Up --- */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* --- Count Up (triggers via JS by adding class) --- */
+@keyframes countUp {
+  from { opacity: 0; transform: scale(0.85); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+/* --- Price Flash --- */
+@keyframes priceFlashGreen {
+  0%   { background: rgba(0,255,136,0.3); }
+  100% { background: transparent; }
+}
+@keyframes priceFlashRed {
+  0%   { background: rgba(255,71,87,0.3); }
+  100% { background: transparent; }
+}
+
+/* --- Matrix / Sparkle canvas bg --- */
+@keyframes matrixRain {
+  0%   { opacity: 1; transform: translateY(-100%); }
+  100% { opacity: 0; transform: translateY(100vh); }
+}
+
+/* --- Sparkline shimmer --- */
+@keyframes shimmer {
+  0%   { background-position: -400px 0; }
+  100% { background-position: 400px 0; }
+}
+.shimmer-line {
+  background: linear-gradient(90deg, var(--border) 25%, rgba(255,255,255,0.06) 50%, var(--border) 75%);
+  background-size: 800px 100%;
+  animation: shimmer 1.5s infinite linear;
+  border-radius: 4px;
+  height: 14px;
+  margin-bottom: 8px;
+}
+
+/* --- Slide in from right (toast) --- */
+@keyframes slideInRight {
+  from { transform: translateX(120%); opacity: 0; }
+  to   { transform: translateX(0);    opacity: 1; }
+}
+
+@keyframes fadeOut {
+  from { opacity: 1; }
+  to   { opacity: 0; transform: translateY(8px); }
+}
+
+/* --- Bounce (loading dot) --- */
+@keyframes bounce {
+  0%, 80%, 100% { transform: scale(0);   opacity: 0.2; }
+  40%            { transform: scale(1.0); opacity: 1; }
+}
+
+/* --- Spin (loading spinner) --- */
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* --- Hero float --- */
+@keyframes heroFloat {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-14px); }
+}
+
+/* --- Utility animation classes --- */
+.animate-fade-in-up {
+  animation: fadeInUp 0.6s ease both;
+}
+.animate-delay-1 { animation-delay: 0.1s; }
+.animate-delay-2 { animation-delay: 0.2s; }
+.animate-delay-3 { animation-delay: 0.3s; }
+.animate-delay-4 { animation-delay: 0.4s; }
+.animate-delay-5 { animation-delay: 0.5s; }
+.animate-neon    { animation: neonPulse 2.5s ease-in-out infinite; }
+.animate-float   { animation: heroFloat 4s ease-in-out infinite; }
+.animate-count   { animation: countUp 0.5s ease both; }
+
+/* Intersection observer driven animations */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.reveal-left {
+  opacity: 0;
+  transform: translateX(-28px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal-left.visible { opacity: 1; transform: translateX(0); }
+.reveal-right {
+  opacity: 0;
+  transform: translateX(28px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal-right.visible { opacity: 1; transform: translateX(0); }
+
+/* Price change flash applied via JS */
+.price-up   { animation: priceFlashGreen 0.8s ease; }
+.price-down { animation: priceFlashRed   0.8s ease; }
+
+/* Loading spinner */
+.spinner {
+  width: 24px; height: 24px;
+  border: 2px solid var(--border);
+  border-top-color: var(--color-green);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  display: inline-block;
+}
+
+/* Loading dots */
+.loading-dots { display: flex; gap: 5px; align-items: center; }
+.loading-dots span {
+  width: 7px; height: 7px;
+  background: var(--color-green);
+  border-radius: 50%;
+  animation: bounce 1.4s infinite ease-in-out both;
+}
+.loading-dots span:nth-child(1) { animation-delay: -0.32s; }
+.loading-dots span:nth-child(2) { animation-delay: -0.16s; }

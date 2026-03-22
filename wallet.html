@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
+  <meta http-equiv="X-Frame-Options" content="DENY">
+  <meta name="description" content="Upravljajte svojim kripto portfoliom na Ai IQ Menjačnici. Pregled stanja, depozit, povlačenje i istorija transakcija.">
+  <title>Novčanik — Ai IQ Menjačnica</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <style>
+    .wallet-overview { background:var(--bg-secondary); border-bottom:1px solid var(--border); padding:40px 0; }
+    .wallet-total-label { font-size:0.85rem; color:var(--color-muted); text-transform:uppercase; letter-spacing:0.1em; margin-bottom:8px; }
+    .wallet-total-value { font-size:3rem; font-weight:800; color:var(--color-gold); text-shadow:var(--glow-gold); }
+    .pie-section { display:grid; grid-template-columns:1fr 1fr; gap:32px; align-items:start; }
+    .modal-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.7); z-index:9999; align-items:center; justify-content:center; }
+    .modal-box { background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius-lg); padding:32px; width:90%; max-width:440px; }
+    .modal-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:24px; }
+    .modal-close-btn { background:none; border:none; color:var(--color-muted); font-size:1.4rem; cursor:pointer; }
+    @media(max-width:768px){.pie-section{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <!-- TICKER -->
+  <div class="ticker-bar" aria-label="Kripto cene uživo"><div class="ticker-track" id="ticker-track"><span class="ticker-item"><span class="sym">Učitavanje...</span></span></div></div>
+
+  <!-- HEADER -->
+  <header class="site-header" role="banner">
+    <div class="nav-inner">
+      <a href="index.html" class="logo"><span class="logo-icon">🔷</span>Ai IQ <span>Menjačnica</span></a>
+      <nav class="nav-links" role="navigation">
+        <a href="index.html">Početna</a><a href="trade.html">Trejd</a><a href="wallet.html" class="active">Novčanik</a><a href="education.html">Edukacija</a><a href="services.html">Usluge</a><a href="about.html">O nama</a><a href="contact.html">Kontakt</a>
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-btn" id="platform-btn" aria-haspopup="true" aria-expanded="false">🌐 Platforme ▾</button>
+          <div class="nav-dropdown-menu" id="platform-menu" role="menu">
+            <a href="https://github.com/spaja86/Kompanija-SPAJA" target="_blank" rel="noopener noreferrer" role="menuitem"><span class="icon">🏢</span> Kompanija SPAJA</a>
+            <a href="https://github.com/spaja86/Ai-Iq-World-Bank" target="_blank" rel="noopener noreferrer" role="menuitem"><span class="icon">🏦</span> AI IQ World Bank</a>
+            <a href="https://io-openui-ao.vercel.app" target="_blank" rel="noopener noreferrer" role="menuitem"><span class="icon">🤖</span> IO-OPENUI-AO</a>
+          </div>
+        </div>
+      </nav>
+      <button class="hamburger" id="hamburger" aria-label="Otvori meni" aria-expanded="false" aria-controls="mobile-menu"><span></span><span></span><span></span></button>
+    </div>
+  </header>
+  <nav class="mobile-menu" id="mobile-menu"><a href="index.html">🏠 Početna</a><a href="trade.html">📈 Trejd</a><a href="wallet.html">💼 Novčanik</a><a href="education.html">📚 Edukacija</a><a href="services.html">⚡ Usluge</a><a href="about.html">ℹ️ O nama</a><a href="contact.html">✉️ Kontakt</a><a href="https://github.com/spaja86/Kompanija-SPAJA" target="_blank" rel="noopener noreferrer">🏢 Kompanija SPAJA</a><a href="https://github.com/spaja86/Ai-Iq-World-Bank" target="_blank" rel="noopener noreferrer">🏦 AI IQ World Bank</a><a href="https://io-openui-ao.vercel.app" target="_blank" rel="noopener noreferrer">🤖 IO-OPENUI-AO</a></nav>
+
+  <main>
+    <!-- WALLET OVERVIEW -->
+    <section class="wallet-overview">
+      <div class="container">
+        <div style="display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:20px">
+          <div>
+            <div class="wallet-total-label">💼 Ukupna vrednost portfolia</div>
+            <div class="wallet-total-value" id="wallet-total" aria-live="polite">$0.00</div>
+            <div style="font-size:0.85rem;color:var(--color-green);margin-top:8px">▲ Demo portfolio · Virtualna sredstva</div>
+          </div>
+          <div style="display:flex;gap:12px">
+            <button class="btn btn-primary" onclick="document.getElementById('dw-modal').style.display='flex'">⬇️ Depozit</button>
+            <button class="btn btn-secondary" onclick="document.getElementById('dw-modal').style.display='flex'">⬆️ Povuci</button>
+            <a href="trade.html" class="btn btn-gold">📈 Trejduj</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PORTFOLIO BREAKDOWN -->
+    <section style="padding:60px 0">
+      <div class="container">
+        <div class="pie-section">
+          <!-- Pie Chart -->
+          <div class="card reveal">
+            <h3 style="color:#fff;margin-bottom:20px">📊 Raspodela Portfolia</h3>
+            <div style="display:flex;justify-content:center;margin-bottom:20px">
+              <canvas id="portfolio-pie" width="200" height="200" aria-label="Portfolio pie grafikon"></canvas>
+            </div>
+            <div id="pie-legend"></div>
+          </div>
+          <!-- Quick Stats -->
+          <div style="display:flex;flex-direction:column;gap:16px" class="reveal-right">
+            <div class="card card-sm">
+              <div style="font-size:0.78rem;color:var(--color-muted);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:8px">Broj sredstava</div>
+              <div style="font-size:1.8rem;font-weight:800;color:var(--color-green)">5</div>
+            </div>
+            <div class="card card-sm">
+              <div style="font-size:0.78rem;color:var(--color-muted);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:8px">24h P&L</div>
+              <div style="font-size:1.8rem;font-weight:800;color:var(--color-green)">+$142.50</div>
+              <div style="font-size:0.82rem;color:var(--color-green)">▲ +0.73%</div>
+            </div>
+            <div class="card card-sm">
+              <div style="font-size:0.78rem;color:var(--color-muted);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:8px">Ukupno transakcija</div>
+              <div style="font-size:1.8rem;font-weight:800;color:#fff">10</div>
+            </div>
+            <a href="trade.html" class="btn btn-primary">Otvori trejding →</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- BALANCES TABLE -->
+    <section style="padding:0 0 60px">
+      <div class="container">
+        <div class="card">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px">
+            <h3 style="color:#fff;margin:0">💰 Moje Kriptovalute</h3>
+            <a href="trade.html" class="btn btn-primary btn-sm">+ Dodaj kriptu</a>
+          </div>
+          <div class="table-wrapper">
+            <table aria-label="Tabela stanja kriptovaluta">
+              <thead>
+                <tr>
+                  <th>Kriptovaluta</th>
+                  <th>Stanje</th>
+                  <th>Cena</th>
+                  <th>USD Vrednost</th>
+                  <th>% Portfolia</th>
+                  <th>Akcije</th>
+                </tr>
+              </thead>
+              <tbody id="wallet-balances" aria-live="polite">
+                <tr><td colspan="6" style="text-align:center;padding:40px;color:var(--color-muted)">Učitavanje...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TRANSACTION HISTORY -->
+    <section style="padding:0 0 80px">
+      <div class="container">
+        <div class="card">
+          <h3 style="color:#fff;margin-bottom:24px">📋 Istorija Transakcija</h3>
+          <div class="table-wrapper">
+            <table aria-label="Istorija transakcija">
+              <thead>
+                <tr>
+                  <th>Datum</th>
+                  <th>Tip</th>
+                  <th>Valuta</th>
+                  <th>Količina</th>
+                  <th>Cena</th>
+                  <th>Ukupno</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="tx-history" aria-live="polite">
+                <tr><td colspan="7" style="text-align:center;padding:40px;color:var(--color-muted)">Učitavanje...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- DEPOSIT/WITHDRAW MODAL -->
+  <div class="modal-overlay" id="dw-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 id="modal-title" style="color:#fff;margin:0">Depozit / Povlačenje</h3>
+        <button class="modal-close-btn" id="modal-close" aria-label="Zatvori modal">✕</button>
+      </div>
+      <div id="modal-body"></div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="site-footer" role="contentinfo">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="logo" style="margin-bottom:14px;display:inline-flex"><span class="logo-icon">🔷</span>Ai IQ <span>Menjačnica</span></a>
+          <p>Profesionalna kripto menjačnica sa AI uvidima.</p>
+          <div class="footer-socials">
+            <a href="https://www.facebook.com/Spaja86" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Facebook">📘</a>
+            <a href="https://www.instagram.com/spaja.1986" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Instagram">📷</a>
+            <a href="https://www.tiktok.com/@spaja.1986" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="TikTok">🎵</a>
+          </div>
+        </div>
+        <div class="footer-col"><h4>Platforma</h4><ul><li><a href="trade.html">Trejduj Kripto</a></li><li><a href="wallet.html">Novčanik</a></li><li><a href="services.html">Usluge</a></li><li><a href="education.html">Edukacija</a></li></ul></div>
+        <div class="footer-col"><h4>Kompanija</h4><ul><li><a href="about.html">O nama</a></li><li><a href="contact.html">Kontakt</a></li></ul></div>
+        <div class="footer-col"><h4>Kontakt</h4><ul><li><a href="mailto:spajicn@yahoo.com">spajicn@yahoo.com</a></li><li><a href="mailto:spajicn@gmail.com">spajicn@gmail.com</a></li><li><a href="https://github.com/spaja86/Kompanija-SPAJA" target="_blank" rel="noopener noreferrer">🏢 Kompanija SPAJA</a></li><li><a href="https://github.com/spaja86/Ai-Iq-World-Bank" target="_blank" rel="noopener noreferrer">🏦 AI IQ World Bank</a></li></ul></div>
+      </div>
+      <div class="footer-bottom"><span>© 2026 Nikola Spajić / Ai IQ Menjačnica. Sva prava zadržana.</span><span>Trejding kriptovalutama nosi rizik. Investiraj odgovorno.</span></div>
+    </div>
+  </footer>
+
+  <script src="js/crypto-api.js"></script>
+  <script src="js/charts.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/wallet.js"></script>
+</body>
+</html>

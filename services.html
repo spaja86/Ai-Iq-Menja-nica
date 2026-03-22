@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
+  <meta http-equiv="X-Frame-Options" content="DENY">
+  <meta name="description" content="Usluge Ai IQ Menjačnice: trejding, novčanik, AI analitika, staking i više. Pregledajte naše planove i provizije.">
+  <title>Usluge — Ai IQ Menjačnica</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <style>
+    .services-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:24px; }
+    .service-card { background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius-lg); padding:32px; transition:all var(--transition); }
+    .service-card:hover { border-color:rgba(0,255,136,0.35); box-shadow:0 8px 32px rgba(0,255,136,0.08); transform:translateY(-4px); }
+    .service-icon { font-size:3rem; margin-bottom:20px; display:block; filter:drop-shadow(0 0 12px rgba(0,255,136,0.4)); }
+    .service-card h3 { color:#fff; margin-bottom:12px; }
+    .service-card ul { margin-top:16px; }
+    .service-card ul li { padding:6px 0; font-size:0.9rem; color:var(--color-muted); display:flex; align-items:center; gap:8px; border-bottom:1px solid var(--border); }
+    .service-card ul li:last-child { border-bottom:none; }
+    .service-card ul li::before { content:'✓'; color:var(--color-green); font-weight:700; }
+    .plans-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:24px; }
+    .plan-card { background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius-lg); padding:32px; text-align:center; position:relative; transition:all var(--transition); }
+    .plan-card:hover { transform:translateY(-4px); }
+    .plan-card.featured { border-color:var(--color-green); box-shadow:0 0 40px rgba(0,255,136,0.12); }
+    .plan-badge { position:absolute; top:-12px; left:50%; transform:translateX(-50%); background:var(--color-green); color:#000; padding:4px 16px; border-radius:999px; font-size:0.75rem; font-weight:800; text-transform:uppercase; letter-spacing:0.06em; }
+    .plan-name { font-size:1.1rem; font-weight:700; color:#fff; margin-bottom:8px; }
+    .plan-price { font-size:2.5rem; font-weight:800; color:var(--color-green); margin:16px 0 4px; }
+    .plan-fee-label { font-size:0.8rem; color:var(--color-muted); margin-bottom:24px; }
+    .plan-features { text-align:left; list-style:none; margin-bottom:28px; }
+    .plan-features li { padding:8px 0; font-size:0.88rem; color:var(--color-muted); display:flex; align-items:center; gap:8px; border-bottom:1px solid var(--border); }
+    .plan-features li:last-child { border-bottom:none; }
+    .plan-features li .ok { color:var(--color-green); }
+    .plan-features li .no { color:var(--color-red); }
+    .fees-table th, .fees-table td { padding:14px 20px; }
+    @media(max-width:768px){.services-grid,.plans-grid{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <div class="ticker-bar" aria-label="Kripto cene uživo"><div class="ticker-track" id="ticker-track"><span class="ticker-item"><span class="sym">Učitavanje...</span></span></div></div>
+
+  <header class="site-header" role="banner">
+    <div class="nav-inner">
+      <a href="index.html" class="logo"><span class="logo-icon">🔷</span>Ai IQ <span>Menjačnica</span></a>
+      <nav class="nav-links" role="navigation">
+        <a href="index.html">Početna</a><a href="trade.html">Trejd</a><a href="wallet.html">Novčanik</a><a href="education.html">Edukacija</a><a href="services.html" class="active">Usluge</a><a href="about.html">O nama</a><a href="contact.html">Kontakt</a>
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-btn" id="platform-btn" aria-haspopup="true" aria-expanded="false">🌐 Platforme ▾</button>
+          <div class="nav-dropdown-menu" id="platform-menu" role="menu">
+            <a href="https://github.com/spaja86/Kompanija-SPAJA" target="_blank" rel="noopener noreferrer" role="menuitem"><span class="icon">🏢</span> Kompanija SPAJA</a>
+            <a href="https://github.com/spaja86/Ai-Iq-World-Bank" target="_blank" rel="noopener noreferrer" role="menuitem"><span class="icon">🏦</span> AI IQ World Bank</a>
+            <a href="https://io-openui-ao.vercel.app" target="_blank" rel="noopener noreferrer" role="menuitem"><span class="icon">🤖</span> IO-OPENUI-AO</a>
+          </div>
+        </div>
+      </nav>
+      <button class="hamburger" id="hamburger" aria-label="Otvori meni" aria-expanded="false" aria-controls="mobile-menu"><span></span><span></span><span></span></button>
+    </div>
+  </header>
+  <nav class="mobile-menu" id="mobile-menu"><a href="index.html">🏠 Početna</a><a href="trade.html">📈 Trejd</a><a href="wallet.html">💼 Novčanik</a><a href="education.html">📚 Edukacija</a><a href="services.html">⚡ Usluge</a><a href="about.html">ℹ️ O nama</a><a href="contact.html">✉️ Kontakt</a><a href="https://github.com/spaja86/Kompanija-SPAJA" target="_blank" rel="noopener noreferrer">🏢 Kompanija SPAJA</a><a href="https://github.com/spaja86/Ai-Iq-World-Bank" target="_blank" rel="noopener noreferrer">🏦 AI IQ World Bank</a><a href="https://io-openui-ao.vercel.app" target="_blank" rel="noopener noreferrer">🤖 IO-OPENUI-AO</a></nav>
+
+  <main>
+    <section class="page-hero">
+      <h1 class="neon-text">Naše Usluge</h1>
+      <p>Sve što vam treba za profesionalni kripto trejding — na jednoj platformi.</p>
+    </section>
+
+    <!-- SERVICES GRID -->
+    <section style="padding:80px 0">
+      <div class="container">
+        <div class="text-center" style="margin-bottom:48px">
+          <h2 class="section-title reveal">⚡ Šta nudimo?</h2>
+          <p class="section-sub reveal">Kompletna kripto ekosistem platforma</p>
+        </div>
+        <div class="services-grid">
+          <div class="service-card reveal">
+            <span class="service-icon">📈</span>
+            <h3>Kripto Trejding</h3>
+            <p>Profesionalna platforma za trejdovanje 500+ kriptovaluta sa real-time podacima i naprednim grafovima.</p>
+            <ul>
+              <li>500+ kriptovaluta dostupnih 24/7</li>
+              <li>Market, Limit i Stop-Loss nalozi</li>
+              <li>Real-time order book</li>
+              <li>TradingView grafovi integracija</li>
+              <li>Margin trejding (uskoro)</li>
+              <li>API pristup za automatizovane strategije</li>
+            </ul>
+            <div style="margin-top:20px">
+              <a href="trade.html" class="btn btn-primary btn-sm">Trejduj odmah →</a>
+            </div>
+          </div>
+          <div class="service-card reveal animate-delay-1">
+            <span class="service-icon">💼</span>
+            <h3>Kripto Novčanik</h3>
+            <p>Sigurno čuvanje, slanje i primanje kriptovaluta sa multi-sig zaštitom i hardware wallet podrškom.</p>
+            <ul>
+              <li>Multi-signature hladni novčanik</li>
+              <li>Podrška za 500+ tokena</li>
+              <li>Instant depozit i povlačenje</li>
+              <li>Istorija svih transakcija</li>
+              <li>Šifrovanje AES-256</li>
+              <li>2FA autentifikacija obavezna</li>
+            </ul>
+            <div style="margin-top:20px">
+              <a href="wallet.html" class="btn btn-primary btn-sm">Otvori novčanik →</a>
+            </div>
+          </div>
+          <div class="service-card reveal">
+            <span class="service-icon">🤖</span>
+            <h3>AI Analitika</h3>
+            <p>Napredni AI sistemi koji analiziraju tržišne trendove, sentiment i pružaju personalizovane preporuke.</p>
+            <ul>
+              <li>Real-time market sentiment analiza</li>
+              <li>Prediktivni modeli za 15+ parova</li>
+              <li>AI-driven price alerts</li>
+              <li>Portfolio optimizacija preporuke</li>
+              <li>Social sentiment tracking</li>
+              <li>Risk score za svaki token</li>
+            </ul>
+            <div style="margin-top:20px">
+              <a href="trade.html" class="btn btn-primary btn-sm">Istraži AI →</a>
+            </div>
+          </div>
+          <div class="service-card reveal animate-delay-1">
+            <span class="service-icon">🏦</span>
+            <h3>Staking & Yield</h3>
+            <p>Zarađujte pasivni prihod stakingom kriptovaluta direktno na platformi sa konkurentnim stopama povrata.</p>
+            <ul>
+              <li>ETH 2.0 staking ~4.2% APY</li>
+              <li>SOL staking ~6.8% APY</li>
+              <li>ADA staking ~4.5% APY</li>
+              <li>USDT Yield ~8% APY</li>
+              <li>Flexible i Fixed opcije</li>
+              <li>Automatska reinvesticija prihoda</li>
+            </ul>
+            <div style="margin-top:20px">
+              <span class="btn btn-secondary btn-sm" style="cursor:default;opacity:0.7">Uskoro dostupno</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PRICING PLANS -->
+    <section style="padding:80px 0;background:var(--bg-secondary);border-top:1px solid var(--border)">
+      <div class="container">
+        <div class="text-center" style="margin-bottom:48px">
+          <h2 class="section-title reveal">💰 Planovi i Cene</h2>
+          <p class="section-sub reveal">Transparentne provizije bez skrivenih troškova</p>
+        </div>
+        <div class="plans-grid">
+          <div class="plan-card reveal">
+            <div class="plan-name">🌱 Starter</div>
+            <div class="plan-price">0.1%</div>
+            <div class="plan-fee-label">provizija po transakciji</div>
+            <ul class="plan-features">
+              <li><span class="ok">✓</span> 500+ kriptovaluta</li>
+              <li><span class="ok">✓</span> Market & Limit nalozi</li>
+              <li><span class="ok">✓</span> Kripto novčanik</li>
+              <li><span class="ok">✓</span> Osnovna analitika</li>
+              <li><span class="no">✗</span> AI preporuke</li>
+              <li><span class="no">✗</span> Prioritetna podrška</li>
+              <li><span class="no">✗</span> API pristup</li>
+            </ul>
+            <a href="trade.html" class="btn btn-secondary btn-full">Počni besplatno</a>
+          </div>
+          <div class="plan-card featured reveal animate-delay-1">
+            <div class="plan-badge">🔥 Najpopularniji</div>
+            <div class="plan-name">⚡ Pro</div>
+            <div class="plan-price">0.05%</div>
+            <div class="plan-fee-label">provizija po transakciji</div>
+            <ul class="plan-features">
+              <li><span class="ok">✓</span> 500+ kriptovaluta</li>
+              <li><span class="ok">✓</span> Svi tipovi naloga</li>
+              <li><span class="ok">✓</span> Multi-sig novčanik</li>
+              <li><span class="ok">✓</span> Napredna analitika</li>
+              <li><span class="ok">✓</span> AI preporuke</li>
+              <li><span class="ok">✓</span> Prioritetna podrška</li>
+              <li><span class="no">✗</span> API pristup</li>
+            </ul>
+            <a href="trade.html" class="btn btn-primary btn-full">Aktiviraj Pro</a>
+          </div>
+          <div class="plan-card reveal animate-delay-2">
+            <div class="plan-name">🏆 Enterprise</div>
+            <div class="plan-price">0.01%</div>
+            <div class="plan-fee-label">provizija po transakciji</div>
+            <ul class="plan-features">
+              <li><span class="ok">✓</span> 500+ kriptovaluta</li>
+              <li><span class="ok">✓</span> Svi tipovi naloga</li>
+              <li><span class="ok">✓</span> Hladni novčanik</li>
+              <li><span class="ok">✓</span> Kompletna analitika</li>
+              <li><span class="ok">✓</span> AI preporuke premium</li>
+              <li><span class="ok">✓</span> 24/7 dedicated podrška</li>
+              <li><span class="ok">✓</span> Puni API pristup</li>
+            </ul>
+            <a href="contact.html" class="btn btn-gold btn-full">Kontaktiraj nas</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FEES TABLE -->
+    <section style="padding:80px 0">
+      <div class="container">
+        <div class="text-center" style="margin-bottom:48px">
+          <h2 class="section-title reveal">📋 Detaljna Tabela Provizija</h2>
+          <p class="section-sub reveal">Potpuna transparentnost — bez iznenađenja</p>
+        </div>
+        <div class="card reveal">
+          <div class="table-wrapper">
+            <table class="fees-table" aria-label="Tabela provizija">
+              <thead>
+                <tr>
+                  <th>Usluga</th>
+                  <th>Starter</th>
+                  <th>Pro</th>
+                  <th>Enterprise</th>
+                  <th>Napomena</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>Spot trejding</td><td>0.10%</td><td style="color:var(--color-green)">0.05%</td><td style="color:var(--color-gold)">0.01%</td><td style="color:var(--color-muted)">Po transakciji, Maker/Taker</td></tr>
+                <tr><td>Depozit kripto</td><td style="color:var(--color-green)">Besplatno</td><td style="color:var(--color-green)">Besplatno</td><td style="color:var(--color-green)">Besplatno</td><td style="color:var(--color-muted)">Network fee od korisnika</td></tr>
+                <tr><td>Povlačenje kripto</td><td>Network fee</td><td>Network fee</td><td>Network fee</td><td style="color:var(--color-muted)">Blockchain mreža naplaćuje</td></tr>
+                <tr><td>Konverzija valuta</td><td>0.15%</td><td>0.08%</td><td>0.03%</td><td style="color:var(--color-muted)">Spot kurs + spread</td></tr>
+                <tr><td>API pristup</td><td style="color:var(--color-red)">N/A</td><td style="color:var(--color-red)">N/A</td><td style="color:var(--color-green)">Uključeno</td><td style="color:var(--color-muted)">REST & WebSocket</td></tr>
+                <tr><td>Staking nagrada</td><td>20% cut</td><td>15% cut</td><td>10% cut</td><td style="color:var(--color-muted)">% od staking nagrade</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section style="padding:80px 0;background:var(--bg-secondary);border-top:1px solid var(--border);text-align:center">
+      <div class="container">
+        <h2 class="reveal" style="color:#fff;margin-bottom:16px">Spreman za sledeći nivo?</h2>
+        <p class="reveal" style="max-width:500px;margin:0 auto 32px">Počni sa besplatnim Starter planom i nadogradi kada si spreman.</p>
+        <div class="reveal" style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap">
+          <a href="trade.html" class="btn btn-primary btn-lg">🚀 Počni odmah — besplatno</a>
+          <a href="contact.html" class="btn btn-secondary btn-lg">Kontaktiraj prodajni tim</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer" role="contentinfo">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="logo" style="margin-bottom:14px;display:inline-flex"><span class="logo-icon">🔷</span>Ai IQ <span>Menjačnica</span></a>
+          <p>Profesionalna kripto menjačnica sa AI uvidima.</p>
+          <div class="footer-socials">
+            <a href="https://www.facebook.com/Spaja86" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Facebook">📘</a>
+            <a href="https://www.instagram.com/spaja.1986" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Instagram">📷</a>
+            <a href="https://www.tiktok.com/@spaja.1986" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="TikTok">🎵</a>
+          </div>
+        </div>
+        <div class="footer-col"><h4>Platforma</h4><ul><li><a href="trade.html">Trejduj Kripto</a></li><li><a href="wallet.html">Novčanik</a></li><li><a href="services.html">Usluge</a></li><li><a href="education.html">Edukacija</a></li></ul></div>
+        <div class="footer-col"><h4>Kompanija</h4><ul><li><a href="about.html">O nama</a></li><li><a href="contact.html">Kontakt</a></li></ul></div>
+        <div class="footer-col"><h4>Kontakt</h4><ul><li><a href="mailto:spajicn@yahoo.com">spajicn@yahoo.com</a></li><li><a href="mailto:spajicn@gmail.com">spajicn@gmail.com</a></li><li><a href="https://github.com/spaja86/Kompanija-SPAJA" target="_blank" rel="noopener noreferrer">🏢 Kompanija SPAJA</a></li><li><a href="https://github.com/spaja86/Ai-Iq-World-Bank" target="_blank" rel="noopener noreferrer">🏦 AI IQ World Bank</a></li></ul></div>
+      </div>
+      <div class="footer-bottom"><span>© 2026 Nikola Spajić / Ai IQ Menjačnica. Sva prava zadržana.</span><span>Trejding kriptovalutama nosi rizik. Investiraj odgovorno.</span></div>
+    </div>
+  </footer>
+
+  <script src="js/crypto-api.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
