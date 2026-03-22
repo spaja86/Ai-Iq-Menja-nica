@@ -1,52 +1,295 @@
-<!-- Full Market Trade UI with BUY/SELL options -->
 <!DOCTYPE html>
-<html lang="en">
+<html lang="sr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Market Trade</title>
-    <link rel="stylesheet" href="css/styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Ai Iq Menjačnica — Trading platforma sa live cenama, order book i canvas chart.">
+  <title>Trading — Ai Iq Menjačnica</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/trading.css">
 </head>
 <body>
-    <header>
-        <nav>
-            <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="services.html">Services</a></li>
-                <li><a href="contact.html">Contact</a></li>
-                <li><a href="trade.html">Trejd (Market)</a></li>
-            </ul>
-        </nav>
-    </header>
-    <main>
-        <section id="market-trade">
-            <h1>Market Trade</h1>
-            <div>
-                <label for="trade-type">Trade Type:</label>
-                <select id="trade-type">
-                    <option value="buy">Buy</option>
-                    <option value="sell">Sell</option>
-                </select>
-            </div>
-            <div>
-                <label for="currency">Currency:</label>
-                <select id="currency">
-                    <option value="RSD">RSD</option>
-                    <option value="EUR">EUR</option>
-                </select>
-            </div>
-            <div>
-                <label for="mode">Mode:</label>
-                <select id="mode">
-                    <option value="A">Search + Load More</option>
-                    <option value="B">Searchable Dropdown</option>
-                </select>
-            </div>
-            <div id="results"></div>
-            <p>Fee: <span id="fee">2%</span></p>
-            <button id="trade-button">Submit</button>
-        </section>
-    </main>
-    <script src="js/trade.js"></script>
+
+<!-- LOADING -->
+<div class="loading-overlay"><div class="spinner"></div></div>
+
+<!-- TICKER -->
+<div class="ticker-bar"><div class="ticker-track"></div></div>
+
+<!-- HEADER -->
+<header class="site-header">
+  <div class="header-inner">
+    <a href="index.html" class="logo"><span class="logo-icon">💱</span> Ai Iq <span>Menjačnica</span></a>
+    <nav class="main-nav">
+      <ul class="nav-links">
+        <li><a href="index.html">Početna</a></li>
+        <li><a href="trade.html">Trading</a></li>
+        <li><a href="wallet.html">Novčanik</a></li>
+        <li><a href="education.html">Edukacija</a></li>
+        <li><a href="services.html">Usluge</a></li>
+        <li><a href="about.html">O nama</a></li>
+        <li><a href="contact.html">Kontakt</a></li>
+      </ul>
+    </nav>
+    <div class="nav-cta">
+      <a href="trade.html" class="btn-outline">Trejduj</a>
+      <a href="wallet.html" class="btn-primary">Novčanik</a>
+    </div>
+    <button class="hamburger" aria-label="Meni">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+<nav class="mobile-nav">
+  <a href="index.html">🏠 Početna</a>
+  <a href="trade.html">📊 Trading</a>
+  <a href="wallet.html">💼 Novčanik</a>
+  <a href="education.html">🎓 Edukacija</a>
+  <a href="services.html">🔧 Usluge</a>
+  <a href="about.html">👥 O nama</a>
+  <a href="contact.html">📞 Kontakt</a>
+</nav>
+
+<!-- TRADING LAYOUT -->
+<main>
+<div class="trading-layout">
+
+  <!-- TOP BAR: coin selector + price display -->
+  <div class="trading-top-bar">
+    <div class="coin-selector">
+      <button class="coin-btn active" data-coin="BTC">BTC/USD</button>
+      <button class="coin-btn" data-coin="ETH">ETH/USD</button>
+      <button class="coin-btn" data-coin="SOL">SOL/USD</button>
+      <button class="coin-btn" data-coin="BNB">BNB/USD</button>
+    </div>
+    <div class="price-display">
+      <span class="current-price" id="currentPrice">$67,420</span>
+      <span class="price-change up" id="priceChange">▲ +2.3% (24h)</span>
+    </div>
+    <div class="price-meta">
+      <div class="price-meta-item">
+        <span class="price-meta-label">24h Visoko</span>
+        <span class="price-meta-value up" id="price24h">$68,100</span>
+      </div>
+      <div class="price-meta-item">
+        <span class="price-meta-label">24h Nisko</span>
+        <span class="price-meta-value down" id="price24l">$66,500</span>
+      </div>
+      <div class="price-meta-item">
+        <span class="price-meta-label">24h Vol</span>
+        <span class="price-meta-value" id="price24vol">$24.3B</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- LEFT: ORDER BOOK -->
+  <div class="order-book-panel">
+    <div class="panel-title">
+      <span>Order Book</span>
+      <span class="badge badge-green">LIVE</span>
+    </div>
+    <div class="order-book-header">
+      <span>Cena (USD)</span>
+      <span>Količina</span>
+      <span>Ukupno</span>
+    </div>
+    <div class="order-book-asks" id="orderBookAsks"></div>
+    <div class="spread-row" id="obSpread">Spread: $0.00</div>
+    <div class="order-book-bids" id="orderBookBids"></div>
+  </div>
+
+  <!-- CENTER: CHART + TRADE FORM (stacked) -->
+  <div style="display:flex;flex-direction:column;gap:12px;min-height:0">
+
+    <!-- CHART -->
+    <div class="chart-panel" style="flex:1;min-height:0">
+      <div class="chart-toolbar">
+        <button class="chart-timeframe active">1m</button>
+        <button class="chart-timeframe">5m</button>
+        <button class="chart-timeframe">15m</button>
+        <button class="chart-timeframe">1h</button>
+        <button class="chart-timeframe">4h</button>
+        <button class="chart-timeframe">1d</button>
+        <span class="muted" style="font-size:0.75rem;margin-left:auto">Simulirani podaci</span>
+      </div>
+      <canvas id="priceChart" style="width:100%;height:240px"></canvas>
+    </div>
+
+    <!-- TRADE FORM -->
+    <div class="trade-form-panel">
+      <div class="trade-tabs">
+        <button class="trade-tab buy active" data-side="buy">Kupovina</button>
+        <button class="trade-tab sell" data-side="sell">Prodaja</button>
+      </div>
+
+      <!-- BUY FORM -->
+      <div class="trade-form-body" id="buyForm">
+        <div class="order-type-tabs">
+          <button class="order-type-tab active">Limit</button>
+          <button class="order-type-tab">Market</button>
+          <button class="order-type-tab">Stop</button>
+        </div>
+        <div class="balance-row">
+          <span>Dostupno (USD)</span>
+          <span id="balanceUsd">$10,000.00</span>
+        </div>
+        <div class="form-group">
+          <label>Cena (USD)</label>
+          <input type="number" id="tradePrice" placeholder="Unesite cenu...">
+        </div>
+        <div class="form-group">
+          <label>Količina</label>
+          <input type="number" id="tradeAmount" placeholder="0.0000" min="0" step="0.0001">
+        </div>
+        <div class="amount-percent-row">
+          <button class="pct-btn" data-pct="25">25%</button>
+          <button class="pct-btn" data-pct="50">50%</button>
+          <button class="pct-btn" data-pct="75">75%</button>
+          <button class="pct-btn" data-pct="100">100%</button>
+        </div>
+        <div class="total-display">
+          <span class="label">Ukupno</span>
+          <span class="value" id="tradeTotal">$0.00</span>
+        </div>
+        <div class="fee-row">
+          <span>Naknada (0.2%)</span>
+          <span id="tradeFee">$0.0000</span>
+        </div>
+        <button class="btn-buy-submit" id="btnBuy">Kupi BTC</button>
+      </div>
+
+      <!-- SELL FORM (hidden by default) -->
+      <div class="trade-form-body" id="sellForm" style="display:none">
+        <div class="order-type-tabs">
+          <button class="order-type-tab active">Limit</button>
+          <button class="order-type-tab">Market</button>
+        </div>
+        <div class="balance-row">
+          <span>Dostupno (BTC)</span>
+          <span id="balanceCoin">0.1234 BTC</span>
+        </div>
+        <div class="form-group">
+          <label>Cena (USD)</label>
+          <input type="number" id="tradePriceSell" placeholder="Unesite cenu...">
+        </div>
+        <div class="form-group">
+          <label>Količina</label>
+          <input type="number" id="tradeAmountSell" placeholder="0.0000" min="0" step="0.0001">
+        </div>
+        <div class="amount-percent-row">
+          <button class="pct-btn" data-pct="25">25%</button>
+          <button class="pct-btn" data-pct="50">50%</button>
+          <button class="pct-btn" data-pct="75">75%</button>
+          <button class="pct-btn" data-pct="100">100%</button>
+        </div>
+        <div class="total-display">
+          <span class="label">Dobićete</span>
+          <span class="value" id="tradeTotalSell">$0.00</span>
+        </div>
+        <button class="btn-sell-submit" id="btnSell">Prodaj BTC</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT: TRADE HISTORY -->
+  <div class="trade-history-panel">
+    <div class="panel-title">
+      <span>Historija Transakcija</span>
+    </div>
+    <div class="history-header">
+      <span>Cena</span>
+      <span>Količina</span>
+      <span>Vreme</span>
+    </div>
+    <div class="trade-history-list" id="tradeHistoryList"></div>
+  </div>
+
+</div>
+
+<!-- REAL MARKET TRADE (original CoinGecko integration) -->
+<div class="section" style="padding-top:24px">
+  <div class="section-inner">
+    <div class="section-header">
+      <h2>🌐 Real Market Trade</h2>
+      <p>Pravi tržišni podaci sa CoinGecko API — EUR/RSD</p>
+    </div>
+    <div class="card" style="max-width:800px;margin:0 auto">
+      <div style="display:flex;gap:16px;flex-wrap:wrap;margin-bottom:16px">
+        <div class="form-group" style="min-width:160px">
+          <label for="trade-type">Tip Trejda</label>
+          <select id="trade-type">
+            <option value="buy">Kupovina (Buy)</option>
+            <option value="sell">Prodaja (Sell)</option>
+          </select>
+        </div>
+        <div class="form-group" style="min-width:140px">
+          <label for="currency">Valuta</label>
+          <select id="currency">
+            <option value="RSD">RSD</option>
+            <option value="EUR">EUR</option>
+          </select>
+        </div>
+        <div class="form-group" style="min-width:180px">
+          <label for="mode">Mod</label>
+          <select id="mode">
+            <option value="A">Lista + Učitaj više</option>
+            <option value="B">Dropdown pretraga</option>
+          </select>
+        </div>
+        <div class="form-group" style="align-self:flex-end">
+          <button id="trade-button" class="btn-primary" style="padding:10px 24px">Izvrši Trejd</button>
+        </div>
+      </div>
+      <div style="font-size:0.8rem;color:var(--crypto-muted);margin-bottom:8px">Naknada: <span id="fee" style="color:var(--crypto-green);font-weight:700">2%</span></div>
+      <div id="results"></div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <h4>💱 Ai Iq Menjačnica</h4>
+        <p>Svetska kripto menjačnica sa AI-powered trading i 500+ kriptovaluta.</p>
+        <div class="social-links" style="margin-top:16px">
+          <a href="https://www.facebook.com/Spaja86" target="_blank" rel="noopener" class="social-link">📘</a>
+          <a href="https://www.instagram.com/spaja.1986" target="_blank" rel="noopener" class="social-link">📸</a>
+          <a href="https://www.tiktok.com/@spaja.1986" target="_blank" rel="noopener" class="social-link">🎵</a>
+          <a href="https://www.youtube.com/@spajanikopenevolution" target="_blank" rel="noopener" class="social-link">▶️</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Platforma</h4>
+        <ul>
+          <li><a href="index.html">Početna</a></li>
+          <li><a href="wallet.html">Novčanik</a></li>
+          <li><a href="services.html">Usluge</a></li>
+          <li><a href="education.html">Edukacija</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Ekosistem</h4>
+        <div class="ecosystem-links">
+          <a href="https://io-openui-ao.vercel.app" target="_blank" rel="noopener" class="ecosystem-link">🌐 IO-OPENUI-AO</a>
+          <a href="https://github.com/spaja86/Ai-Iq-World-Bank" target="_blank" rel="noopener" class="ecosystem-link">🏦 World Bank</a>
+          <a href="https://github.com/spaja86/Kompanija-SPAJA" target="_blank" rel="noopener" class="ecosystem-link">🏢 Kompanija SPAJA</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 Ai Iq Menjačnica — Nikola Spajić</p>
+      <p>Kripto trading nosi rizik. Trgujte odgovorno.</p>
+    </div>
+  </div>
+</footer>
+
+<script src="js/ticker.js"></script>
+<script src="js/main.js"></script>
+<script src="js/trading.js"></script>
+<script src="js/trade.js"></script>
 </body>
 </html>
