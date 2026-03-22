@@ -17,7 +17,7 @@
       question: 'Ko je kreator Bitcoina?',
       options: ['Vitalik Buterin', 'Satoshi Nakamoto', 'Elon Musk', 'Hal Finney'],
       correct: 1,
-      explanation: 'Satoshi Nakamoto je pseudonim kreatora Bitcoina. Njegovo pravo identitet ostaje nepoznat.'
+      explanation: 'Satoshi Nakamoto je pseudonim kreatora Bitcoina. Njegov pravi identitet ostaje nepoznat.'
     },
     {
       question: 'Koja je maksimalna ukupna količina Bitcoina?',

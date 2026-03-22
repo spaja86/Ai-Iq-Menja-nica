@@ -323,8 +323,8 @@
     var total = price * amount;
     var fee   = total * 0.002; // 0.2% fee
 
-    if (totalEl) totalEl.textContent = 'Ukupno: $' + total.toFixed(2);
-    if (feeEl)   feeEl.textContent   = 'Naknada (0.2%): $' + fee.toFixed(4);
+    if (totalEl) totalEl.textContent = '$' + total.toFixed(2);
+    if (feeEl)   feeEl.textContent   = '$' + fee.toFixed(4);
 
     // Auto-fill price
     if (priceInput && !priceInput.dataset.manual) {
