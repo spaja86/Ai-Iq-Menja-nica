@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Ai Iq Menjačnica — Edukacija o kriptovalutama, blockchain-u i AI u kriptu. Interaktivni kviz.">
+  <title>Edukacija — Ai Iq Menjačnica</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<div class="loading-overlay"><div class="spinner"></div></div>
+<div class="ticker-bar"><div class="ticker-track"></div></div>
+
+<header class="site-header">
+  <div class="header-inner">
+    <a href="index.html" class="logo"><span class="logo-icon">💱</span> Ai Iq <span>Menjačnica</span></a>
+    <nav class="main-nav">
+      <ul class="nav-links">
+        <li><a href="index.html">Početna</a></li>
+        <li><a href="trade.html">Trading</a></li>
+        <li><a href="wallet.html">Novčanik</a></li>
+        <li><a href="education.html">Edukacija</a></li>
+        <li><a href="services.html">Usluge</a></li>
+        <li><a href="about.html">O nama</a></li>
+        <li><a href="contact.html">Kontakt</a></li>
+      </ul>
+    </nav>
+    <div class="nav-cta">
+      <a href="trade.html" class="btn-outline">Trejduj</a>
+      <a href="wallet.html" class="btn-primary">Novčanik</a>
+    </div>
+    <button class="hamburger" aria-label="Meni"><span></span><span></span><span></span></button>
+  </div>
+</header>
+<nav class="mobile-nav">
+  <a href="index.html">🏠 Početna</a>
+  <a href="trade.html">📊 Trading</a>
+  <a href="wallet.html">💼 Novčanik</a>
+  <a href="education.html">🎓 Edukacija</a>
+  <a href="services.html">🔧 Usluge</a>
+  <a href="about.html">👥 O nama</a>
+  <a href="contact.html">📞 Kontakt</a>
+</nav>
+
+<div class="page-header">
+  <h1>🎓 Kripto Edukacija</h1>
+  <p>Naučite osnove kriptovaluta, blockchain tehnologije i AI u kriptu</p>
+</div>
+
+<main class="section">
+<div class="section-inner">
+
+  <!-- ACCORDION TOPICS -->
+  <div class="section-header animate-in">
+    <h2>📚 Edukativni <span>Materijali</span></h2>
+    <p>Kliknite na temu da biste pročitali više</p>
+  </div>
+
+  <div class="accordion animate-in">
+
+    <div class="accordion-item">
+      <div class="accordion-header" onclick="toggleAccordion(this)">
+        <h3><span class="accordion-icon">₿</span> Šta je Bitcoin?</h3>
+        <span class="accordion-arrow">▼</span>
+      </div>
+      <div class="accordion-body">
+        <p><strong>Bitcoin (BTC)</strong> je prva decentralizovana digitalna valuta, kreirana 2009. godine od strane anonimnog kreatora poznatog kao <strong>Satoshi Nakamoto</strong>.</p>
+        <br>
+        <p>Bitcoin funkcioniše na <em>peer-to-peer</em> mreži bez centralne banke ili posrednika. Transakcije se verifikuju od strane mrežnih čvorova kroz kriptografiju i snimaju u javnu distribuiranu knjigu zvanu <strong>blockchain</strong>.</p>
+        <br>
+        <p><strong>Ključne karakteristike Bitcoina:</strong></p>
+        <ul style="margin-top:8px;padding-left:20px;display:flex;flex-direction:column;gap:6px">
+          <li>Maksimalna ponuda: <strong>21 milion BTC</strong> — digitalno zlato</li>
+          <li>Decentralizovan: nema vlasnika ni centralne kontrole</li>
+          <li>Transparentan: sve transakcije su javno vidljive</li>
+          <li>Nepromenjiv: potvrđene transakcije se ne mogu promeniti</li>
+          <li>Globalan: radi 24/7, bez granica</li>
+        </ul>
+        <br>
+        <p>Bitcoin je pokrenuo celu industriju kriptovaluta i danas se smatra digitalnim zlatom — sredstvom za čuvanje vrednosti.</p>
+      </div>
+    </div>
+
+    <div class="accordion-item">
+      <div class="accordion-header" onclick="toggleAccordion(this)">
+        <h3><span class="accordion-icon">Ξ</span> Šta je Ethereum?</h3>
+        <span class="accordion-arrow">▼</span>
+      </div>
+      <div class="accordion-body">
+        <p><strong>Ethereum (ETH)</strong> je decentralizovana platforma za pametne ugovore, osnovana 2015. od strane <strong>Vitalika Buterina</strong>.</p>
+        <br>
+        <p>Za razliku od Bitcoina koji je primarno valuta, Ethereum je <em>programibilni blockchain</em> koji omogućava izgradnju decentralizovanih aplikacija (dApps) i pametnih ugovora.</p>
+        <br>
+        <p><strong>Šta su pametni ugovori?</strong> To su samoizvršavajući ugovori čiji su uslovi direktno upisani u kod. Automatski se izvršavaju kada su ispunjeni unapred definisani uslovi, bez posrednika.</p>
+        <br>
+        <p><strong>Ethereum ekosistem uključuje:</strong></p>
+        <ul style="margin-top:8px;padding-left:20px;display:flex;flex-direction:column;gap:6px">
+          <li><strong>DeFi</strong> — decentralizovane finansije bez banaka</li>
+          <li><strong>NFT</strong> — nezamenljivi tokeni za digitalni sadržaj</li>
+          <li><strong>DAOs</strong> — decentralizovane autonomne organizacije</li>
+          <li><strong>Layer 2</strong> — skalabilna rešenja za brže transakcije</li>
+        </ul>
+        <br>
+        <p>Ethereum je 2022. prešao na <strong>Proof of Stake</strong> konsenzus mehanizam, smanjivši potrošnju energije za ~99.95%.</p>
+      </div>
+    </div>
+
+    <div class="accordion-item">
+      <div class="accordion-header" onclick="toggleAccordion(this)">
+        <h3><span class="accordion-icon">🏗️</span> Kako funkcioniše Blockchain?</h3>
+        <span class="accordion-arrow">▼</span>
+      </div>
+      <div class="accordion-body">
+        <p><strong>Blockchain</strong> je distribuirana baza podataka koja čuva zapise transakcija u obliku "blokova" koji su kriptografski međusobno povezani u "lanac".</p>
+        <br>
+        <p><strong>Kako radi?</strong></p>
+        <ol style="margin-top:8px;padding-left:20px;display:flex;flex-direction:column;gap:10px">
+          <li><strong>Transakcija</strong> — Korisnik inicira transakciju (npr. pošalje BTC)</li>
+          <li><strong>Broadcast</strong> — Transakcija se šalje na celu mrežu čvorova</li>
+          <li><strong>Validacija</strong> — Čvorovi verifikuju da li je transakcija legitimna</li>
+          <li><strong>Blok</strong> — Više verifikovanih transakcija se grupiše u blok</li>
+          <li><strong>Konsenzus</strong> — Mreža se slaže koji je blok validan (PoW ili PoS)</li>
+          <li><strong>Lanac</strong> — Novi blok se dodaje na kraj lanca i dobija hash prethodnog</li>
+        </ol>
+        <br>
+        <p>Svaki blok sadrži <strong>hash prethodnog bloka</strong>, što čini lanac nepromenjivim — izmena jednog bloka bi pokvari sve naredne blokove.</p>
+      </div>
+    </div>
+
+    <div class="accordion-item">
+      <div class="accordion-header" onclick="toggleAccordion(this)">
+        <h3><span class="accordion-icon">🏦</span> Šta je DeFi?</h3>
+        <span class="accordion-arrow">▼</span>
+      </div>
+      <div class="accordion-body">
+        <p><strong>DeFi (Decentralized Finance)</strong> je ekosistem finansijskih aplikacija izgrađenih na blockchain mrežama, koje funkcionišu bez tradicionalnih finansijskih posrednika poput banaka.</p>
+        <br>
+        <p><strong>DeFi usluge uključuju:</strong></p>
+        <ul style="margin-top:8px;padding-left:20px;display:flex;flex-direction:column;gap:6px">
+          <li><strong>DEX</strong> — Decentralizovane menjačnice (Uniswap, dYdX)</li>
+          <li><strong>Lending</strong> — Pozajmljivanje i zalaganje kripto (Aave, Compound)</li>
+          <li><strong>Yield Farming</strong> — Zarađivanje kamata na kripto imovini</li>
+          <li><strong>Staking</strong> — Zalaganje tokena za nagrade i validaciju</li>
+          <li><strong>Stablecoins</strong> — Stabilne valute vezane za USD</li>
+        </ul>
+        <br>
+        <p>DeFi protokoli su upravljani pametnim ugovorima koji su otvoreni, bez dozvola i dostupni svima sa internet vezom — bez obzira na lokaciju ili kreditnu istoriju.</p>
+      </div>
+    </div>
+
+    <div class="accordion-item">
+      <div class="accordion-header" onclick="toggleAccordion(this)">
+        <h3><span class="accordion-icon">🤖</span> AI u Kriptu — Naša Tehnologija</h3>
+        <span class="accordion-arrow">▼</span>
+      </div>
+      <div class="accordion-body">
+        <p>Ai Iq Menjačnica koristi najnapredniju <strong>AI tehnologiju</strong> za poboljšanje trading iskustva naših korisnika.</p>
+        <br>
+        <p><strong>Naše AI funkcionalnosti:</strong></p>
+        <ul style="margin-top:8px;padding-left:20px;display:flex;flex-direction:column;gap:10px">
+          <li>
+            <strong>🔮 Prediktivna Analiza Cena</strong><br>
+            <span style="color:var(--crypto-muted)">Naš AI model analizira milione tržišnih podataka za predviđanje kratkoročnih kretanja cena.</span>
+          </li>
+          <li>
+            <strong>🔄 Automatski Rebalansing Portfolia</strong><br>
+            <span style="color:var(--crypto-muted)">AI automatski rebalansira vaš portfolio prema zadatim parametrima rizika i profita.</span>
+          </li>
+          <li>
+            <strong>😊 Analiza Sentimenta</strong><br>
+            <span style="color:var(--crypto-muted)">Praćenje sentiment-a na društvenim mrežama, vestima i on-chain podacima u realnom vremenu.</span>
+          </li>
+          <li>
+            <strong>🛡️ Otkrivanje Prevara</strong><br>
+            <span style="color:var(--crypto-muted)">AI motor za otkrivanje anomalija koji štiti vaš račun od neovlašćenog pristupa.</span>
+          </li>
+          <li>
+            <strong>📈 Smart DCA Bot</strong><br>
+            <span style="color:var(--crypto-muted)">Automatizovano Dollar-Cost Averaging sa AI optimizacijom ulaznih tačaka.</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="accordion-item">
+      <div class="accordion-header" onclick="toggleAccordion(this)">
+        <h3><span class="accordion-icon">🔐</span> Sigurnost Kripto Novčanika</h3>
+        <span class="accordion-arrow">▼</span>
+      </div>
+      <div class="accordion-body">
+        <p>Sigurnost vašeg kripto novčanika je od <strong>apsolutnog prioriteta</strong>. Evo ključnih saveta:</p>
+        <br>
+        <ul style="padding-left:20px;display:flex;flex-direction:column;gap:10px">
+          <li><strong>🔑 Čuvajte privatni ključ</strong> — Nikada ne delite privatni ključ ni sa kim. Ko ima privatni ključ — ima novac.</li>
+          <li><strong>📝 Seed phrase (12/24 reči)</strong> — Zapišite na papiru i čuvajte na sigurnom mestu. Nikad digitalno!</li>
+          <li><strong>🔒 Hardware wallet</strong> — Za veće iznose koristite Ledger ili Trezor hardware novčanik.</li>
+          <li><strong>✌️ Dvofaktorska autentifikacija</strong> — Uvek uključite 2FA (Google Authenticator, ne SMS).</li>
+          <li><strong>🎣 Phishing</strong> — Proverite URL adresu pre unosa kredencijala. Koristite bookmark.</li>
+          <li><strong>🔄 Redovni backup</strong> — Redovno backup-ujte novčanik na više sigurnih lokacija.</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- QUIZ -->
+  <div class="section-header animate-in" style="margin-top:64px">
+    <h2>🧠 Kripto <span>Kviz</span></h2>
+    <p>Testirajte vaše znanje o kriptovalutama — 8 pitanja</p>
+  </div>
+
+  <div id="quizContainer" class="quiz-container animate-in">
+    <!-- populated by quiz.js -->
+    <div style="text-align:center;color:var(--crypto-muted)">Učitavanje kviza...</div>
+  </div>
+
+</div>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <h4>💱 Ai Iq Menjačnica</h4>
+        <p>Svetska kripto menjačnica sa AI-powered trading i 500+ kriptovaluta.</p>
+        <div class="social-links" style="margin-top:14px">
+          <a href="https://www.facebook.com/Spaja86" target="_blank" rel="noopener" class="social-link">📘 FB</a>
+          <a href="https://www.instagram.com/spaja.1986" target="_blank" rel="noopener" class="social-link">📸 IG</a>
+          <a href="https://www.tiktok.com/@spaja.1986" target="_blank" rel="noopener" class="social-link">🎵 TT</a>
+          <a href="https://www.youtube.com/@spajanikopenevolution" target="_blank" rel="noopener" class="social-link">▶️ YT</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Platforma</h4>
+        <ul>
+          <li><a href="index.html">Početna</a></li>
+          <li><a href="trade.html">Trading</a></li>
+          <li><a href="wallet.html">Novčanik</a></li>
+          <li><a href="services.html">Usluge</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Ekosistem</h4>
+        <div class="ecosystem-links">
+          <a href="https://io-openui-ao.vercel.app" target="_blank" rel="noopener" class="ecosystem-link">🌐 IO-OPENUI-AO</a>
+          <a href="https://github.com/spaja86/Ai-Iq-World-Bank" target="_blank" rel="noopener" class="ecosystem-link">🏦 World Bank</a>
+          <a href="https://github.com/spaja86/Kompanija-SPAJA" target="_blank" rel="noopener" class="ecosystem-link">🏢 Kompanija SPAJA</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 Ai Iq Menjačnica — Nikola Spajić</p>
+      <p>Kripto trading nosi rizik. Trgujte odgovorno.</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+function toggleAccordion(header) {
+  var item = header.parentElement;
+  var isOpen = item.classList.contains('open');
+  document.querySelectorAll('.accordion-item.open').forEach(function(i){ i.classList.remove('open'); });
+  if (!isOpen) item.classList.add('open');
+}
+</script>
+<script src="js/ticker.js"></script>
+<script src="js/main.js"></script>
+<script src="js/quiz.js"></script>
+</body>
+</html>

@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Ai Iq Menjačnica — Moj portfolio novčanik sa pie chart i historijom transakcija.">
+  <title>Novčanik — Ai Iq Menjačnica</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/trading.css">
+</head>
+<body>
+
+<div class="loading-overlay"><div class="spinner"></div></div>
+<div class="ticker-bar"><div class="ticker-track"></div></div>
+
+<header class="site-header">
+  <div class="header-inner">
+    <a href="index.html" class="logo"><span class="logo-icon">💱</span> Ai Iq <span>Menjačnica</span></a>
+    <nav class="main-nav">
+      <ul class="nav-links">
+        <li><a href="index.html">Početna</a></li>
+        <li><a href="trade.html">Trading</a></li>
+        <li><a href="wallet.html">Novčanik</a></li>
+        <li><a href="education.html">Edukacija</a></li>
+        <li><a href="services.html">Usluge</a></li>
+        <li><a href="about.html">O nama</a></li>
+        <li><a href="contact.html">Kontakt</a></li>
+      </ul>
+    </nav>
+    <div class="nav-cta">
+      <a href="trade.html" class="btn-outline">Trejduj</a>
+      <a href="wallet.html" class="btn-primary">Novčanik</a>
+    </div>
+    <button class="hamburger" aria-label="Meni"><span></span><span></span><span></span></button>
+  </div>
+</header>
+<nav class="mobile-nav">
+  <a href="index.html">🏠 Početna</a>
+  <a href="trade.html">📊 Trading</a>
+  <a href="wallet.html">💼 Novčanik</a>
+  <a href="education.html">🎓 Edukacija</a>
+  <a href="services.html">🔧 Usluge</a>
+  <a href="about.html">👥 O nama</a>
+  <a href="contact.html">📞 Kontakt</a>
+</nav>
+
+<main>
+<div class="wallet-layout">
+
+  <!-- PORTFOLIO HEADER -->
+  <div class="portfolio-header">
+    <div class="portfolio-value-block">
+      <div class="label">Ukupna vrednost portfolia</div>
+      <div class="portfolio-total" id="portfolioTotal">$0.00</div>
+      <div class="portfolio-change" id="portfolioChange">+$0.00 (▲0.00%)</div>
+      <div style="margin-top:16px;display:flex;gap:10px;flex-wrap:wrap">
+        <a href="trade.html" class="btn-primary" style="text-decoration:none">+ Kupi</a>
+        <button class="btn-outline" style="padding:8px 20px">↑ Uplata</button>
+        <button class="btn-outline" style="padding:8px 20px">↓ Isplata</button>
+      </div>
+    </div>
+    <div class="portfolio-chart-container">
+      <canvas id="portfolioChart"></canvas>
+      <div class="portfolio-chart-label">
+        <span class="value">Portfolio</span>
+        <span class="label">Alokacija</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ASSETS + LEGEND -->
+  <div class="wallet-grid">
+    <div>
+      <h3 style="margin-bottom:16px;font-size:1rem;font-weight:700;color:#fff">💼 Moja Aktiva</h3>
+      <div class="asset-list">
+        <div class="asset-list-header">
+          <span>Kriptovaluta</span>
+          <span>Količina</span>
+          <span>Vrednost</span>
+          <span>Promena</span>
+        </div>
+        <div id="assetList">
+          <!-- populated by wallet.js -->
+        </div>
+      </div>
+
+      <!-- TX HISTORY -->
+      <h3 style="margin:24px 0 14px;font-size:1rem;font-weight:700;color:#fff">📋 Istorija Transakcija</h3>
+      <div class="card" style="overflow-x:auto">
+        <table class="tx-table">
+          <thead>
+            <tr>
+              <th>Tip</th>
+              <th>Valuta</th>
+              <th>Količina</th>
+              <th>Vrednost</th>
+              <th>Datum</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="txTableBody">
+            <!-- populated by wallet.js -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- SIDEBAR -->
+    <div>
+      <div class="card" style="margin-bottom:16px">
+        <h4 style="margin-bottom:16px;font-size:0.9rem;font-weight:700">📊 Portfolio Alokacija</h4>
+        <div style="display:flex;justify-content:center;margin-bottom:16px">
+          <canvas id="portfolioChartSidebar" width="200" height="200"></canvas>
+        </div>
+        <div id="portfolioLegend" style="display:flex;flex-direction:column;gap:8px">
+          <div style="display:flex;justify-content:space-between;font-size:0.8rem">
+            <span><span style="color:#f0b90b">●</span> BTC</span><span class="muted">~67%</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;font-size:0.8rem">
+            <span><span style="color:#3498db">●</span> ETH</span><span class="muted">~31%</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;font-size:0.8rem">
+            <span><span style="color:#9945ff">●</span> SOL</span><span class="muted">~1%</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;font-size:0.8rem">
+            <span><span style="color:#0033ad">●</span> Ostalo</span><span class="muted">~1%</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h4 style="margin-bottom:14px;font-size:0.9rem;font-weight:700">⚡ Brze Akcije</h4>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <a href="trade.html" class="btn-primary" style="text-align:center;padding:12px;text-decoration:none">📊 Trejduj odmah</a>
+          <button class="btn-outline" style="padding:12px">💸 Pošalji kripto</button>
+          <button class="btn-outline" style="padding:12px">📥 Primi kripto</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <h4>💱 Ai Iq Menjačnica</h4>
+        <p>Svetska kripto menjačnica sa AI-powered trading i 500+ kriptovaluta.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Platforma</h4>
+        <ul>
+          <li><a href="index.html">Početna</a></li>
+          <li><a href="trade.html">Trading</a></li>
+          <li><a href="services.html">Usluge</a></li>
+          <li><a href="education.html">Edukacija</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Ekosistem</h4>
+        <div class="ecosystem-links">
+          <a href="https://io-openui-ao.vercel.app" target="_blank" rel="noopener" class="ecosystem-link">🌐 IO-OPENUI-AO</a>
+          <a href="https://github.com/spaja86/Ai-Iq-World-Bank" target="_blank" rel="noopener" class="ecosystem-link">🏦 World Bank</a>
+          <a href="https://github.com/spaja86/Kompanija-SPAJA" target="_blank" rel="noopener" class="ecosystem-link">🏢 Kompanija SPAJA</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 Ai Iq Menjačnica — Nikola Spajić</p>
+      <p>Kripto trading nosi rizik. Trgujte odgovorno.</p>
+    </div>
+  </div>
+</footer>
+
+<script src="js/ticker.js"></script>
+<script src="js/main.js"></script>
+<script src="js/wallet.js"></script>
+</body>
+</html>
