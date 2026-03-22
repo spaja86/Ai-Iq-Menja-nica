@@ -1,52 +1,320 @@
-<!-- Full Market Trade UI with BUY/SELL options -->
 <!DOCTYPE html>
-<html lang="en">
+<html lang="sr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Market Trade</title>
-    <link rel="stylesheet" href="css/styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
+  <meta http-equiv="X-Frame-Options" content="DENY">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:;">
+  <meta name="description" content="Trejduj BTC, ETH, SOL i 500+ kriptovaluta na Ai IQ Menjačnici. Profesionalni grafovi, order book i instant izvršavanje naloga.">
+  <title>Trejduj Kripto — Ai IQ Menjačnica</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/trading.css">
+  <link rel="stylesheet" href="css/animations.css">
 </head>
 <body>
-    <header>
-        <nav>
-            <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="services.html">Services</a></li>
-                <li><a href="contact.html">Contact</a></li>
-                <li><a href="trade.html">Trejd (Market)</a></li>
-            </ul>
-        </nav>
-    </header>
-    <main>
-        <section id="market-trade">
-            <h1>Market Trade</h1>
-            <div>
-                <label for="trade-type">Trade Type:</label>
-                <select id="trade-type">
-                    <option value="buy">Buy</option>
-                    <option value="sell">Sell</option>
-                </select>
+
+  <!-- TICKER -->
+  <div class="ticker-bar" aria-label="Kripto cene uživo">
+    <div class="ticker-track" id="ticker-track">
+      <span class="ticker-item"><span class="sym">Učitavanje...</span></span>
+    </div>
+  </div>
+
+  <!-- HEADER -->
+  <header class="site-header" role="banner">
+    <div class="nav-inner">
+      <a href="index.html" class="logo" aria-label="Ai IQ Menjačnica početna">
+        <span class="logo-icon">🔷</span>
+        Ai IQ <span>Menjačnica</span>
+      </a>
+      <nav class="nav-links" role="navigation" aria-label="Glavna navigacija">
+        <a href="index.html">Početna</a>
+        <a href="trade.html" class="active">Trejd</a>
+        <a href="wallet.html">Novčanik</a>
+        <a href="education.html">Edukacija</a>
+        <a href="services.html">Usluge</a>
+        <a href="about.html">O nama</a>
+        <a href="contact.html">Kontakt</a>
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-btn" id="platform-btn" aria-haspopup="true" aria-expanded="false">🌐 Platforme ▾</button>
+          <div class="nav-dropdown-menu" id="platform-menu" role="menu">
+            <a href="https://github.com/spaja86/Kompanija-SPAJA" target="_blank" rel="noopener noreferrer" role="menuitem"><span class="icon">🏢</span> Kompanija SPAJA</a>
+            <a href="https://github.com/spaja86/Ai-Iq-World-Bank" target="_blank" rel="noopener noreferrer" role="menuitem"><span class="icon">🏦</span> AI IQ World Bank</a>
+            <a href="https://io-openui-ao.vercel.app" target="_blank" rel="noopener noreferrer" role="menuitem"><span class="icon">🤖</span> IO-OPENUI-AO</a>
+          </div>
+        </div>
+      </nav>
+      <button class="hamburger" id="hamburger" aria-label="Otvori meni" aria-expanded="false" aria-controls="mobile-menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- MOBILE MENU -->
+  <nav class="mobile-menu" id="mobile-menu" aria-label="Mobilna navigacija">
+    <a href="index.html">🏠 Početna</a>
+    <a href="trade.html">📈 Trejd</a>
+    <a href="wallet.html">💼 Novčanik</a>
+    <a href="education.html">📚 Edukacija</a>
+    <a href="services.html">⚡ Usluge</a>
+    <a href="about.html">ℹ️ O nama</a>
+    <a href="contact.html">✉️ Kontakt</a>
+    <a href="https://github.com/spaja86/Kompanija-SPAJA" target="_blank" rel="noopener noreferrer">🏢 Kompanija SPAJA</a>
+    <a href="https://github.com/spaja86/Ai-Iq-World-Bank" target="_blank" rel="noopener noreferrer">🏦 AI IQ World Bank</a>
+    <a href="https://io-openui-ao.vercel.app" target="_blank" rel="noopener noreferrer">🤖 IO-OPENUI-AO</a>
+  </nav>
+
+  <main>
+    <!-- PAIR BAR -->
+    <div class="pair-bar">
+      <div class="pair-info" style="display:flex;align-items:center;gap:12px">
+        <div>
+          <div class="pair-name" id="pair-name">BTC/USDT</div>
+        </div>
+        <div class="pair-price" id="pair-price">$95,000</div>
+        <div class="pair-change up" id="pair-change">▲ +2.30%</div>
+      </div>
+      <div class="pair-stat">
+        <div class="pair-stat-label">24h Obim</div>
+        <div class="pair-stat-value" id="pair-vol">$45B</div>
+      </div>
+      <div class="pair-stat">
+        <div class="pair-stat-label">Tržišna Cap</div>
+        <div class="pair-stat-value" id="pair-mc">$1.8T</div>
+      </div>
+      <div class="pair-stat">
+        <div class="pair-stat-label">Provizija</div>
+        <div class="pair-stat-value" style="color:var(--color-green)">0.1%</div>
+      </div>
+      <div class="pair-selector" style="margin-left:auto">
+        <label for="pair-select" style="font-size:0.78rem;color:var(--color-muted);margin-right:8px">Par:</label>
+        <select id="pair-select" class="form-control" style="width:auto;padding:6px 12px" aria-label="Odaberi kripto par">
+          <option value="BTC" selected>BTC/USDT</option>
+          <option value="ETH">ETH/USDT</option>
+          <option value="SOL">SOL/USDT</option>
+          <option value="BNB">BNB/USDT</option>
+          <option value="ADA">ADA/USDT</option>
+          <option value="DOT">DOT/USDT</option>
+          <option value="DOGE">DOGE/USDT</option>
+          <option value="AVAX">AVAX/USDT</option>
+          <option value="LINK">LINK/USDT</option>
+          <option value="XRP">XRP/USDT</option>
+          <option value="MATIC">MATIC/USDT</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- 3-COLUMN TRADING LAYOUT -->
+    <div class="container" style="max-width:1400px">
+      <div class="trading-layout trading-page">
+
+        <!-- LEFT: ORDER BOOK -->
+        <div class="trading-panel order-book-col">
+          <div class="panel-header">
+            <h3>📋 Order Book</h3>
+          </div>
+          <div class="order-book">
+            <div class="ob-header">
+              <span>Cena (USDT)</span>
+              <span>Količina</span>
+              <span>Ukupno</span>
             </div>
-            <div>
-                <label for="currency">Currency:</label>
-                <select id="currency">
-                    <option value="RSD">RSD</option>
-                    <option value="EUR">EUR</option>
-                </select>
+            <!-- ASKS (red) -->
+            <div class="ob-asks" id="ob-asks" aria-label="Ponude za prodaju"></div>
+            <!-- Spread -->
+            <div class="ob-spread">
+              Zadnja cena: <span class="spread-price" id="ob-spread-price">$95,000</span>
             </div>
-            <div>
-                <label for="mode">Mode:</label>
-                <select id="mode">
-                    <option value="A">Search + Load More</option>
-                    <option value="B">Searchable Dropdown</option>
-                </select>
+            <!-- BIDS (green) -->
+            <div class="ob-bids" id="ob-bids" aria-label="Ponude za kupovinu"></div>
+          </div>
+        </div>
+
+        <!-- CENTER: CHART + FORM -->
+        <div class="trading-panel center-col" style="display:flex;flex-direction:column;gap:0">
+
+          <!-- Price Chart -->
+          <div style="border-bottom:1px solid var(--border)">
+            <div class="chart-container">
+              <div class="chart-timeframes" role="group" aria-label="Vremenski okvir grafikona">
+                <button class="tf-btn" data-tf="1H" aria-label="1 sat">1H</button>
+                <button class="tf-btn" data-tf="4H" aria-label="4 sata">4H</button>
+                <button class="tf-btn active" data-tf="1D" aria-label="1 dan">1D</button>
+                <button class="tf-btn" data-tf="1W" aria-label="1 nedelja">1W</button>
+                <button class="tf-btn" data-tf="1M" aria-label="1 mesec">1M</button>
+              </div>
+              <canvas id="price-chart" class="price-chart-canvas" height="320" aria-label="Grafikon cene kriptovalute"></canvas>
             </div>
-            <div id="results"></div>
-            <p>Fee: <span id="fee">2%</span></p>
-            <button id="trade-button">Submit</button>
-        </section>
-    </main>
-    <script src="js/trade.js"></script>
+          </div>
+
+          <!-- Trading Form -->
+          <div class="trade-form-panel">
+            <div class="trade-tabs" role="tablist">
+              <button class="trade-tab buy active" data-side="buy" role="tab" aria-selected="true" id="tab-buy" aria-controls="trade-form-body">🟢 Kupi</button>
+              <button class="trade-tab sell" data-side="sell" role="tab" aria-selected="false" id="tab-sell" aria-controls="trade-form-body">🔴 Prodaj</button>
+            </div>
+            <div class="trade-form-body" id="trade-form-body" role="tabpanel">
+              <form id="trade-form" novalidate>
+
+                <!-- Order Type -->
+                <div class="order-type-row" role="group" aria-label="Tip naloga">
+                  <button type="button" class="order-type-btn active" data-type="market" aria-pressed="true">Tržišni</button>
+                  <button type="button" class="order-type-btn" data-type="limit" aria-pressed="false">Limitirani</button>
+                  <button type="button" class="order-type-btn" data-type="stop-loss" aria-pressed="false">Stop-Loss</button>
+                </div>
+
+                <!-- Limit price (hidden by default) -->
+                <div id="limit-price-row" style="display:none;margin-bottom:14px">
+                  <label for="limit-price" style="display:block;font-size:0.78rem;color:var(--color-muted);margin-bottom:5px;text-transform:uppercase;font-weight:700;letter-spacing:0.05em">Limit Cena (USDT)</label>
+                  <div class="amount-input-wrap">
+                    <input type="number" id="limit-price" class="form-control" placeholder="npr. 94000" min="0" step="any" aria-label="Limit cena u USDT">
+                    <span class="amount-suffix">USDT</span>
+                  </div>
+                </div>
+
+                <!-- Amount -->
+                <div style="margin-bottom:8px">
+                  <label for="trade-amount" style="display:block;font-size:0.78rem;color:var(--color-muted);margin-bottom:5px;text-transform:uppercase;font-weight:700;letter-spacing:0.05em">
+                    Iznos (USDT)
+                  </label>
+                  <div class="amount-input-wrap">
+                    <input type="number" id="trade-amount" class="form-control" placeholder="0.00" min="0" step="any" aria-label="Iznos u USDT" autocomplete="off">
+                    <span class="amount-suffix">USDT</span>
+                  </div>
+                </div>
+
+                <!-- % Buttons -->
+                <div class="pct-btns" role="group" aria-label="Procenat stanja">
+                  <button type="button" class="pct-btn" data-pct="25" aria-label="25% stanja">25%</button>
+                  <button type="button" class="pct-btn" data-pct="50" aria-label="50% stanja">50%</button>
+                  <button type="button" class="pct-btn" data-pct="75" aria-label="75% stanja">75%</button>
+                  <button type="button" class="pct-btn" data-pct="100" aria-label="100% stanja">100%</button>
+                </div>
+
+                <!-- Preview -->
+                <div class="trade-preview" aria-live="polite">
+                  <div class="trade-preview-row"><span>Iznos</span><span id="preview-total">—</span></div>
+                  <div class="trade-preview-row"><span>Provizija (0.1%)</span><span id="preview-fee">—</span></div>
+                  <div class="trade-preview-total"><span>Dobijaš</span><span id="preview-receive">—</span></div>
+                </div>
+
+                <!-- Error -->
+                <div id="trade-error" class="form-error" role="alert" aria-live="polite"></div>
+
+                <!-- Submit -->
+                <button type="submit" id="trade-submit" class="trade-submit-btn buy-btn" aria-label="Pošalji nalog">
+                  🟢 Kupi BTC
+                </button>
+              </form>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- RIGHT: PORTFOLIO -->
+        <div class="trading-panel portfolio-col">
+          <div class="portfolio-tabs" role="tablist">
+            <button class="portfolio-tab active" data-pane="balances" role="tab" aria-selected="true">💼 Stanje</button>
+            <button class="portfolio-tab" data-pane="orders" role="tab" aria-selected="false">📋 Nalozi</button>
+          </div>
+          <div class="portfolio-body">
+            <div class="portfolio-pane active" id="pane-balances" role="tabpanel">
+              <div id="portfolio-balances" aria-live="polite">
+                <div class="orders-empty"><span class="icon">⏳</span>Učitavanje...</div>
+              </div>
+            </div>
+            <div class="portfolio-pane" id="pane-orders" role="tabpanel">
+              <div class="orders-empty">
+                <span class="icon">📋</span>
+                Nema aktivnih naloga.<br>
+                <small style="font-size:0.78rem">Otvoreni nalozi će se prikazati ovde.</small>
+              </div>
+            </div>
+          </div>
+          <!-- Total value -->
+          <div style="padding:14px 16px;border-top:1px solid var(--border);background:var(--bg-secondary)">
+            <div style="font-size:0.72rem;color:var(--color-muted);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:4px">Ukupna vrednost</div>
+            <div id="portfolio-total-trade" style="font-size:1.2rem;font-weight:800;color:var(--color-gold)">$0.00</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer" role="contentinfo">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="logo" style="margin-bottom:14px;display:inline-flex">
+            <span class="logo-icon">🔷</span> Ai IQ <span>Menjačnica</span>
+          </a>
+          <p>Profesionalna kripto menjačnica. Trejdujte 500+ kriptovaluta.</p>
+          <div class="footer-socials">
+            <a href="https://www.facebook.com/Spaja86" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Facebook">📘</a>
+            <a href="https://www.instagram.com/spaja.1986" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Instagram">��</a>
+            <a href="https://www.tiktok.com/@spaja.1986" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="TikTok">🎵</a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h4>Platforma</h4>
+          <ul>
+            <li><a href="trade.html">Trejduj Kripto</a></li>
+            <li><a href="wallet.html">Novčanik</a></li>
+            <li><a href="services.html">Usluge</a></li>
+            <li><a href="education.html">Edukacija</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Kompanija</h4>
+          <ul>
+            <li><a href="about.html">O nama</a></li>
+            <li><a href="contact.html">Kontakt</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Kontakt</h4>
+          <ul>
+            <li><a href="mailto:spajicn@yahoo.com">spajicn@yahoo.com</a></li>
+            <li><a href="mailto:spajicn@gmail.com">spajicn@gmail.com</a></li>
+            <li><a href="https://github.com/spaja86/Kompanija-SPAJA" target="_blank" rel="noopener noreferrer">🏢 Kompanija SPAJA</a></li>
+            <li><a href="https://github.com/spaja86/Ai-Iq-World-Bank" target="_blank" rel="noopener noreferrer">🏦 AI IQ World Bank</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 Nikola Spajić / Ai IQ Menjačnica. Sva prava zadržana.</span>
+        <span>Trejding kriptovalutama nosi rizik. Investiraj odgovorno.</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/crypto-api.js"></script>
+  <script src="js/charts.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/trading.js"></script>
+  <script>
+    // Update portfolio total in trade page
+    function updateTradeTotals() {
+      if (!window.cryptoAPI) return;
+      const balances = [
+        { sym: 'BTC', amount: 0.5 }, { sym: 'ETH', amount: 2.0 },
+        { sym: 'USDT', amount: 1000 }, { sym: 'SOL', amount: 5.0 }, { sym: 'ADA', amount: 1000 }
+      ];
+      let total = 0;
+      balances.forEach(b => {
+        const c = window.cryptoAPI.get(b.sym);
+        if (c) total += c.price * b.amount;
+      });
+      const el = document.getElementById('portfolio-total-trade');
+      if (el) el.textContent = '$' + total.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
+    window.addEventListener('priceUpdate', updateTradeTotals);
+    window.addEventListener('load', updateTradeTotals);
+  </script>
 </body>
 </html>

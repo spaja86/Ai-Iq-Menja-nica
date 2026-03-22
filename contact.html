@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
+  <meta http-equiv="X-Frame-Options" content="DENY">
+  <meta name="description" content="Kontaktirajte Ai IQ Menjačnicu. Podršk tim, email adrese, društvene mreže i forma za kontakt.">
+  <title>Kontakt — Ai IQ Menjačnica</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <style>
+    .contact-grid { display:grid; grid-template-columns:1fr 1fr; gap:40px; align-items:start; }
+    .contact-info-item { display:flex; align-items:flex-start; gap:14px; padding:18px 0; border-bottom:1px solid var(--border); }
+    .contact-info-item:last-child { border-bottom:none; }
+    .contact-icon { width:44px; height:44px; min-width:44px; background:rgba(0,255,136,0.1); border:1px solid rgba(0,255,136,0.25); border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:1.3rem; }
+    .contact-label { font-size:0.75rem; color:var(--color-muted); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:4px; }
+    .contact-value { color:#fff; font-weight:600; font-size:0.95rem; }
+    .map-placeholder { background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius-lg); height:220px; display:flex; align-items:center; justify-content:center; flex-direction:column; gap:12px; color:var(--color-muted); }
+    .success-message { display:none; background:rgba(0,255,136,0.1); border:1px solid var(--color-green); border-radius:var(--radius); padding:16px 20px; color:var(--color-green); font-weight:600; text-align:center; margin-top:16px; }
+    @media(max-width:768px){.contact-grid{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <div class="ticker-bar" aria-label="Kripto cene uživo"><div class="ticker-track" id="ticker-track"><span class="ticker-item"><span class="sym">Učitavanje...</span></span></div></div>
+
+  <header class="site-header" role="banner">
+    <div class="nav-inner">
+      <a href="index.html" class="logo"><span class="logo-icon">🔷</span>Ai IQ <span>Menjačnica</span></a>
+      <nav class="nav-links" role="navigation">
+        <a href="index.html">Početna</a><a href="trade.html">Trejd</a><a href="wallet.html">Novčanik</a><a href="education.html">Edukacija</a><a href="services.html">Usluge</a><a href="about.html">O nama</a><a href="contact.html" class="active">Kontakt</a>
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-btn" id="platform-btn" aria-haspopup="true" aria-expanded="false">🌐 Platforme ▾</button>
+          <div class="nav-dropdown-menu" id="platform-menu" role="menu">
+            <a href="https://github.com/spaja86/Kompanija-SPAJA" target="_blank" rel="noopener noreferrer" role="menuitem"><span class="icon">🏢</span> Kompanija SPAJA</a>
+            <a href="https://github.com/spaja86/Ai-Iq-World-Bank" target="_blank" rel="noopener noreferrer" role="menuitem"><span class="icon">🏦</span> AI IQ World Bank</a>
+            <a href="https://io-openui-ao.vercel.app" target="_blank" rel="noopener noreferrer" role="menuitem"><span class="icon">🤖</span> IO-OPENUI-AO</a>
+          </div>
+        </div>
+      </nav>
+      <button class="hamburger" id="hamburger" aria-label="Otvori meni" aria-expanded="false" aria-controls="mobile-menu"><span></span><span></span><span></span></button>
+    </div>
+  </header>
+  <nav class="mobile-menu" id="mobile-menu"><a href="index.html">🏠 Početna</a><a href="trade.html">📈 Trejd</a><a href="wallet.html">💼 Novčanik</a><a href="education.html">📚 Edukacija</a><a href="services.html">⚡ Usluge</a><a href="about.html">ℹ️ O nama</a><a href="contact.html">✉️ Kontakt</a><a href="https://github.com/spaja86/Kompanija-SPAJA" target="_blank" rel="noopener noreferrer">🏢 Kompanija SPAJA</a><a href="https://github.com/spaja86/Ai-Iq-World-Bank" target="_blank" rel="noopener noreferrer">�� AI IQ World Bank</a><a href="https://io-openui-ao.vercel.app" target="_blank" rel="noopener noreferrer">🤖 IO-OPENUI-AO</a></nav>
+
+  <main>
+    <section class="page-hero">
+      <h1 class="neon-text">Kontakt</h1>
+      <p>Tu smo za tebe 24/7. Pošalji nam poruku i odgovorićemo u najkraćem roku.</p>
+    </section>
+
+    <section style="padding:80px 0">
+      <div class="container">
+        <div class="contact-grid">
+
+          <!-- CONTACT FORM -->
+          <div class="card reveal">
+            <h3 style="color:#fff;margin-bottom:24px">✉️ Pošalji nam poruku</h3>
+            <form id="contact-form" novalidate>
+              <div class="form-group">
+                <label for="contact-name">Ime i prezime *</label>
+                <input type="text" id="contact-name" class="form-control" placeholder="Vaše ime" required maxlength="100" autocomplete="name" aria-required="true">
+                <div class="form-error" id="err-name" role="alert"></div>
+              </div>
+              <div class="form-group">
+                <label for="contact-email">Email adresa *</label>
+                <input type="email" id="contact-email" class="form-control" placeholder="vas@email.com" required maxlength="200" autocomplete="email" aria-required="true">
+                <div class="form-error" id="err-email" role="alert"></div>
+              </div>
+              <div class="form-group">
+                <label for="contact-subject">Tema *</label>
+                <select id="contact-subject" class="form-control" required aria-required="true">
+                  <option value="">-- Odaberi temu --</option>
+                  <option value="support">Tehnička podrška</option>
+                  <option value="trading">Pitanje o trejdingu</option>
+                  <option value="account">Problem sa nalogom</option>
+                  <option value="partnership">Partnerstvo/Saradnja</option>
+                  <option value="security">Sigurnost</option>
+                  <option value="other">Ostalo</option>
+                </select>
+                <div class="form-error" id="err-subject" role="alert"></div>
+              </div>
+              <div class="form-group">
+                <label for="contact-message">Poruka *</label>
+                <textarea id="contact-message" class="form-control" rows="5" placeholder="Opišite vaš upit detaljno..." required maxlength="2000" aria-required="true" style="resize:vertical"></textarea>
+                <div style="font-size:0.75rem;color:var(--color-muted);margin-top:4px"><span id="char-count">0</span>/2000 znakova</div>
+                <div class="form-error" id="err-message" role="alert"></div>
+              </div>
+              <button type="submit" class="btn btn-primary btn-full">📧 Pošalji poruku</button>
+              <div class="success-message" id="contact-success" role="alert">
+                ✅ Poruka je uspešno poslata! Odgovorićemo u roku od 24 sata.
+              </div>
+            </form>
+          </div>
+
+          <!-- CONTACT INFO -->
+          <div>
+            <div class="card reveal" style="margin-bottom:24px">
+              <h3 style="color:#fff;margin-bottom:20px">📞 Kontakt informacije</h3>
+
+              <div class="contact-info-item">
+                <div class="contact-icon">👤</div>
+                <div>
+                  <div class="contact-label">Osnivač</div>
+                  <div class="contact-value">Nikola Spajić</div>
+                </div>
+              </div>
+
+              <div class="contact-info-item">
+                <div class="contact-icon">📧</div>
+                <div>
+                  <div class="contact-label">Email adrese</div>
+                  <div class="contact-value">
+                    <a href="mailto:spajicn@yahoo.com" style="display:block;color:var(--color-green)">spajicn@yahoo.com</a>
+                    <a href="mailto:spajicn@gmail.com" style="display:block;color:var(--color-green)">spajicn@gmail.com</a>
+                  </div>
+                </div>
+              </div>
+
+              <div class="contact-info-item">
+                <div class="contact-icon">🕐</div>
+                <div>
+                  <div class="contact-label">Radno vreme podrške</div>
+                  <div class="contact-value">24/7 · Uvek dostupni</div>
+                </div>
+              </div>
+
+              <div class="contact-info-item">
+                <div class="contact-icon">⚡</div>
+                <div>
+                  <div class="contact-label">Prosečno vreme odgovora</div>
+                  <div class="contact-value">Manje od 2 sata</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- SOCIAL LINKS -->
+            <div class="card reveal" style="margin-bottom:24px">
+              <h3 style="color:#fff;margin-bottom:20px">🌐 Društvene mreže</h3>
+              <div style="display:flex;flex-direction:column;gap:12px">
+                <a href="https://www.facebook.com/Spaja86" target="_blank" rel="noopener noreferrer" style="display:flex;align-items:center;gap:14px;padding:12px;background:var(--bg-secondary);border:1px solid var(--border);border-radius:10px;color:var(--color-text);transition:all 0.25s ease" class="social-link-card">
+                  <span style="font-size:1.5rem">📘</span>
+                  <div>
+                    <div style="font-weight:700;color:#fff">Facebook</div>
+                    <div style="font-size:0.8rem;color:var(--color-muted)">facebook.com/Spaja86</div>
+                  </div>
+                </a>
+                <a href="https://www.instagram.com/spaja.1986" target="_blank" rel="noopener noreferrer" style="display:flex;align-items:center;gap:14px;padding:12px;background:var(--bg-secondary);border:1px solid var(--border);border-radius:10px;color:var(--color-text);transition:all 0.25s ease" class="social-link-card">
+                  <span style="font-size:1.5rem">📷</span>
+                  <div>
+                    <div style="font-weight:700;color:#fff">Instagram</div>
+                    <div style="font-size:0.8rem;color:var(--color-muted)">instagram.com/spaja.1986</div>
+                  </div>
+                </a>
+                <a href="https://www.tiktok.com/@spaja.1986" target="_blank" rel="noopener noreferrer" style="display:flex;align-items:center;gap:14px;padding:12px;background:var(--bg-secondary);border:1px solid var(--border);border-radius:10px;color:var(--color-text);transition:all 0.25s ease" class="social-link-card">
+                  <span style="font-size:1.5rem">🎵</span>
+                  <div>
+                    <div style="font-weight:700;color:#fff">TikTok</div>
+                    <div style="font-size:0.8rem;color:var(--color-muted)">tiktok.com/@spaja.1986</div>
+                  </div>
+                </a>
+              </div>
+            </div>
+
+            <!-- PARTNER PLATFORMS -->
+            <div class="card reveal">
+              <h3 style="color:#fff;margin-bottom:16px">🤝 Partnerske platforme</h3>
+              <div style="display:flex;flex-direction:column;gap:10px">
+                <a href="https://github.com/spaja86/Kompanija-SPAJA" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-sm" style="justify-content:flex-start;gap:8px">🏢 Kompanija SPAJA →</a>
+                <a href="https://github.com/spaja86/Ai-Iq-World-Bank" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-sm" style="justify-content:flex-start;gap:8px">🏦 AI IQ World Bank →</a>
+                <a href="https://io-openui-ao.vercel.app" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-sm" style="justify-content:flex-start;gap:8px">🤖 IO-OPENUI-AO →</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer" role="contentinfo">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="logo" style="margin-bottom:14px;display:inline-flex"><span class="logo-icon">��</span>Ai IQ <span>Menjačnica</span></a>
+          <p>Profesionalna kripto menjačnica sa AI uvidima.</p>
+          <div class="footer-socials">
+            <a href="https://www.facebook.com/Spaja86" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Facebook">📘</a>
+            <a href="https://www.instagram.com/spaja.1986" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Instagram">📷</a>
+            <a href="https://www.tiktok.com/@spaja.1986" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="TikTok">🎵</a>
+          </div>
+        </div>
+        <div class="footer-col"><h4>Platforma</h4><ul><li><a href="trade.html">Trejduj Kripto</a></li><li><a href="wallet.html">Novčanik</a></li><li><a href="services.html">Usluge</a></li><li><a href="education.html">Edukacija</a></li></ul></div>
+        <div class="footer-col"><h4>Kompanija</h4><ul><li><a href="about.html">O nama</a></li><li><a href="contact.html">Kontakt</a></li></ul></div>
+        <div class="footer-col"><h4>Kontakt</h4><ul><li><a href="mailto:spajicn@yahoo.com">spajicn@yahoo.com</a></li><li><a href="mailto:spajicn@gmail.com">spajicn@gmail.com</a></li><li><a href="https://github.com/spaja86/Kompanija-SPAJA" target="_blank" rel="noopener noreferrer">🏢 Kompanija SPAJA</a></li><li><a href="https://github.com/spaja86/Ai-Iq-World-Bank" target="_blank" rel="noopener noreferrer">🏦 AI IQ World Bank</a></li></ul></div>
+      </div>
+      <div class="footer-bottom"><span>© 2026 Nikola Spajić / Ai IQ Menjačnica. Sva prava zadržana.</span><span>Trejding kriptovalutama nosi rizik. Investiraj odgovorno.</span></div>
+    </div>
+  </footer>
+
+  <script src="js/crypto-api.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+    (function() {
+      'use strict';
+      function sanitize(str) {
+        const d = document.createElement('div');
+        d.textContent = String(str);
+        return d.innerHTML;
+      }
+
+      const form = document.getElementById('contact-form');
+      const msgArea = document.getElementById('contact-message');
+      const charCount = document.getElementById('char-count');
+
+      if (msgArea && charCount) {
+        msgArea.addEventListener('input', () => {
+          charCount.textContent = msgArea.value.length;
+        });
+      }
+
+      if (form) {
+        form.addEventListener('submit', function(e) {
+          e.preventDefault();
+          let valid = true;
+
+          // Clear errors
+          ['err-name','err-email','err-subject','err-message'].forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.textContent = '';
+          });
+
+          const name    = document.getElementById('contact-name').value.trim();
+          const email   = document.getElementById('contact-email').value.trim();
+          const subject = document.getElementById('contact-subject').value;
+          const msg     = msgArea.value.trim();
+
+          if (!name || name.length < 2) {
+            document.getElementById('err-name').textContent = 'Unesite ime (min. 2 znaka).';
+            valid = false;
+          }
+          const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+          if (!email || !emailRe.test(email)) {
+            document.getElementById('err-email').textContent = 'Unesite validnu email adresu.';
+            valid = false;
+          }
+          if (!subject) {
+            document.getElementById('err-subject').textContent = 'Odaberite temu poruke.';
+            valid = false;
+          }
+          if (!msg || msg.length < 10) {
+            document.getElementById('err-message').textContent = 'Poruka mora imati minimum 10 znakova.';
+            valid = false;
+          }
+          if (msg.length > 2000) {
+            document.getElementById('err-message').textContent = 'Poruka ne sme biti duža od 2000 znakova.';
+            valid = false;
+          }
+
+          if (!valid) return;
+
+          const successEl = document.getElementById('contact-success');
+          if (successEl) successEl.style.display = 'block';
+          form.reset();
+          if (charCount) charCount.textContent = '0';
+          setTimeout(() => { if (successEl) successEl.style.display = 'none'; }, 6000);
+        });
+      }
+    })();
+  </script>
+</body>
+</html>

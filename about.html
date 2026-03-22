@@ -1,12 +1,298 @@
 <!DOCTYPE html>
 <html lang="sr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>O nama</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
+  <meta http-equiv="X-Frame-Options" content="DENY">
+  <meta name="description" content="Saznajte više o Ai IQ Menjačnici - priču o nastanku, timu, misiji i viziji napredne kripto platforme.">
+  <title>O Nama — Ai IQ Menjačnica</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <style>
+    .timeline { position:relative; padding-left:32px; }
+    .timeline::before { content:''; position:absolute; left:0; top:0; bottom:0; width:2px; background:linear-gradient(var(--color-green), var(--bg-primary)); }
+    .timeline-item { position:relative; padding-bottom:36px; }
+    .timeline-dot { position:absolute; left:-39px; top:4px; width:14px; height:14px; background:var(--color-green); border-radius:50%; box-shadow:var(--glow-green); }
+    .timeline-year { font-size:0.78rem; color:var(--color-green); font-weight:700; text-transform:uppercase; letter-spacing:0.1em; margin-bottom:4px; }
+    .timeline-item h4 { color:#fff; margin-bottom:6px; }
+    .timeline-item p { font-size:0.88rem; }
+    .team-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:24px; }
+    .team-card { background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius-lg); padding:28px; text-align:center; transition:all var(--transition); }
+    .team-card:hover { border-color:rgba(0,255,136,0.3); transform:translateY(-4px); box-shadow:0 8px 32px rgba(0,255,136,0.08); }
+    .team-avatar { width:80px; height:80px; border-radius:50%; background:linear-gradient(135deg,var(--color-green),var(--color-blue)); display:flex; align-items:center; justify-content:center; font-size:2rem; margin:0 auto 16px; }
+    .team-name { color:#fff; font-size:1.05rem; font-weight:700; margin-bottom:4px; }
+    .team-role { color:var(--color-green); font-size:0.82rem; font-weight:600; margin-bottom:10px; }
+    .partners-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:24px; }
+    .partner-card { background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius-lg); padding:28px; text-align:center; transition:all var(--transition); }
+    .partner-card:hover { border-color:rgba(0,255,136,0.3); transform:translateY(-4px); }
+    .partner-icon { font-size:3rem; margin-bottom:16px; display:block; }
+    @media(max-width:768px) { .team-grid,.partners-grid{grid-template-columns:1fr} }
+  </style>
 </head>
 <body>
-    <h1>O nama</h1>
-    <p>Informacije o našoj firmi.</p>
+  <!-- TICKER -->
+  <div class="ticker-bar" aria-label="Kripto cene uživo"><div class="ticker-track" id="ticker-track"><span class="ticker-item"><span class="sym">Učitavanje...</span></span></div></div>
+
+  <!-- HEADER -->
+  <header class="site-header" role="banner">
+    <div class="nav-inner">
+      <a href="index.html" class="logo"><span class="logo-icon">🔷</span>Ai IQ <span>Menjačnica</span></a>
+      <nav class="nav-links" role="navigation" aria-label="Glavna navigacija">
+        <a href="index.html">Početna</a><a href="trade.html">Trejd</a><a href="wallet.html">Novčanik</a><a href="education.html">Edukacija</a><a href="services.html">Usluge</a><a href="about.html" class="active">O nama</a><a href="contact.html">Kontakt</a>
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-btn" id="platform-btn" aria-haspopup="true" aria-expanded="false">🌐 Platforme ▾</button>
+          <div class="nav-dropdown-menu" id="platform-menu" role="menu">
+            <a href="https://github.com/spaja86/Kompanija-SPAJA" target="_blank" rel="noopener noreferrer" role="menuitem"><span class="icon">🏢</span> Kompanija SPAJA</a>
+            <a href="https://github.com/spaja86/Ai-Iq-World-Bank" target="_blank" rel="noopener noreferrer" role="menuitem"><span class="icon">🏦</span> AI IQ World Bank</a>
+            <a href="https://io-openui-ao.vercel.app" target="_blank" rel="noopener noreferrer" role="menuitem"><span class="icon">🤖</span> IO-OPENUI-AO</a>
+          </div>
+        </div>
+      </nav>
+      <button class="hamburger" id="hamburger" aria-label="Otvori meni" aria-expanded="false" aria-controls="mobile-menu"><span></span><span></span><span></span></button>
+    </div>
+  </header>
+  <nav class="mobile-menu" id="mobile-menu"><a href="index.html">🏠 Početna</a><a href="trade.html">📈 Trejd</a><a href="wallet.html">💼 Novčanik</a><a href="education.html">📚 Edukacija</a><a href="services.html">⚡ Usluge</a><a href="about.html">ℹ️ O nama</a><a href="contact.html">✉️ Kontakt</a><a href="https://github.com/spaja86/Kompanija-SPAJA" target="_blank" rel="noopener noreferrer">🏢 Kompanija SPAJA</a><a href="https://github.com/spaja86/Ai-Iq-World-Bank" target="_blank" rel="noopener noreferrer">🏦 AI IQ World Bank</a><a href="https://io-openui-ao.vercel.app" target="_blank" rel="noopener noreferrer">🤖 IO-OPENUI-AO</a></nav>
+
+  <main>
+    <!-- PAGE HERO -->
+    <section class="page-hero">
+      <h1 class="neon-text">O Nama</h1>
+      <p>Saznaj ko stoji iza Ai IQ Menjačnice i kakva je naša misija da demokratizujemo kripto trejding.</p>
+    </section>
+
+    <!-- OUR STORY -->
+    <section style="padding:80px 0">
+      <div class="container">
+        <div class="ai-grid">
+          <div class="reveal-left">
+            <div class="hero-label" style="margin-bottom:20px">📖 Naša Priča</div>
+            <h2 style="color:#fff;margin-bottom:16px">Od Ideje do <span class="neon-text">Globalne Platforme</span></h2>
+            <p style="margin-bottom:16px">Ai IQ Menjačnica je nastala iz jednostavne vizije: svako treba da ima pristup profesionalnim alatima za kripto trejding, bez obzira na iskustvo ili kapital.</p>
+            <p style="margin-bottom:16px">Osnivač Nikola Spajić, iskusni entuzijasta blockchain tehnologije, prepoznao je 2023. godine da većina kripto platformi nije prilagođena korisnicima koji govore srpski i okolnim jezicima. Rodila se ideja o regionalnoj, ali globalno konkurentnoj platformi.</p>
+            <p>Danas, Ai IQ Menjačnica kombinuje naprednu AI tehnologiju, enterprise-grade sigurnost i intuitivni interfejs da pruži iskustvo koje odgovara i početnicima i profesionalnim trejderima.</p>
+            <div style="margin-top:28px;display:flex;gap:16px;flex-wrap:wrap">
+              <a href="trade.html" class="btn btn-primary">Počni trejdovati</a>
+              <a href="contact.html" class="btn btn-secondary">Kontaktiraj nas</a>
+            </div>
+          </div>
+          <div class="reveal-right">
+            <div class="card">
+              <h3 style="color:#fff;margin-bottom:20px">🗓️ Naša Istorija</h3>
+              <div class="timeline">
+                <div class="timeline-item">
+                  <div class="timeline-dot"></div>
+                  <div class="timeline-year">2023</div>
+                  <h4>Osnivanje projekta</h4>
+                  <p>Nikola Spajić pokrenuo istraživanje i razvoj platform za regionalno kripto tržište.</p>
+                </div>
+                <div class="timeline-item">
+                  <div class="timeline-dot"></div>
+                  <div class="timeline-year">Q1 2024</div>
+                  <h4>Prva beta verzija</h4>
+                  <p>Lansirana beta platforma sa podrškom za 50 kriptovaluta i osnovnim trejding funkcijama.</p>
+                </div>
+                <div class="timeline-item">
+                  <div class="timeline-dot"></div>
+                  <div class="timeline-year">Q3 2024</div>
+                  <h4>AI integracija</h4>
+                  <p>Implementiran AI sistem za analizu tržišta i personalizovane preporuke za trejdere.</p>
+                </div>
+                <div class="timeline-item">
+                  <div class="timeline-dot"></div>
+                  <div class="timeline-year">Q1 2025</div>
+                  <h4>500+ kriptovaluta</h4>
+                  <p>Proširenje na 500+ kriptovaluta i lansiranje mobilne platforme za iOS i Android.</p>
+                </div>
+                <div class="timeline-item">
+                  <div class="timeline-dot"></div>
+                  <div class="timeline-year">2026</div>
+                  <h4>Globalna ekspanzija</h4>
+                  <p>Ulazak na evropsko tržište sa podrškom za 15 jezika i fiat on/off ramp.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- STATS -->
+    <section class="stats-section">
+      <div class="container">
+        <div class="stats-grid">
+          <div class="stat-item reveal">
+            <div class="stat-number" data-count="500" data-suffix="+" data-duration="1600">500+</div>
+            <div class="stat-label">Kriptovaluta</div>
+          </div>
+          <div class="stat-item reveal">
+            <div class="stat-number" data-count="2000000" data-suffix="+" data-duration="2000">2M+</div>
+            <div class="stat-label">Korisnika</div>
+          </div>
+          <div class="stat-item reveal">
+            <div class="stat-number" data-count="99" data-suffix="%" data-duration="1400">99%</div>
+            <div class="stat-label">Uptime</div>
+          </div>
+          <div class="stat-item reveal">
+            <div class="stat-number" data-count="24" data-suffix="/7" data-duration="1000">24/7</div>
+            <div class="stat-label">Podrška</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MISSION & VALUES -->
+    <section style="padding:80px 0;background:var(--bg-secondary);border-top:1px solid var(--border)">
+      <div class="container">
+        <div class="text-center" style="margin-bottom:48px">
+          <h2 class="section-title reveal">🎯 Misija i Vrednosti</h2>
+          <p class="section-sub reveal">Principi koji vode naš razvoj</p>
+        </div>
+        <div class="features-grid">
+          <div class="feature-card reveal">
+            <span class="feature-icon">🌍</span>
+            <h3>Dostupnost</h3>
+            <p>Kripto trejding mora biti dostupan svima — bez minimalnih uloga, bez komplikovanih procedura.</p>
+          </div>
+          <div class="feature-card reveal animate-delay-1">
+            <span class="feature-icon">🔒</span>
+            <h3>Sigurnost Prvo</h3>
+            <p>Vaša imovina je svetinja. Primenjujemo najviše standarde sigurnosti u industriji.</p>
+          </div>
+          <div class="feature-card reveal animate-delay-2">
+            <span class="feature-icon">🤖</span>
+            <h3>AI Innovation</h3>
+            <p>Kontinualno unapređujemo AI sisteme da bi naši korisnici uvek imali prednost na tržištu.</p>
+          </div>
+          <div class="feature-card reveal animate-delay-3">
+            <span class="feature-icon">💬</span>
+            <h3>Transparentnost</h3>
+            <p>Jasne provizije, bez skrivenih troškova. Uvek znate šta plaćate i zašto.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TEAM -->
+    <section style="padding:80px 0">
+      <div class="container">
+        <div class="text-center" style="margin-bottom:48px">
+          <h2 class="section-title reveal">👥 Tim</h2>
+          <p class="section-sub reveal">Stručnjaci sa strašću prema blockchain tehnologiji</p>
+        </div>
+        <div class="team-grid">
+          <div class="team-card reveal">
+            <div class="team-avatar">👨‍💻</div>
+            <div class="team-name">Nikola Spajić</div>
+            <div class="team-role">Osnivač & CEO</div>
+            <p style="font-size:0.85rem">Blockchain entuzijasta i software inžinjer sa 10+ godina iskustva u finansijskim tehnologijama i kripto sektoru.</p>
+            <div style="margin-top:16px;display:flex;gap:8px;justify-content:center">
+              <a href="https://www.facebook.com/Spaja86" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Facebook">📘</a>
+              <a href="https://www.instagram.com/spaja.1986" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Instagram">📷</a>
+              <a href="https://www.tiktok.com/@spaja.1986" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="TikTok">��</a>
+            </div>
+          </div>
+          <div class="team-card reveal animate-delay-1">
+            <div class="team-avatar" style="background:linear-gradient(135deg,#f7b731,#ff4757)">🤖</div>
+            <div class="team-name">AI Tim</div>
+            <div class="team-role">Machine Learning Engineers</div>
+            <p style="font-size:0.85rem">Naš tim AI stručnjaka radi na razvoju modela za predviđanje cena, analizu sentimenta i automatizovano trejdovanje.</p>
+          </div>
+          <div class="team-card reveal animate-delay-2">
+            <div class="team-avatar" style="background:linear-gradient(135deg,#00b4ff,#a78bfa)">🔒</div>
+            <div class="team-name">Security Tim</div>
+            <div class="team-role">Cybersecurity Experts</div>
+            <p style="font-size:0.85rem">Specijalizovani tim za blockchain sigurnost, penetration testing i zaštitu korisničkih fondova od napada.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PARTNERS -->
+    <section style="padding:80px 0;background:var(--bg-secondary);border-top:1px solid var(--border)">
+      <div class="container">
+        <div class="text-center" style="margin-bottom:48px">
+          <h2 class="section-title reveal">🤝 Partnerske Platforme</h2>
+          <p class="section-sub reveal">Deo ekosistema globalnih projekata</p>
+        </div>
+        <div class="partners-grid">
+          <div class="partner-card reveal">
+            <span class="partner-icon">🏢</span>
+            <h3 style="color:#fff;margin-bottom:10px">Kompanija SPAJA</h3>
+            <p style="margin-bottom:20px">Matična kompanija koja stoji iza Ai IQ Menjačnice i ostalih blockchain projekata u ekosistemu.</p>
+            <a href="https://github.com/spaja86/Kompanija-SPAJA" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-sm">Poseti →</a>
+          </div>
+          <div class="partner-card reveal animate-delay-1">
+            <span class="partner-icon">🏦</span>
+            <h3 style="color:#fff;margin-bottom:10px">AI IQ World Bank</h3>
+            <p style="margin-bottom:20px">Globalna decentralizovana banka zasnovana na AI tehnologiji koja pruža finansijske usluge novog doba.</p>
+            <a href="https://github.com/spaja86/Ai-Iq-World-Bank" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-sm">Poseti →</a>
+          </div>
+          <div class="partner-card reveal animate-delay-2">
+            <span class="partner-icon">🤖</span>
+            <h3 style="color:#fff;margin-bottom:10px">IO-OPENUI-AO</h3>
+            <p style="margin-bottom:20px">Napredna AI platforma za otvoreni UI razvoj — temelj naše vizuelne infrastrukture i AI komponenti.</p>
+            <a href="https://io-openui-ao.vercel.app" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-sm">Poseti →</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT CTA -->
+    <section style="padding:80px 0;text-align:center">
+      <div class="container">
+        <h2 class="reveal" style="color:#fff;margin-bottom:16px">Kontaktiraj Nas</h2>
+        <p class="reveal" style="max-width:500px;margin:0 auto 32px">Imaš pitanje, sugestiju ili želiš saradnju? Naš tim je tu za tebe.</p>
+        <div class="reveal" style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+          <a href="mailto:spajicn@yahoo.com" class="btn btn-primary">📧 spajicn@yahoo.com</a>
+          <a href="mailto:spajicn@gmail.com" class="btn btn-secondary">📧 spajicn@gmail.com</a>
+          <a href="contact.html" class="btn btn-secondary">📝 Forma za kontakt</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer" role="contentinfo">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="logo" style="margin-bottom:14px;display:inline-flex"><span class="logo-icon">🔷</span>Ai IQ <span>Menjačnica</span></a>
+          <p>Profesionalna kripto menjačnica sa AI uvidima.</p>
+          <div class="footer-socials">
+            <a href="https://www.facebook.com/Spaja86" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Facebook">📘</a>
+            <a href="https://www.instagram.com/spaja.1986" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Instagram">📷</a>
+            <a href="https://www.tiktok.com/@spaja.1986" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="TikTok">🎵</a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h4>Platforma</h4>
+          <ul><li><a href="trade.html">Trejduj Kripto</a></li><li><a href="wallet.html">Novčanik</a></li><li><a href="services.html">Usluge</a></li><li><a href="education.html">Edukacija</a></li></ul>
+        </div>
+        <div class="footer-col">
+          <h4>Kompanija</h4>
+          <ul><li><a href="about.html">O nama</a></li><li><a href="contact.html">Kontakt</a></li></ul>
+        </div>
+        <div class="footer-col">
+          <h4>Kontakt</h4>
+          <ul>
+            <li><a href="mailto:spajicn@yahoo.com">spajicn@yahoo.com</a></li>
+            <li><a href="mailto:spajicn@gmail.com">spajicn@gmail.com</a></li>
+            <li><a href="https://github.com/spaja86/Kompanija-SPAJA" target="_blank" rel="noopener noreferrer">🏢 Kompanija SPAJA</a></li>
+            <li><a href="https://github.com/spaja86/Ai-Iq-World-Bank" target="_blank" rel="noopener noreferrer">🏦 AI IQ World Bank</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 Nikola Spajić / Ai IQ Menjačnica. Sva prava zadržana.</span>
+        <span>Trejding kriptovalutama nosi rizik. Investiraj odgovorno.</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/crypto-api.js"></script>
+  <script src="js/main.js"></script>
 </body>
 </html>

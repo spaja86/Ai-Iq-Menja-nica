@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
+  <meta http-equiv="X-Frame-Options" content="DENY">
+  <meta name="description" content="Nauči sve o kriptovalutama, blockchain tehnologiji i DeFi-ju. Besplatni kviz, glosar i vodič za početnike na Ai IQ Menjačnici.">
+  <title>Edukacija — Ai IQ Menjačnica</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <style>
+    .edu-grid { display:grid; grid-template-columns:2fr 1fr; gap:40px; align-items:start; }
+    .article-section { background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius-lg); padding:32px; margin-bottom:24px; }
+    .article-section h3 { color:var(--color-green); margin-bottom:16px; }
+    .article-section h4 { color:#fff; margin:20px 0 8px; }
+    .article-section p { margin-bottom:12px; font-size:0.95rem; }
+    .step-list { counter-reset:steps; }
+    .step-item { display:flex; gap:16px; margin-bottom:20px; }
+    .step-num { width:36px; height:36px; min-width:36px; background:var(--color-green); color:#000; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:0.9rem; }
+    .step-content h4 { color:#fff; margin-bottom:4px; font-size:0.95rem; }
+    .step-content p { margin:0; font-size:0.88rem; }
+    .accordion-header { display:flex; justify-content:space-between; align-items:center; cursor:pointer; padding:14px 0; border-bottom:1px solid var(--border); color:#fff; font-weight:600; }
+    .accordion-header:hover { color:var(--color-green); }
+    .accordion-body { display:none; padding:14px 0; font-size:0.9rem; color:var(--color-muted); }
+    .glossary-item { padding:14px 0; border-bottom:1px solid var(--border); }
+    .glossary-term { font-weight:700; color:var(--color-green); margin-bottom:4px; }
+    .glossary-def { font-size:0.88rem; color:var(--color-muted); }
+    .quiz-container { background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius-lg); padding:28px; }
+    @media(max-width:1024px){.edu-grid{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <div class="ticker-bar" aria-label="Kripto cene uživo"><div class="ticker-track" id="ticker-track"><span class="ticker-item"><span class="sym">Učitavanje...</span></span></div></div>
+
+  <header class="site-header" role="banner">
+    <div class="nav-inner">
+      <a href="index.html" class="logo"><span class="logo-icon">🔷</span>Ai IQ <span>Menjačnica</span></a>
+      <nav class="nav-links" role="navigation">
+        <a href="index.html">Početna</a><a href="trade.html">Trejd</a><a href="wallet.html">Novčanik</a><a href="education.html" class="active">Edukacija</a><a href="services.html">Usluge</a><a href="about.html">O nama</a><a href="contact.html">Kontakt</a>
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-btn" id="platform-btn" aria-haspopup="true" aria-expanded="false">🌐 Platforme ▾</button>
+          <div class="nav-dropdown-menu" id="platform-menu" role="menu">
+            <a href="https://github.com/spaja86/Kompanija-SPAJA" target="_blank" rel="noopener noreferrer" role="menuitem"><span class="icon">🏢</span> Kompanija SPAJA</a>
+            <a href="https://github.com/spaja86/Ai-Iq-World-Bank" target="_blank" rel="noopener noreferrer" role="menuitem"><span class="icon">🏦</span> AI IQ World Bank</a>
+            <a href="https://io-openui-ao.vercel.app" target="_blank" rel="noopener noreferrer" role="menuitem"><span class="icon">🤖</span> IO-OPENUI-AO</a>
+          </div>
+        </div>
+      </nav>
+      <button class="hamburger" id="hamburger" aria-label="Otvori meni" aria-expanded="false" aria-controls="mobile-menu"><span></span><span></span><span></span></button>
+    </div>
+  </header>
+  <nav class="mobile-menu" id="mobile-menu"><a href="index.html">🏠 Početna</a><a href="trade.html">📈 Trejd</a><a href="wallet.html">💼 Novčanik</a><a href="education.html">📚 Edukacija</a><a href="services.html">⚡ Usluge</a><a href="about.html">ℹ️ O nama</a><a href="contact.html">✉️ Kontakt</a><a href="https://github.com/spaja86/Kompanija-SPAJA" target="_blank" rel="noopener noreferrer">🏢 Kompanija SPAJA</a><a href="https://github.com/spaja86/Ai-Iq-World-Bank" target="_blank" rel="noopener noreferrer">🏦 AI IQ World Bank</a><a href="https://io-openui-ao.vercel.app" target="_blank" rel="noopener noreferrer">🤖 IO-OPENUI-AO</a></nav>
+
+  <main>
+    <section class="page-hero">
+      <h1 class="neon-text">📚 Edukacija</h1>
+      <p>Nauči sve o kriptovalutama, blockchain tehnologiji i DeFi-ju. Besplatni vodiči, kviz i glosar.</p>
+    </section>
+
+    <section style="padding:60px 0">
+      <div class="container">
+        <div class="edu-grid">
+          <!-- LEFT: Articles -->
+          <div>
+            <!-- Article 1: What is Bitcoin -->
+            <div class="article-section reveal">
+              <h3>₿ Šta je Bitcoin?</h3>
+              <p>Bitcoin (BTC) je prva i najpoznatija decentralizovana digitalna valuta, kreirana 2009. godine od strane anonimnog programera (ili grupe) pod pseudonimom <strong style="color:#fff">Satoshi Nakamoto</strong>.</p>
+              <p>Za razliku od tradicionalnih valuta koje kontrolišu centralne banke, Bitcoin funkcioniše na <strong style="color:#fff">peer-to-peer mreži</strong> bez posrednika. Sve transakcije se beleže na javnoj knjizi podataka nazvanoj <strong style="color:#fff">blockchain</strong>.</p>
+              <h4>Ključne karakteristike Bitcoin-a:</h4>
+              <ul style="list-style:none;padding:0">
+                <li style="padding:6px 0;display:flex;gap:8px;border-bottom:1px solid var(--border)"><span style="color:var(--color-green)">✓</span><span><strong style="color:#fff">Decentralizovan</strong> — nema centralne banke ili vlade koja ga kontroliše</span></li>
+                <li style="padding:6px 0;display:flex;gap:8px;border-bottom:1px solid var(--border)"><span style="color:var(--color-green)">✓</span><span><strong style="color:#fff">Ograničena ponuda</strong> — maksimalno 21 milion BTC ikada</span></li>
+                <li style="padding:6px 0;display:flex;gap:8px;border-bottom:1px solid var(--border)"><span style="color:var(--color-green)">✓</span><span><strong style="color:#fff">Transparentnost</strong> — sve transakcije su javno vidljive</span></li>
+                <li style="padding:6px 0;display:flex;gap:8px"><span style="color:var(--color-green)">✓</span><span><strong style="color:#fff">Sigurnost</strong> — kriptografska zaštita čini falsifikovanje nemogućim</span></li>
+              </ul>
+              <div style="margin-top:20px;padding:16px;background:var(--bg-secondary);border-radius:10px;border-left:3px solid var(--color-green)">
+                <strong style="color:var(--color-green)">💡 Znаš li?</strong>
+                <p style="margin:6px 0 0">Prvu Bitcoin transakciju izveo je Satoshi Nakamoto koji je Halu Finneyu poslao 10 BTC. Danas je ta transakcija vredna ~$950,000.</p>
+              </div>
+            </div>
+
+            <!-- Article 2: How to buy crypto -->
+            <div class="article-section reveal">
+              <h3>🛒 Kako kupiti kriptovalutu?</h3>
+              <p>Kupovina kriptovalute je jednostavan proces koji se odvija u nekoliko koraka. Evo kompletnog vodiča za početnike:</p>
+              <div class="step-list">
+                <div class="step-item">
+                  <div class="step-num">1</div>
+                  <div class="step-content">
+                    <h4>Izaberi pouzdanu menjačnicu</h4>
+                    <p>Registruj nalog na Ai IQ Menjačnici — verifikacija traje manje od 2 minuta. Potrebni su ti email i lozinka.</p>
+                  </div>
+                </div>
+                <div class="step-item">
+                  <div class="step-num">2</div>
+                  <div class="step-content">
+                    <h4>Verifikuj identitet (KYC)</h4>
+                    <p>Zbog propisa o sprečavanju pranja novca, potrebno je dostaviti ličnu kartu ili pasoš. Proces je brz i siguran.</p>
+                  </div>
+                </div>
+                <div class="step-item">
+                  <div class="step-num">3</div>
+                  <div class="step-content">
+                    <h4>Uplati sredstva</h4>
+                    <p>Depozit putem bankovnog transfera, kreditne kartice ili koristeći SEPA plaćanja. Minimalna uplata: $10.</p>
+                  </div>
+                </div>
+                <div class="step-item">
+                  <div class="step-num">4</div>
+                  <div class="step-content">
+                    <h4>Kupi kripto</h4>
+                    <p>Idi na stranicu Trejd, odaberi kriptovalutu (npr. BTC), unesi iznos koji želiš da kupiš i potvrdi nalog.</p>
+                  </div>
+                </div>
+                <div class="step-item">
+                  <div class="step-num">5</div>
+                  <div class="step-content">
+                    <h4>Čuvaj u sigurnom novčaniku</h4>
+                    <p>Tvoja kriptovaluta se čuva u tvom novčaniku na platformi ili je možeš preneti u hardware wallet za ekstra sigurnost.</p>
+                  </div>
+                </div>
+              </div>
+              <div style="margin-top:20px">
+                <a href="trade.html" class="btn btn-primary">Kupi kripto sada →</a>
+              </div>
+            </div>
+
+            <!-- Article 3: FAQ Accordions -->
+            <div class="article-section reveal">
+              <h3>❓ Česta pitanja</h3>
+              <div class="accordion-header"><span>Šta je blockchain tehnologija?</span><span class="acc-icon">▼</span></div>
+              <div class="accordion-body">Blockchain je distribuirana baza podataka organizovana u obliku lanca blokova. Svaki blok sadrži podatke o transakcijama i hash prethodnog bloka, čineći sistem tamper-proof. Nema centralne tačke kontrole — kopija postoji na hiljadama računara.</div>
+              <div class="accordion-header"><span>Da li je kripto trejding siguran?</span><span class="acc-icon">▼</span></div>
+              <div class="accordion-body">Kripto trejding nosi određene rizike zbog volatilnosti tržišta. Međutim, čuvanje fondova na platformi je sigurno zahvaljujući multi-sig zaštiti, 2FA autentifikaciji i hladnim novčanicima. Nikad ne ulažite više nego što možete priuštiti da izgubite.</div>
+              <div class="accordion-header"><span>Koliko brzo se izvršavaju transakcije?</span><span class="acc-icon">▼</span></div>
+              <div class="accordion-body">Spot trejding nalozi se izvršavaju u manje od 0.1 sekunde. Kripto depoziti i povlačenja zavise od blockchain mreže — Bitcoin prosečno 10 minuta, Ethereum ~15 sekundi, Solana <1 sekunda.</div>
+              <div class="accordion-header"><span>Šta je DeFi?</span><span class="acc-icon">▼</span></div>
+              <div class="accordion-body">DeFi (Decentralized Finance) su finansijske usluge (pozajmljivanje, štednja, trejding) implementirane kao pametni ugovori na blockchain-u, bez banaka ili posrednika. Korisnici direktno kontrolišu svoja sredstva.</div>
+            </div>
+          </div>
+
+          <!-- RIGHT: Quiz + Glossary -->
+          <div>
+            <!-- QUIZ -->
+            <div class="quiz-container reveal" style="margin-bottom:24px" role="region" aria-label="Kripto kviz">
+              <div style="display:flex;align-items:center;gap:10px;margin-bottom:20px">
+                <span style="font-size:1.8rem">🧠</span>
+                <div>
+                  <div style="color:#fff;font-weight:700;font-size:1rem">Kripto Kviz</div>
+                  <div style="font-size:0.78rem;color:var(--color-muted)">Testiraj znanje — 8 pitanja</div>
+                </div>
+              </div>
+              <div id="quiz-container" aria-live="polite"></div>
+            </div>
+
+            <!-- GLOSSARY -->
+            <div class="card reveal">
+              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+                <h3 style="color:#fff;margin:0">📖 Glosar Pojmova</h3>
+              </div>
+              <div style="margin-bottom:16px">
+                <input type="text" id="glossary-search" class="form-control" placeholder="Pretraži pojmove..." aria-label="Pretraži glosar pojmova">
+              </div>
+              <div id="glossary-list">
+                <div class="glossary-item">
+                  <div class="glossary-term">Blockchain</div>
+                  <div class="glossary-def">Distribuirana baza podataka organizovana u lance nepromjenljivih blokova koji sadrže zapise transakcija.</div>
+                </div>
+                <div class="glossary-item">
+                  <div class="glossary-term">DeFi (Decentralized Finance)</div>
+                  <div class="glossary-def">Finansijski ekosistem izgrađen na blockchain-u koji pruža usluge bez banaka ili posrednika.</div>
+                </div>
+                <div class="glossary-item">
+                  <div class="glossary-term">NFT (Non-Fungible Token)</div>
+                  <div class="glossary-def">Jedinstveni digitalni token koji dokazuje vlasništvo nad digitalnom imovinom (art, muzika, itd.).</div>
+                </div>
+                <div class="glossary-item">
+                  <div class="glossary-term">Staking</div>
+                  <div class="glossary-def">Zaključavanje kriptovaluta u blockchain mreži radi validacije transakcija i dobijanja nagrada.</div>
+                </div>
+                <div class="glossary-item">
+                  <div class="glossary-term">HODL</div>
+                  <div class="glossary-def">Kripto sleng za dugoročno zadržavanje kriptovaluta bez prodaje, bez obzira na tržišne fluktuacije.</div>
+                </div>
+                <div class="glossary-item">
+                  <div class="glossary-term">Altcoin</div>
+                  <div class="glossary-def">Svaka kriptovaluta koja nije Bitcoin — Ethereum, Solana, Cardano su altcoin-i.</div>
+                </div>
+                <div class="glossary-item">
+                  <div class="glossary-term">Gas Fee</div>
+                  <div class="glossary-def">Naknada plaćena rudarima/validatorima na Ethereum mreži za obradu transakcija.</div>
+                </div>
+                <div class="glossary-item">
+                  <div class="glossary-term">Smart Contract</div>
+                  <div class="glossary-def">Samooizvršavajući program na blockchain-u koji automatski sprovodi dogovorene uslove.</div>
+                </div>
+                <div class="glossary-item">
+                  <div class="glossary-term">Whale</div>
+                  <div class="glossary-def">Osoba ili entitet koji poseduje ogromnu količinu kriptovaluta i može uticati na tržišnu cenu.</div>
+                </div>
+                <div class="glossary-item">
+                  <div class="glossary-term">Bull/Bear Market</div>
+                  <div class="glossary-def">Bull = tržišni rast, optimizam. Bear = tržišni pad, pesimizam. Fundamentalni pojmovi u trejdingu.</div>
+                </div>
+                <div class="glossary-item">
+                  <div class="glossary-term">FOMO</div>
+                  <div class="glossary-def">Fear Of Missing Out — strah od propuštanja prilike, čest uzrok brzopletih odluka u kripto trejdingu.</div>
+                </div>
+                <div class="glossary-item">
+                  <div class="glossary-term">Satoshi</div>
+                  <div class="glossary-def">Najmanja jedinica Bitcoin-a: 1 BTC = 100.000.000 satoshi. Nazvana po Satoshi Nakamoto.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section style="padding:60px 0;background:var(--bg-secondary);border-top:1px solid var(--border);text-align:center">
+      <div class="container">
+        <h2 class="reveal" style="color:#fff;margin-bottom:16px">Spreman da počneš?</h2>
+        <p class="reveal" style="max-width:500px;margin:0 auto 28px">Primeni naučeno i počni da trejduješ na demo platformi bez rizika.</p>
+        <a href="trade.html" class="btn btn-primary btn-lg reveal">🚀 Počni trejdovati</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer" role="contentinfo">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="logo" style="margin-bottom:14px;display:inline-flex"><span class="logo-icon">🔷</span>Ai IQ <span>Menjačnica</span></a>
+          <p>Profesionalna kripto menjačnica sa AI uvidima.</p>
+          <div class="footer-socials">
+            <a href="https://www.facebook.com/Spaja86" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Facebook">📘</a>
+            <a href="https://www.instagram.com/spaja.1986" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Instagram">📷</a>
+            <a href="https://www.tiktok.com/@spaja.1986" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="TikTok">🎵</a>
+          </div>
+        </div>
+        <div class="footer-col"><h4>Platforma</h4><ul><li><a href="trade.html">Trejduj Kripto</a></li><li><a href="wallet.html">Novčanik</a></li><li><a href="services.html">Usluge</a></li><li><a href="education.html">Edukacija</a></li></ul></div>
+        <div class="footer-col"><h4>Kompanija</h4><ul><li><a href="about.html">O nama</a></li><li><a href="contact.html">Kontakt</a></li></ul></div>
+        <div class="footer-col"><h4>Kontakt</h4><ul><li><a href="mailto:spajicn@yahoo.com">spajicn@yahoo.com</a></li><li><a href="mailto:spajicn@gmail.com">spajicn@gmail.com</a></li><li><a href="https://github.com/spaja86/Kompanija-SPAJA" target="_blank" rel="noopener noreferrer">🏢 Kompanija SPAJA</a></li><li><a href="https://github.com/spaja86/Ai-Iq-World-Bank" target="_blank" rel="noopener noreferrer">🏦 AI IQ World Bank</a></li></ul></div>
+      </div>
+      <div class="footer-bottom"><span>© 2026 Nikola Spajić / Ai IQ Menjačnica. Sva prava zadržana.</span><span>Trejding kriptovalutama nosi rizik. Investiraj odgovorno.</span></div>
+    </div>
+  </footer>
+
+  <script src="js/crypto-api.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/education.js"></script>
+</body>
+</html>
