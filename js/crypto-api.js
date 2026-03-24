@@ -114,7 +114,7 @@
     var gainers = data.slice().sort(function (a, b) { return b.ch - a.ch; }).slice(0, 5);
     var losers  = data.slice().sort(function (a, b) { return a.ch - b.ch; }).slice(0, 5);
 
-    function fmt(p) {
+    function formatPrice(p) {
       return p >= 1000 ? '$' + p.toLocaleString('en-US', { maximumFractionDigits: 0 })
            : p >= 1    ? '$' + p.toFixed(2)
                        : '$' + p.toFixed(4);
@@ -125,7 +125,7 @@
         var up = c.ch >= 0;
         return '<tr>' +
           '<td style="font-weight:700">' + c.sym + '<span style="font-size:0.72rem;color:#888;margin-left:6px">' + c.name + '</span></td>' +
-          '<td style="font-family:monospace">' + fmt(c.price) + '</td>' +
+          '<td style="font-family:monospace">' + formatPrice(c.price) + '</td>' +
           '<td class="' + (up ? 'up' : 'down') + '" style="font-weight:600">' + (up ? '▲' : '▼') + Math.abs(c.ch).toFixed(2) + '%</td>' +
           '<td style="color:#888;font-size:0.78rem">$' + c.vol + '</td>' +
         '</tr>';

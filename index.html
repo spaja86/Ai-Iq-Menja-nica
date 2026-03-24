@@ -339,10 +339,12 @@
     BTC:{p:67420,c:2.3}, ETH:{p:3840,c:1.7}, SOL:{p:145.80,c:3.1},
     BNB:{p:420.50,c:-0.8}, ADA:{p:0.6420,c:1.2}, DOT:{p:8.34,c:-0.4}
   };
+  // Price fluctuation range per tick (±0.3%)
+  var PRICE_VOLATILITY = 0.003;
   function fmt(n){ return n>=1000?'$'+n.toLocaleString('en-US',{maximumFractionDigits:0}):n>=1?'$'+n.toFixed(2):'$'+n.toFixed(4); }
   function update(){
     Object.keys(prices).forEach(function(s){
-      var d=prices[s]; var prev=d.p; d.p*=(1+(Math.random()-0.49)*0.003);
+      var d=prices[s]; var prev=d.p; d.p*=(1+(Math.random()-0.49)*PRICE_VOLATILITY);
       var el=document.getElementById('pc-'+s);
       if(el){
         el.textContent=fmt(d.p);

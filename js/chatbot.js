@@ -142,7 +142,7 @@
     document.head.appendChild(style);
   }
 
-  function ts() {
+  function getCurrentTime() {
     var d = new Date();
     return d.getHours().toString().padStart(2, '0') + ':' + d.getMinutes().toString().padStart(2, '0');
   }
@@ -157,12 +157,16 @@
     msg.textContent = text;
     var time = document.createElement('div');
     time.className = 'cb-ts';
-    time.textContent = ts();
+    time.textContent = getCurrentTime();
     wrap.appendChild(msg);
     wrap.appendChild(time);
     container.appendChild(wrap);
     container.scrollTop = container.scrollHeight;
   }
+
+  /* Simulated typing delay range in milliseconds */
+  var MIN_TYPING_DELAY = 700;
+  var TYPING_DELAY_RANGE = 800;
 
   function sendMessage() {
     var input = document.getElementById('chatbot-input');
@@ -177,7 +181,7 @@
     var typing = document.getElementById('chatbot-typing');
     if (typing) typing.style.display = 'flex';
 
-    var delay = 700 + Math.random() * 800;
+    var delay = MIN_TYPING_DELAY + Math.random() * TYPING_DELAY_RANGE;
     setTimeout(function () {
       if (typing) typing.style.display = 'none';
       addMessage(getReply(text), 'bot');
