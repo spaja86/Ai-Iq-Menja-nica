@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://spaja86.github.io/Ai-Iq-Menja-nica/sitemap.xml

@@ -506,3 +506,21 @@
   .asset-list-header, .asset-row { grid-template-columns: 2fr 1fr; }
   .asset-amount { display: none; }
 }
+
+/* ---- AI PREDICTION + P&L (from trading upgrade) ---- */
+[data-theme=light] .trading-layout,
+[data-theme=light] .order-book-panel,
+[data-theme=light] .chart-panel,
+[data-theme=light] .trade-form-panel,
+[data-theme=light] .trade-history-panel {
+  background: var(--crypto-card);
+  border-color: var(--crypto-border);
+  color: var(--crypto-text);
+}
+[data-theme=light] .order-book-asks .ob-row:hover,
+[data-theme=light] .order-book-bids .ob-row:hover {
+  background: rgba(0,0,0,0.04);
+}
+[data-theme=light] .trade-tab.active.buy  { background: rgba(0,168,107,0.15); color: var(--crypto-green); }
+[data-theme=light] .trade-tab.active.sell { background: rgba(229,57,53,0.12);  color: var(--crypto-red); }
+[data-theme=light] .portfolio-header { background: var(--crypto-panel); border-color: var(--crypto-border); }
