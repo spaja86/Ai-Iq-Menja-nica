@@ -1,0 +1,31 @@
+{
+  "name": "Ai IQ Menjačnica",
+  "short_name": "AIQMenja",
+  "description": "Svetska kripto menjačnica sa AI uvidima",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#070d1a",
+  "theme_color": "#00ff88",
+  "icons": [
+    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "maskable any" }
+  ],
+  "categories": ["finance", "business"],
+  "lang": "sr",
+  "dir": "ltr",
+  "orientation": "any",
+  "screenshots": [],
+  "shortcuts": [
+    {
+      "name": "Trading",
+      "url": "/trade.html",
+      "description": "Otvori trading platformu"
+    },
+    {
+      "name": "Novčanik",
+      "url": "/wallet.html",
+      "description": "Otvori novčanik"
+    }
+  ]
+}
