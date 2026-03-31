@@ -1,6 +1,7 @@
 /* ===================================================
    Ai Iq Menjačnica — main.js
-   Header, ticker, hamburger, animations, counters
+   Header, ticker, hamburger, animations, counters,
+   i18n (SR/EN), micro-interactions, PWA registration
    =================================================== */
 
 (function () {
@@ -133,6 +134,133 @@
 
   document.querySelectorAll('.animate-in').forEach(function (el) {
     animObserver.observe(el);
+  });
+
+  /* ---------- RIPPLE EFFECT ON BUTTONS ---------- */
+  function addRipple(e) {
+    var btn = e.currentTarget;
+    var rect = btn.getBoundingClientRect();
+    var size = Math.max(rect.width, rect.height);
+    var x = e.clientX - rect.left - size / 2;
+    var y = e.clientY - rect.top  - size / 2;
+    var ripple = document.createElement('span');
+    ripple.className = 'ripple-wave';
+    ripple.style.cssText = 'width:' + size + 'px;height:' + size + 'px;left:' + x + 'px;top:' + y + 'px;';
+    btn.classList.add('ripple-container');
+    btn.appendChild(ripple);
+    ripple.addEventListener('animationend', function () { ripple.remove(); });
+  }
+
+  document.querySelectorAll('.btn-primary,.btn-outline,.btn-hero,.btn-submit,.btn-buy-submit,.btn-sell-submit').forEach(function (btn) {
+    btn.addEventListener('click', addRipple);
+  });
+
+  /* ---------- 3D TILT ON CARDS ---------- */
+  document.querySelectorAll('.feature-card,.price-card,.service-card,.team-card').forEach(function (card) {
+    card.classList.add('tilt-card');
+    card.addEventListener('mousemove', function (e) {
+      var rect = card.getBoundingClientRect();
+      var cx = rect.left + rect.width  / 2;
+      var cy = rect.top  + rect.height / 2;
+      var rx = ((e.clientY - cy) / (rect.height / 2)) * 6;
+      var ry = ((e.clientX - cx) / (rect.width  / 2)) * -6;
+      card.style.transform = 'perspective(600px) rotateX(' + rx + 'deg) rotateY(' + ry + 'deg) translateY(-4px)';
+    });
+    card.addEventListener('mouseleave', function () {
+      card.style.transform = '';
+    });
+  });
+
+  /* ---------- I18N (SR / EN) ---------- */
+  var LANG_KEY = 'aiq-lang';
+
+  var translations = {
+    sr: {
+      'nav-home':      'Početna',
+      'nav-trade':     'Trading',
+      'nav-wallet':    'Novčanik',
+      'nav-education': 'Edukacija',
+      'nav-services':  'Usluge',
+      'nav-about':     'O nama',
+      'nav-contact':   'Kontakt',
+      'nav-ecosystem': '🌐 Ekosistem ▾',
+      'hero-badge':    '🤖 AI-Powered Kripto Platform',
+      'btn-trade':     '📊 Počni da trejduješ',
+      'btn-wallet':    '💼 Moj Novčanik',
+      'cta-h2':        'Spremi za profesionalni kripto trading?',
+      'cta-p':         'Pridruži se milionima korisnika koji trejduju na Ai Iq Menjačnici svaki dan.'
+    },
+    en: {
+      'nav-home':      'Home',
+      'nav-trade':     'Trading',
+      'nav-wallet':    'Wallet',
+      'nav-education': 'Education',
+      'nav-services':  'Services',
+      'nav-about':     'About',
+      'nav-contact':   'Contact',
+      'nav-ecosystem': '🌐 Ecosystem ▾',
+      'hero-badge':    '🤖 AI-Powered Crypto Platform',
+      'btn-trade':     '📊 Start Trading',
+      'btn-wallet':    '💼 My Wallet',
+      'cta-h2':        'Ready for professional crypto trading?',
+      'cta-p':         'Join millions of users trading on Ai Iq Exchange every day.'
+    }
+  };
+
+  function applyLang(lang) {
+    document.documentElement.setAttribute('lang', lang === 'en' ? 'en' : 'sr');
+    var btn = document.getElementById('langToggle');
+    if (btn) btn.textContent = lang === 'en' ? 'SR 🇷🇸' : 'EN 🇬🇧';
+
+    // data-sr / data-en attributes
+    document.querySelectorAll('[data-sr],[data-en]').forEach(function (el) {
+      var txt = el.getAttribute('data-' + lang);
+      if (txt) el.textContent = txt;
+    });
+
+    // Named keys
+    var t = translations[lang] || translations.sr;
+    Object.keys(t).forEach(function (key) {
+      document.querySelectorAll('[data-i18n="' + key + '"]').forEach(function (el) {
+        el.textContent = t[key];
+      });
+    });
+  }
+
+  function toggleLang() {
+    var current = localStorage.getItem(LANG_KEY) || 'sr';
+    var next = current === 'sr' ? 'en' : 'sr';
+    localStorage.setItem(LANG_KEY, next);
+    applyLang(next);
+  }
+
+  var savedLang = localStorage.getItem(LANG_KEY) || 'sr';
+  applyLang(savedLang);
+
+  document.addEventListener('DOMContentLoaded', function () {
+    var langBtn = document.getElementById('langToggle');
+    if (langBtn) langBtn.addEventListener('click', toggleLang);
+    applyLang(localStorage.getItem(LANG_KEY) || 'sr');
+  });
+
+  /* ---------- PWA SERVICE WORKER ---------- */
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function () {
+      navigator.serviceWorker.register('/sw.js').catch(function (err) {
+        console.warn('SW registration failed:', err);
+      });
+    });
+  }
+
+  /* ---------- DROPDOWN NAV (hover + click for mobile) ---------- */
+  document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('.nav-links .dropdown > a').forEach(function (a) {
+      a.addEventListener('click', function (e) {
+        e.preventDefault();
+        var li = a.closest('.dropdown');
+        li.classList.toggle('open');
+      });
+    });
   });
 
 })();
