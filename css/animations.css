@@ -1,0 +1,318 @@
+/* ===================================================
+   Ai Iq Menjačnica — animations.css
+   All animations: neon pulse, price flash, shimmer,
+   scroll reveal, stagger, micro-interactions
+   =================================================== */
+
+/* ---------- SCROLL REVEAL ---------- */
+.animate-in {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.55s ease, transform 0.55s ease;
+}
+.animate-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+/* Stagger for children */
+.stagger-children .animate-in:nth-child(1)  { transition-delay: 0s; }
+.stagger-children .animate-in:nth-child(2)  { transition-delay: 0.08s; }
+.stagger-children .animate-in:nth-child(3)  { transition-delay: 0.16s; }
+.stagger-children .animate-in:nth-child(4)  { transition-delay: 0.24s; }
+.stagger-children .animate-in:nth-child(5)  { transition-delay: 0.32s; }
+.stagger-children .animate-in:nth-child(6)  { transition-delay: 0.40s; }
+.stagger-children .animate-in:nth-child(7)  { transition-delay: 0.48s; }
+.stagger-children .animate-in:nth-child(8)  { transition-delay: 0.56s; }
+.stagger-children .animate-in:nth-child(9)  { transition-delay: 0.64s; }
+
+/* ---------- NEON PULSE ---------- */
+@keyframes neon-pulse {
+  0%, 100% { box-shadow: 0 0 6px rgba(0,255,136,0.3); }
+  50%       { box-shadow: 0 0 18px rgba(0,255,136,0.7), 0 0 36px rgba(0,255,136,0.3); }
+}
+.neon-pulse { animation: neon-pulse 2.5s ease-in-out infinite; }
+
+/* ---------- PRICE FLASH ---------- */
+@keyframes flash-up {
+  0%   { background-color: rgba(0,255,136,0.25); }
+  100% { background-color: transparent; }
+}
+@keyframes flash-down {
+  0%   { background-color: rgba(255,77,77,0.25); }
+  100% { background-color: transparent; }
+}
+.price-flash-up   { animation: flash-up   0.7s ease forwards; }
+.price-flash-down { animation: flash-down 0.7s ease forwards; }
+
+/* ---------- SKELETON / SHIMMER ---------- */
+@keyframes shimmer {
+  0%   { background-position: -400px 0; }
+  100% { background-position: 400px 0; }
+}
+.skeleton {
+  background: linear-gradient(90deg, var(--crypto-card,#1a1a1a) 25%, rgba(255,255,255,0.06) 50%, var(--crypto-card,#1a1a1a) 75%);
+  background-size: 800px 100%;
+  animation: shimmer 1.4s infinite linear;
+  border-radius: 6px;
+  color: transparent !important;
+  pointer-events: none;
+}
+[data-theme=light] .skeleton {
+  background: linear-gradient(90deg, #e0e6ef 25%, #f0f4f8 50%, #e0e6ef 75%);
+  background-size: 800px 100%;
+}
+.skeleton-text {
+  height: 1em;
+  margin: 4px 0;
+  border-radius: 4px;
+}
+.skeleton-card {
+  min-height: 80px;
+}
+
+/* ---------- LOADING OVERLAY ---------- */
+.loading-overlay {
+  position: fixed;
+  inset: 0;
+  background: var(--crypto-dark, #0d0d0d);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 99999;
+  transition: opacity 0.4s ease, visibility 0.4s ease;
+}
+[data-theme=light] .loading-overlay { background: #f0f4f8; }
+.loading-overlay.hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+.spinner {
+  width: 44px;
+  height: 44px;
+  border: 3px solid rgba(0,255,136,0.2);
+  border-top-color: #00ff88;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ---------- RIPPLE EFFECT ---------- */
+.ripple-container {
+  position: relative;
+  overflow: hidden;
+}
+.ripple-wave {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.3);
+  transform: scale(0);
+  animation: ripple-anim 0.6s linear;
+  pointer-events: none;
+}
+@keyframes ripple-anim {
+  to { transform: scale(4); opacity: 0; }
+}
+
+/* ---------- 3D CARD TILT ---------- */
+.tilt-card {
+  transform-style: preserve-3d;
+  transition: transform 0.15s ease;
+}
+
+/* ---------- NEON INPUT FOCUS ---------- */
+input:focus,
+select:focus,
+textarea:focus {
+  box-shadow: 0 0 0 2px rgba(0,255,136,0.2), 0 0 12px rgba(0,255,136,0.15);
+}
+[data-theme=light] input:focus,
+[data-theme=light] select:focus,
+[data-theme=light] textarea:focus {
+  box-shadow: 0 0 0 2px rgba(0,168,107,0.25);
+}
+
+/* ---------- BUTTON LOADING STATE ---------- */
+.btn-loading {
+  position: relative;
+  pointer-events: none;
+  opacity: 0.8;
+}
+.btn-loading::after {
+  content: '';
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(0,0,0,0.3);
+  border-top-color: rgba(0,0,0,0.8);
+  border-radius: 50%;
+  transform: translateY(-50%);
+  animation: spin 0.7s linear infinite;
+}
+
+/* ---------- PAGE TRANSITION ---------- */
+body {
+  animation: page-in 0.35s ease forwards;
+}
+@keyframes page-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ---------- DARK / LIGHT THEME VARIABLES ---------- */
+:root {
+  --crypto-dark:   #0d0d0d;
+  --crypto-panel:  #141414;
+  --crypto-card:   #1a1a1a;
+  --crypto-border: #2a2a2a;
+  --crypto-green:  #00d4aa;
+  --crypto-red:    #ff4d4d;
+  --crypto-gold:   #f0b90b;
+  --crypto-blue:   #3498db;
+  --crypto-text:   #e0e0e0;
+  --crypto-muted:  #888;
+}
+
+[data-theme=light] {
+  --crypto-dark:   #f0f4f8;
+  --crypto-panel:  #ffffff;
+  --crypto-card:   #f8fafc;
+  --crypto-border: #dde3ea;
+  --crypto-green:  #00a86b;
+  --crypto-red:    #e53935;
+  --crypto-gold:   #c77c00;
+  --crypto-blue:   #1976d2;
+  --crypto-text:   #1a1a2e;
+  --crypto-muted:  #546e7a;
+}
+
+/* Smooth theme transition */
+*, *::before, *::after {
+  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+}
+/* Prevent transition on elements that should not animate slowly */
+.ticker-track,
+.spinner,
+canvas,
+.ripple-wave,
+.btn-loading::after {
+  transition: none !important;
+}
+
+/* ---------- THEME TOGGLE BUTTON ---------- */
+#themeToggle {
+  background: none;
+  border: 1px solid var(--crypto-border);
+  color: var(--crypto-text);
+  border-radius: 8px;
+  padding: 6px 10px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+  line-height: 1;
+}
+#themeToggle:hover {
+  border-color: var(--crypto-green);
+  background: rgba(0,255,136,0.08);
+}
+
+/* ---------- LANGUAGE TOGGLE ---------- */
+#langToggle {
+  background: none;
+  border: 1px solid var(--crypto-border);
+  color: var(--crypto-text);
+  border-radius: 8px;
+  padding: 5px 10px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+  white-space: nowrap;
+}
+#langToggle:hover {
+  border-color: var(--crypto-green);
+  background: rgba(0,255,136,0.08);
+}
+
+/* ---------- DROPDOWN NAV ---------- */
+.nav-links .dropdown { position: relative; }
+.nav-links .dropdown-menu {
+  display: none;
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  min-width: 260px;
+  background: var(--crypto-panel);
+  border: 1px solid var(--crypto-border);
+  border-radius: 10px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+  z-index: 300;
+  padding: 6px 0;
+  list-style: none;
+}
+[data-theme=light] .nav-links .dropdown-menu {
+  box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+}
+.nav-links .dropdown:hover .dropdown-menu,
+.nav-links .dropdown.open .dropdown-menu { display: block; }
+.nav-links .dropdown-menu li a {
+  display: block;
+  padding: 10px 16px;
+  font-size: 0.85rem;
+  color: var(--crypto-text);
+  transition: background 0.15s, color 0.15s;
+  white-space: nowrap;
+  border-radius: 0;
+}
+.nav-links .dropdown-menu li a:hover,
+.nav-links .dropdown-menu li a.active {
+  background: rgba(0,255,136,0.08);
+  color: var(--crypto-green);
+}
+[data-theme=light] .nav-links .dropdown-menu li a:hover {
+  background: rgba(0,168,107,0.08);
+}
+
+/* ---------- FEAR & GREED GAUGE ---------- */
+@keyframes gauge-fill {
+  from { stroke-dashoffset: 283; }
+}
+.fear-greed-gauge text { font-family: 'Segoe UI', system-ui, sans-serif; }
+
+/* ---------- TRENDING BADGE ---------- */
+.trend-badge {
+  display: inline-block;
+  font-size: 0.68rem;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 4px;
+}
+.trend-badge.up   { background: rgba(0,212,170,0.15); color: var(--crypto-green); }
+.trend-badge.down { background: rgba(255,77,77,0.15);  color: var(--crypto-red); }
+
+/* ---------- AI PREDICTION CARD ---------- */
+.ai-prediction-card {
+  background: linear-gradient(135deg, rgba(0,212,170,0.06) 0%, rgba(52,152,219,0.06) 100%);
+  border: 1px solid rgba(0,212,170,0.2);
+  border-radius: 12px;
+  padding: 20px;
+}
+.ai-prediction-card .pred-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--crypto-border);
+  font-size: 0.85rem;
+}
+.ai-prediction-card .pred-row:last-child { border-bottom: none; }
+.ai-prediction-card .pred-direction { font-size: 1.1rem; font-weight: 700; }
+.ai-prediction-card .pred-confidence {
+  font-size: 0.75rem;
+  color: var(--crypto-muted);
+  background: rgba(255,255,255,0.05);
+  border-radius: 4px;
+  padding: 2px 8px;
+}

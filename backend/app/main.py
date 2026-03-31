@@ -1,54 +1,26 @@
 """
-Main FastAPI application for Ai IQ Menjačnica Exchange Platform
+Main FastAPI application entry point.
 """
-
-from fastapi import FastAPI, Request
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse
-from contextlib import asynccontextmanager
-import time
+from fastapi.middleware.trustedhost import TrustedHostMiddleware
+from prometheus_fastapi_instrumentator import Instrumentator
 
 from app.core.config import settings
-from app.db.session import init_db, get_db
-from app.db.bootstrap import bootstrap_database
-from app.api.routers import auth, market, trading, payments, ledger, admin
+from app.core.database import init_db
+from app.api import auth, trading, wallet, payments, admin, websocket, codes
 
 
-# Lifespan events
-@asynccontextmanager
-async def lifespan(app: FastAPI):
-    """
-    Startup and shutdown events
-    """
-    # Startup
-    print(f"Starting {settings.APP_NAME} v{settings.APP_VERSION}")
-    print("Initializing database...")
-    init_db()
-    
-    # Bootstrap default data
-    db = next(get_db())
-    try:
-        bootstrap_database(db)
-    finally:
-        db.close()
-    
-    print("Application started successfully!")
-    
-    yield
-    
-    # Shutdown
-    print("Shutting down application...")
-
-
-# Create FastAPI app
+# Create FastAPI application
 app = FastAPI(
     title=settings.APP_NAME,
     version=settings.APP_VERSION,
-    description="Production-Ready Exchange Platform for Cryptocurrency and Fiat Trading",
-    docs_url="/docs",
-    redoc_url="/redoc",
-    lifespan=lifespan
+    description="Enterprise-grade cryptocurrency exchange platform",
+    docs_url="/api/docs",
+    redoc_url="/api/redoc",
+    openapi_url="/api/openapi.json"
 )
+
 
 # CORS middleware
 app.add_middleware(
@@ -60,78 +32,89 @@ app.add_middleware(
 )
 
 
-# Request timing middleware
-@app.middleware("http")
-async def add_process_time_header(request: Request, call_next):
-    """Add processing time to response headers"""
-    start_time = time.time()
-    response = await call_next(request)
-    process_time = time.time() - start_time
-    response.headers["X-Process-Time"] = str(process_time)
-    return response
-
-
-# Exception handlers
-@app.exception_handler(Exception)
-async def global_exception_handler(request: Request, exc: Exception):
-    """Global exception handler"""
-    return JSONResponse(
-        status_code=500,
-        content={
-            "detail": "Internal server error",
-            "error": str(exc) if settings.DEBUG else "An error occurred"
-        }
+# Trusted host middleware (production security)
+if settings.ENVIRONMENT == "production":
+    app.add_middleware(
+        TrustedHostMiddleware,
+        allowed_hosts=settings.ALLOWED_HOSTS
     )
 
 
 # Include routers
-app.include_router(auth.router, prefix=settings.API_V1_PREFIX)
-app.include_router(market.router, prefix=settings.API_V1_PREFIX)
-app.include_router(trading.router, prefix=settings.API_V1_PREFIX)
-app.include_router(payments.router, prefix=settings.API_V1_PREFIX)
-app.include_router(ledger.router, prefix=settings.API_V1_PREFIX)
-app.include_router(admin.router, prefix=settings.API_V1_PREFIX)
+app.include_router(auth.router)
+app.include_router(trading.router)
+app.include_router(wallet.router)
+app.include_router(payments.router)
+app.include_router(admin.router)
+app.include_router(websocket.router)
+app.include_router(codes.router)
 
 
-# Root endpoints
+# Prometheus metrics (if enabled)
+if settings.PROMETHEUS_ENABLED:
+    Instrumentator().instrument(app).expose(app, endpoint="/metrics")
+
+
+@app.on_event("startup")
+async def startup_event():
+    """Initialize application on startup."""
+    # Initialize database tables
+    # init_db()  # Uncomment when ready to create tables
+    pass
+
+
+@app.on_event("shutdown")
+async def shutdown_event():
+    """Cleanup on shutdown."""
+    pass
+
+
 @app.get("/")
-def root():
-    """API root endpoint"""
+async def root():
+    """Root endpoint."""
     return {
         "name": settings.APP_NAME,
         "version": settings.APP_VERSION,
         "status": "operational",
-        "docs": "/docs"
+        "docs": "/api/docs"
     }
 
 
 @app.get("/health")
-def health_check():
-    """Health check endpoint"""
+async def health_check():
+    """Health check endpoint for monitoring."""
     return {
         "status": "healthy",
-        "timestamp": time.time()
+        "environment": settings.ENVIRONMENT
     }
 
 
-@app.get(f"{settings.API_V1_PREFIX}/info")
-def api_info():
-    """API information"""
+@app.get("/api/v1/info")
+async def api_info():
+    """API information endpoint."""
     return {
-        "version": "v1",
-        "endpoints": {
-            "auth": f"{settings.API_V1_PREFIX}/auth",
-            "market": f"{settings.API_V1_PREFIX}/market",
-            "trading": f"{settings.API_V1_PREFIX}/trading"
-        }
+        "version": settings.APP_VERSION,
+        "features": [
+            "JWT Authentication",
+            "2FA (TOTP)",
+            "KYC/AML Verification",
+            "Trading Engine",
+            "Multi-Currency Wallets",
+            "Payment Processing",
+            "Real-time WebSocket Feeds",
+            "Admin Dashboard"
+        ],
+        "trading_pairs": ["BTC/USD", "ETH/USD", "BTC/EUR", "ETH/EUR"],
+        "supported_currencies": ["BTC", "ETH", "USD", "EUR"]
     }
 
 
 if __name__ == "__main__":
     import uvicorn
+    
     uvicorn.run(
         "app.main:app",
-        host="0.0.0.0",
-        port=8000,
+        host=settings.HOST,
+        port=settings.PORT,
         reload=settings.DEBUG
     )
