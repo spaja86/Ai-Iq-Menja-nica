@@ -119,6 +119,75 @@ Ai-Iq-Menja-nica/
 
 ---
 
+## ⚡ Operativni Plan: "Ekstremno da počne sa radom"
+
+### 1) Tačan cilj (merljivi rezultati)
+- Prvi aktivni korisnik koji izvrši bar 1 simulirani trade.
+- Prvi javno potvrđen feedback korisnika (issue, kontakt forma ili poruka).
+- Prvi kompletan isporučen modul: Trading + Wallet + Education dostupni bez kritične greške.
+
+### 2) Rokovi po sprintovima
+- **T+24h:** Finalni MVP scope zaključen, vlasništvo dodeljeno, kritični blokeri evidentirani.
+- **T+72h:** Ključni korisnički tokovi rade end-to-end (ulaz na sajt → trading ekran → wallet pregled).
+- **T+7 dana:** Stabilan go-live kandidat sa quality gate proverama i rollback planom.
+- **T+14 dana:** Post go-live iteracije završene na osnovu realnog feedback-a i KPI merenja.
+
+### 3) MVP (minimalni obim)
+- Funkcionalna naslovna i navigacija.
+- Trade stranica sa prikazom cena i osnovnom buy/sell simulacijom.
+- Wallet stranica sa prikazom portfolia i istorije.
+- Education sadržaj i kviz.
+- Kontakt kanal za prijavu problema i feedback.
+
+### 4) Vlasništvo zadataka
+- **Owner/Decision:** Nikola Spajić (prioriteti, odluke, odobrenje puštanja).
+- **Implementacija:** Frontend razvoj (HTML/CSS/JS izmene i integracije).
+- **Test/Verifikacija:** Funkcionalna provera ključnih tokova i regresija glavnih stranica.
+- **Release/Go-live:** Odobrenje i finalno puštanje nakon prolaska quality gate-a.
+
+### 5) "Blockers first" režim
+- Svaki blocker se označava odmah po otkrivanju.
+- Novi zadaci se ne otvaraju dok aktivni blocker nema vlasnika i plan rešavanja.
+- Prioritet je uklanjanje prepreka koje blokiraju go-live tok.
+
+### 6) Dnevni operativni ritam
+- **Jutro (15 min):** Fokus dana + top 3 isporuke.
+- **Sredina dana:** Provera statusa, blokera i odstupanja od sprint cilja.
+- **Veče:** Kratak status, šta je završeno i prvi sledeći korak za naredni dan.
+
+### 7) Paralelizacija rada
+- Razvoj funkcionalnosti paralelno sa test proverama.
+- Priprema deploy-a i produkcionih parametara paralelno sa finalnim bugfix-evima.
+- Brze povratne petlje: kratke iteracije umesto velikih batch izmena.
+
+### 8) Stroga kontrola kvaliteta (quality gate)
+- Provera svih ključnih stranica: `index.html`, `trade.html`, `wallet.html`, `education.html`, `contact.html`.
+- Provera osnovnih korisničkih tokova bez kritičnih grešaka u konzoli.
+- Sigurnosna provera: bez tajni u kodu, bez novih rizičnih promena.
+
+### 9) Produkcioni readiness
+- Monitoring osnovnih grešaka i dostupnosti.
+- Definisan alerting kanal za kritične incidente.
+- Dokumentovan rollback korak za brzo vraćanje stabilne verzije.
+- Jasno imenovana odgovorna osoba za incident response.
+
+### 10) Go-live i iteracija
+- Go-live se pokreće odmah po prolasku MVP i quality gate kriterijuma.
+- Nakon puštanja: prioritetno rešavanje realnih korisničkih prijava.
+- Iteracije se vode po uticaju na korisnika i stabilnost sistema.
+
+### 11) Krizni plan (prva 72h nakon puštanja)
+- Dežurstvo sa jasnim kontaktom za hitne situacije.
+- Prioritetizacija grešaka: kritične > visoke > srednje > niske.
+- Definisan maksimalni cilj reakcije na kritičan incident: što pre, bez odlaganja.
+
+### 12) Dnevni KPI (3 ključne metrike)
+- **Brzina isporuke:** broj završenih prioritetnih zadataka po danu.
+- **Stabilnost sistema:** broj kritičnih problema i vreme oporavka.
+- **Vrednost za korisnika:** broj korisničkih interakcija i validiran feedback.
+
+---
+
 ## 📊 Statistike Platforme
 
 | Metrika | Vrednost |
