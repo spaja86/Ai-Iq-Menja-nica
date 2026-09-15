@@ -166,8 +166,8 @@ Ai-Iq-Menja-nica/
 - Sigurnosna provera: bez tajni u kodu, bez novih rizičnih promena.
 
 ### 9) Produkcioni readiness
-- Monitoring osnovnih grešaka i dostupnosti.
-- Definisan alerting kanal za kritične incidente.
+- Monitoring osnovnih grešaka i dostupnosti kroz GitHub Actions deploy pipeline (`.github/workflows/deploy.yml`) i ručnu proveru javnog URL-a nakon svakog deploy-a.
+- Alerting kanal za kritične incidente: GitHub Issue sa prefiksom `INCIDENT:` + direktna eskalacija na kontakt iz sekcije **Kontakt** (email).
 - Dokumentovan rollback korak za brzo vraćanje stabilne verzije.
 - Jasno imenovana odgovorna osoba za incident response.
 
@@ -179,7 +179,7 @@ Ai-Iq-Menja-nica/
 ### 11) Krizni plan (prva 72h nakon puštanja)
 - Dežurstvo sa jasnim kontaktom za hitne situacije.
 - Prioritetizacija grešaka: kritične > visoke > srednje > niske.
-- Definisan maksimalni cilj reakcije na kritičan incident: što pre, bez odlaganja.
+- Definisan maksimalni cilj reakcije na kritičan incident: potvrda incidenta u roku od **15 minuta**, početak mitigacije u roku od **30 minuta**.
 
 ### 12) Dnevni KPI (3 ključne metrike)
 - **Brzina isporuke:** broj završenih prioritetnih zadataka po danu.
