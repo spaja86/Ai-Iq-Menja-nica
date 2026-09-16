@@ -263,4 +263,16 @@
     });
   });
 
+  /* ---------- COMPLIANCE NOTICE ---------- */
+  document.addEventListener('DOMContentLoaded', function () {
+    var footerBottom = document.querySelector('.footer-bottom');
+    if (!footerBottom || footerBottom.querySelector('.compliance-disclaimer')) return;
+
+    var note = document.createElement('p');
+    note.className = 'compliance-disclaimer';
+    note.style.opacity = '0.9';
+    note.textContent = 'Napomena: sadržaj i tržišni prikazi služe informisanju; za formalne regulatorne i poslovne zahteve koristite direktni kontakt kanal.';
+    footerBottom.appendChild(note);
+  });
+
 })();

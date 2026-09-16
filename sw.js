@@ -3,7 +3,7 @@
    Service Worker for offline caching (PWA)
    =================================================== */
 
-var CACHE_NAME = 'aiq-menja-v1';
+var CACHE_NAME = 'aiq-menja-v2';
 
 var CACHE_URLS = [
   '/',
@@ -18,11 +18,16 @@ var CACHE_URLS = [
   '/css/trading.css',
   '/css/animations.css',
   '/js/main.js',
+  '/js/analytics.js',
   '/js/theme.js',
   '/js/chatbot.js',
   '/js/toast.js',
   '/js/cookie-consent.js',
   '/js/ticker.js',
+  '/js/index-market-demo.js',
+  '/js/contact-flow.js',
+  '/js/education-page.js',
+  '/js/trade-page-enhancements.js',
   '/js/trading.js',
   '/js/trade.js',
   '/js/wallet.js',

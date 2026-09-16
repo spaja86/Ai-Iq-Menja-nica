@@ -5,6 +5,7 @@ on:
     branches: [main]
   pull_request:
     branches: [main]
+  workflow_dispatch:
 
 jobs:
   deploy:
@@ -14,11 +15,26 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Install validation tooling
+        run: npm install -g htmlhint linkinator vercel
+
+      - name: HTML validation
+        run: htmlhint "**/*.html"
+
+      - name: Internal link validation
+        run: linkinator . --recurse --skip "mailto:.*" --skip "https://(www\\.)?(instagram|facebook|youtube|tiktok)\\.com/.*"
+
       - name: Install Vercel CLI
-        run: npm install -g vercel
+        run: vercel --version
 
       - name: Deploy to Vercel
         run: vercel --prod --token=${{ secrets.VERCEL_TOKEN }} --yes
         env:
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+
+      - name: Post-deploy smoke check
+        if: ${{ secrets.PRODUCTION_HEALTHCHECK_URL != '' }}
+        run: |
+          curl -fL --max-time 20 "${{ secrets.PRODUCTION_HEALTHCHECK_URL }}" > /dev/null
+          echo "Smoke check passed for ${{ secrets.PRODUCTION_HEALTHCHECK_URL }}"
