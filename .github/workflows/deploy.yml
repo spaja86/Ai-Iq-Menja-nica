@@ -34,7 +34,9 @@ jobs:
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
 
       - name: Post-deploy smoke check
-        if: ${{ secrets.PRODUCTION_HEALTHCHECK_URL != '' }}
+        if: ${{ env.HEALTHCHECK_URL != '' }}
+        env:
+          HEALTHCHECK_URL: ${{ secrets.PRODUCTION_HEALTHCHECK_URL }}
         run: |
-          curl -fL --max-time 20 "${{ secrets.PRODUCTION_HEALTHCHECK_URL }}" > /dev/null
-          echo "Smoke check passed for ${{ secrets.PRODUCTION_HEALTHCHECK_URL }}"
+          curl -fL --max-time 20 "$HEALTHCHECK_URL" > /dev/null
+          echo "Smoke check passed for $HEALTHCHECK_URL"
