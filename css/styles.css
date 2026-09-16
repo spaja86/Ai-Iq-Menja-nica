@@ -199,6 +199,12 @@ button { cursor: pointer; font-family: var(--font-main); }
 .service-card h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 10px; color: #fff; }
 .service-card p { font-size: 0.875rem; color: var(--crypto-muted); line-height: 1.7; margin-bottom: 16px; }
 .service-price { display: inline-block; background: rgba(0,212,170,0.1); color: var(--crypto-green); border: 1px solid rgba(0,212,170,0.25); border-radius: 6px; padding: 4px 12px; font-size: 0.78rem; font-weight: 700; }
+.info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; }
+.tag-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+.detail-list { list-style: none; display: flex; flex-direction: column; gap: 8px; margin-top: 16px; }
+.detail-list li { position: relative; padding-left: 16px; font-size: 0.84rem; color: var(--crypto-muted); line-height: 1.7; }
+.detail-list li::before { content: '•'; position: absolute; left: 0; color: var(--crypto-green); }
+.compact-note { font-size: 0.82rem; color: var(--crypto-muted); line-height: 1.7; margin-top: 12px; }
 
 /* EDUCATION */
 .accordion { display: flex; flex-direction: column; gap: 12px; }
