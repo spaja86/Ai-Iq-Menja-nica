@@ -164,7 +164,14 @@
     <div>
       <h2 style="font-size:1.4rem;font-weight:800;margin-bottom:24px">✉️ Pošaljite nam poruku</h2>
       <div class="card">
-        <form id="contactForm" onsubmit="handleFormSubmit(event)">
+        <form id="contactForm">
+          <div class="form-group">
+            <label for="contactInquiryType">Tip upita</label>
+            <select id="contactInquiryType" name="inquiryType" required>
+              <option value="general">General inquiry (web forma)</option>
+              <option value="formal">Formal / regulatory inquiry (direktni kanal)</option>
+            </select>
+          </div>
           <div class="form-group">
             <label for="contactName">Vaše ime</label>
             <input type="text" id="contactName" name="name" placeholder="Nikola Spajić" required>
@@ -172,6 +179,14 @@
           <div class="form-group">
             <label for="contactEmail">Email adresa</label>
             <input type="email" id="contactEmail" name="email" placeholder="vas@email.com" required>
+          </div>
+          <div class="form-group">
+            <label for="contactCompany">Kompanija / organizacija</label>
+            <input type="text" id="contactCompany" name="company" placeholder="Naziv kompanije ili organizacije" required>
+          </div>
+          <div class="form-group">
+            <label for="contactJurisdiction">Tržište / jurisdikcija</label>
+            <input type="text" id="contactJurisdiction" name="jurisdiction" placeholder="npr. Serbia, EU, UAE..." required>
           </div>
           <div class="form-group">
             <label for="contactSubject">Tema</label>
@@ -194,6 +209,10 @@
           <div class="form-group">
             <label for="contactMessage">Poruka</label>
             <textarea id="contactMessage" name="message" rows="5" placeholder="Opišite vaše pitanje, tržište, jurisdikciju, partner model ili zahtev..." required style="resize:vertical"></textarea>
+          </div>
+          <div class="form-group" style="display:none" aria-hidden="true">
+            <label for="contactWebsite">Website</label>
+            <input type="text" id="contactWebsite" name="website" tabindex="-1" autocomplete="off">
           </div>
           <button type="submit" class="btn-submit">📤 Pošaljite poruku</button>
           <div id="formFeedback" style="display:none;margin-top:14px;padding:12px;border-radius:6px;font-size:0.875rem"></div>
@@ -290,23 +309,12 @@
   </div>
 </footer>
 
-<script>
-function handleFormSubmit(e) {
-  e.preventDefault();
-  var feedback = document.getElementById('formFeedback');
-  feedback.style.display = 'block';
-  feedback.style.background = 'rgba(0,212,170,0.12)';
-  feedback.style.border = '1px solid rgba(0,212,170,0.3)';
-  feedback.style.color = '#00d4aa';
-  feedback.textContent = '✅ Hvala! Forma je zabeležena lokalno na stranici. Za formalne licensing, partnership, institutional i international zahteve odmah pišite na spajicn@yahoo.com ili koristite direktne poslovne linkove iznad.';
-  document.getElementById('contactForm').reset();
-  setTimeout(function(){ feedback.style.display = 'none'; }, 7000);
-}
-</script>
 <script src="js/ticker.js"></script>
 <script src="js/main.js"></script>
+<script src="js/analytics.js"></script>
 <script src="js/toast.js"></script>
 <script src="js/chatbot.js"></script>
 <script src="js/cookie-consent.js"></script>
+<script src="js/contact-flow.js"></script>
 </body>
 </html>

@@ -129,3 +129,55 @@ Formulacija „licence za celu planetu za rad” sada je prevedena u sledeći ok
 - 💱 **Ai Iq Menjačnica** — kripto i exchange operativa
 - 🌐 **IO-OPENUI-AO** — saradnja i digitalni proizvodi
 - 🏢 **Kompanija SPAJA** — strategija i razvoj
+
+---
+
+## 🧩 North Star i governance dokumenti
+
+- [`docs/north-star-scope.md`](docs/north-star-scope.md)
+- [`docs/repository-architecture.md`](docs/repository-architecture.md)
+- [`docs/content-architecture.md`](docs/content-architecture.md)
+- [`docs/data-sources-policy.md`](docs/data-sources-policy.md)
+- [`docs/qa-strategy.md`](docs/qa-strategy.md)
+- [`docs/roadmap.md`](docs/roadmap.md)
+- [`docs/decision-log.md`](docs/decision-log.md)
+
+---
+
+## 🛠️ Local run
+
+Projekat je static-first. Pokretanje lokalno:
+
+```bash
+python3 -m http.server 8080
+```
+
+Zatim otvorite `http://localhost:8080`.
+
+---
+
+## 🚀 Deployment flow i rollback smernice
+
+- Deploy pipeline: `.github/workflows/deploy.yml`
+- Pre-deploy: HTML validacija + link validacija
+- Deploy: Vercel CLI (`vercel --prod`)
+- Post-deploy: opcioni smoke check preko `PRODUCTION_HEALTHCHECK_URL` secreta
+
+Rollback smernica:
+1. Re-deploy poslednji stabilni commit preko Vercel workflow-a.
+2. Potvrdi smoke check i ključne stranice (`index`, `services`, `contact`).
+3. Zabeleži incident i odluku u `docs/decision-log.md`.
+
+---
+
+## 📈 Observability (lightweight)
+
+- Frontend event tracking je u `js/analytics.js`.
+- Eventi se čuvaju lokalno u `localStorage` (ključ: `aiq-analytics-events`) i spremni su za kasniji dashboard izvoz.
+
+---
+
+## 🤝 Contributing i changelog
+
+- Pravila doprinosa: [`CONTRIBUTING.md`](CONTRIBUTING.md)
+- Istorija izmena: [`CHANGELOG.md`](CHANGELOG.md)
