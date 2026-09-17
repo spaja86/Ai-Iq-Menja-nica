@@ -5,14 +5,18 @@
 - I18n i content baseline
 - Security/compliance baseline
 - Contact flow hardening
+- Shared SEO/accessibility baseline
+- Demo signaling i intake clarity
 
 ## V2 — Data + Quality
 - Real data integracije gde je moguće
 - Observability i KPI event model
 - CI quality gates + smoke checks
+- Service catalog filtering i stronger conversion paths
 
 ## V3 — Platform Growth
 - Partner/admin operativni sloj
 - White-label readiness
 - Jurisdiction readiness matrix
 - Enterprise/compliance ekspanzija
+- Dedicated landing stranice po nameri i dublji knowledge hub

@@ -4,15 +4,21 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="AI IQ World Bank delatnosti: digitalno bankarstvo, međunarodna plaćanja, treasury, licenciranje, partnerstva i AI finansijske usluge.">
+  <meta property="og:title" content="Usluge — AI IQ World Bank ekosistem">
+  <meta property="og:description" content="Glavni katalog delatnosti: banking, payments, exchange, compliance, education i partner-led modeli po tržištu i klijentu.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://spaja86.github.io/Ai-Iq-Menja-nica/services.html">
   <meta name="theme-color" content="#00ff88">
   <link rel="manifest" href="manifest.json">
   <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="canonical" href="https://spaja86.github.io/Ai-Iq-Menja-nica/services.html">
   <title>Usluge — AI IQ World Bank ekosistem</title>
   <link rel="stylesheet" href="css/styles.css">
   <link rel="stylesheet" href="css/animations.css">
   <script src="js/theme.js"></script>
 </head>
 <body>
+<a class="skip-link" href="#mainContent">Preskoči na glavni sadržaj</a>
 
 <div class="loading-overlay"><div class="spinner"></div></div>
 <div class="ticker-bar"><div class="ticker-track"></div></div>
@@ -65,7 +71,7 @@
   <p>Organizovan pregled globalnih finansijskih, licencnih, partnerskih i AI usluga koje Ai Iq Menjačnica podržava u ekosistemu.</p>
 </div>
 
-<main class="section">
+<main id="mainContent" class="section">
 <div class="section-inner">
 
   <div class="section-header animate-in">
@@ -73,8 +79,82 @@
     <p>AI IQ World Bank je postavljen kao glavni holding za finansije, licence, partnerstva i globalne operacije, dok Ai Iq Menjačnica ostaje operativni exchange kanal unutar tog sistema.</p>
   </div>
 
-  <div class="services-grid">
-    <div class="service-card animate-in">
+  <div class="card filter-card animate-in">
+    <div class="filter-summary">
+      <div>
+        <h3 style="margin-bottom:8px">Filtriraj katalog po poslovnoj potrebi</h3>
+        <p class="compact-note" style="margin-top:0">Kombinujte kategoriju, klijenta, region, delivery model i status spremnosti da brzo dođete do odgovarajuće usluge.</p>
+      </div>
+      <div>
+        <strong id="serviceResultsCount">0 / 0 usluga prikazano</strong>
+        <div class="split-actions">
+          <button type="button" class="btn-outline" id="servicesFilterReset">Reset filtera</button>
+        </div>
+      </div>
+    </div>
+    <div class="filter-grid">
+      <div class="form-group" style="margin-bottom:0">
+        <label for="serviceCategoryFilter">Kategorija</label>
+        <select id="serviceCategoryFilter">
+          <option value="">Sve kategorije</option>
+          <option value="banking">Banking</option>
+          <option value="payments">Payments</option>
+          <option value="exchange">Exchange</option>
+          <option value="digital-assets">Digital assets</option>
+          <option value="enterprise">Enterprise</option>
+          <option value="capital">Capital</option>
+          <option value="institutional">Institutional</option>
+          <option value="advisory">Advisory</option>
+          <option value="education">Education</option>
+          <option value="expansion">Expansion</option>
+        </select>
+      </div>
+      <div class="form-group" style="margin-bottom:0">
+        <label for="serviceClientFilter">Tip klijenta</label>
+        <select id="serviceClientFilter">
+          <option value="">Svi tipovi</option>
+          <option value="retail">Retail</option>
+          <option value="sme">SME</option>
+          <option value="enterprise">Enterprise</option>
+          <option value="fintech">Fintech</option>
+          <option value="institutional">Institutional</option>
+        </select>
+      </div>
+      <div class="form-group" style="margin-bottom:0">
+        <label for="serviceRegionFilter">Region</label>
+        <select id="serviceRegionFilter">
+          <option value="">Svi regioni</option>
+          <option value="global">Globalno</option>
+          <option value="eea">EEA</option>
+          <option value="mena">MENA</option>
+          <option value="na">Severna Amerika</option>
+        </select>
+      </div>
+      <div class="form-group" style="margin-bottom:0">
+        <label for="serviceDeliveryFilter">Model isporuke</label>
+        <select id="serviceDeliveryFilter">
+          <option value="">Svi modeli</option>
+          <option value="direct">Direktno</option>
+          <option value="partner">Partner-led</option>
+          <option value="white-label">White-label</option>
+          <option value="advisory">Advisory</option>
+        </select>
+      </div>
+      <div class="form-group" style="margin-bottom:0">
+        <label for="serviceStatusFilter">Status</label>
+        <select id="serviceStatusFilter">
+          <option value="">Svi statusi</option>
+          <option value="available">Available</option>
+          <option value="partner-led">Partner-led</option>
+          <option value="roadmap">Roadmap</option>
+          <option value="advisory-only">Advisory-only</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <div class="services-grid" id="serviceCatalog">
+    <div class="service-card animate-in" data-category="banking" data-client="sme enterprise fintech" data-region="global eea" data-delivery="partner direct" data-status="partner-led">
       <span class="service-icon">🏦</span>
       <h3>Banking</h3>
       <p>Current accounts, savings modeli, business accounts, multicurrency accounts, virtual cards i expense control za međunarodne korisnike i kompanije.</p>
@@ -83,9 +163,15 @@
         <li>Virtual cards i spending controls</li>
         <li>Business onboarding i account strukture</li>
       </ul>
-      <span class="service-price">Current • Savings • Business</span>
+      <div class="service-meta">
+        <span class="service-status service-status-partner-led">Partner-led</span>
+        <span class="service-price">Current • Savings • Business</span>
+      </div>
+      <div class="service-actions">
+        <a href="contact.html?profile=business&subject=institutional-onboarding&priority=high" class="btn-outline" data-track="service_cta_click" data-track-id="banking-contact">Pokreni onboarding</a>
+      </div>
     </div>
-    <div class="service-card animate-in">
+    <div class="service-card animate-in" data-category="payments" data-client="retail sme enterprise institutional" data-region="global eea mena" data-delivery="partner direct white-label" data-status="available">
       <span class="service-icon">💳</span>
       <h3>Payments</h3>
       <p>Lokalni i međunarodni transferi, merchant payments, QR/POS tokovi, invoicing, subscriptions i payout rails za različite modele naplate.</p>
@@ -94,9 +180,15 @@
         <li>Merchant acquiring i gateway plaćanja</li>
         <li>Invoices, subscriptions i payout automatizacija</li>
       </ul>
-      <span class="service-price">Transfers • Merchant • Payouts</span>
+      <div class="service-meta">
+        <span class="service-status service-status-available">Available</span>
+        <span class="service-price">Transfers • Merchant • Payouts</span>
+      </div>
+      <div class="service-actions">
+        <a href="contact.html?profile=business&subject=institutional-onboarding" class="btn-outline" data-track="service_cta_click" data-track-id="payments-contact">Razgovaraj o payments</a>
+      </div>
     </div>
-    <div class="service-card animate-in">
+    <div class="service-card animate-in" data-category="exchange" data-client="retail enterprise fintech" data-region="global eea na" data-delivery="direct partner white-label" data-status="available">
       <span class="service-icon">💱</span>
       <h3>Exchange</h3>
       <p>Kripto, FX, OTC, liquidity desk, settlement desk i treasury exchange operativa za retail, B2B i partner scenarije.</p>
@@ -105,9 +197,16 @@
         <li>OTC i liquidity podrška</li>
         <li>Settlement i treasury exchange</li>
       </ul>
-      <span class="service-price">Crypto • FX • OTC</span>
+      <div class="service-meta">
+        <span class="service-status service-status-available">Available</span>
+        <span class="service-price">Crypto • FX • OTC</span>
+      </div>
+      <div class="service-actions">
+        <a href="trade.html" class="btn-outline" data-track="service_cta_click" data-track-id="exchange-demo">Otvori demo trading</a>
+        <a href="contact.html?profile=business&subject=trading" class="btn-outline" data-track="service_cta_click" data-track-id="exchange-contact">Komercijalni razgovor</a>
+      </div>
     </div>
-    <div class="service-card animate-in">
+    <div class="service-card animate-in" data-category="digital-assets" data-client="retail enterprise fintech institutional" data-region="global na" data-delivery="partner white-label" data-status="partner-led">
       <span class="service-icon">🪙</span>
       <h3>Digital Assets</h3>
       <p>Token issuance support, tokenization, custody, wallet infrastructure i asset servicing za digitalnu aktivu i fintech integracije.</p>
@@ -116,9 +215,15 @@
         <li>Wallet infrastruktura i pristupni modeli</li>
         <li>Tokenization i asset servicing</li>
       </ul>
-      <span class="service-price">Custody • Wallets • Tokens</span>
+      <div class="service-meta">
+        <span class="service-status service-status-partner-led">Partner-led</span>
+        <span class="service-price">Custody • Wallets • Tokens</span>
+      </div>
+      <div class="service-actions">
+        <a href="contact.html?profile=business&subject=custody-wallet&priority=high" class="btn-outline" data-track="service_cta_click" data-track-id="digital-assets-contact">Custody razgovor</a>
+      </div>
     </div>
-    <div class="service-card animate-in">
+    <div class="service-card animate-in" data-category="enterprise" data-client="enterprise fintech institutional" data-region="global eea na" data-delivery="partner white-label" data-status="partner-led">
       <span class="service-icon">🏢</span>
       <h3>Enterprise</h3>
       <p>Payroll, vendor payouts, treasury dashboards, embedded finance i API banking tokovi za rastuće i međunarodne kompanije.</p>
@@ -127,9 +232,15 @@
         <li>Treasury dashboards i cash controls</li>
         <li>Embedded finance i API banking</li>
       </ul>
-      <span class="service-price">Payroll • Treasury • API</span>
+      <div class="service-meta">
+        <span class="service-status service-status-partner-led">Partner-led</span>
+        <span class="service-price">Payroll • Treasury • API</span>
+      </div>
+      <div class="service-actions">
+        <a href="contact.html?profile=business&subject=institutional-onboarding&priority=high" class="btn-outline" data-track="service_cta_click" data-track-id="enterprise-contact">Enterprise intake</a>
+      </div>
     </div>
-    <div class="service-card animate-in">
+    <div class="service-card animate-in" data-category="capital" data-client="sme enterprise" data-region="global na" data-delivery="partner advisory" data-status="roadmap">
       <span class="service-icon">📈</span>
       <h3>Capital</h3>
       <p>Lending, factoring, invoice finance, startup banking i investor onboarding za komercijalni i growth kapital.</p>
@@ -138,9 +249,15 @@
         <li>Invoice finance i factoring</li>
         <li>Startup banking i investor readiness</li>
       </ul>
-      <span class="service-price">Lending • Factoring • Startup</span>
+      <div class="service-meta">
+        <span class="service-status service-status-roadmap">Roadmap</span>
+        <span class="service-price">Lending • Factoring • Startup</span>
+      </div>
+      <div class="service-actions">
+        <a href="contact.html?profile=business&subject=investor-relations" class="btn-outline" data-track="service_cta_click" data-track-id="capital-contact">Capital razgovor</a>
+      </div>
     </div>
-    <div class="service-card animate-in">
+    <div class="service-card animate-in" data-category="institutional" data-client="institutional enterprise" data-region="global mena" data-delivery="partner advisory" data-status="partner-led">
       <span class="service-icon">🏛️</span>
       <h3>Institutional</h3>
       <p>NGO/public sector flows, donor distribution, controlled disbursement i audit-friendly payment modeli za institucije i fondacije.</p>
@@ -149,9 +266,15 @@
         <li>NGO i donor distribution modeli</li>
         <li>Kontrolisana isplata i audit readiness</li>
       </ul>
-      <span class="service-price">Public • NGO • Audit</span>
+      <div class="service-meta">
+        <span class="service-status service-status-partner-led">Partner-led</span>
+        <span class="service-price">Public • NGO • Audit</span>
+      </div>
+      <div class="service-actions">
+        <a href="contact.html?profile=institutional&subject=public-ngo&inquiryType=formal&priority=high" class="btn-outline" data-track="service_cta_click" data-track-id="institutional-contact">Institutional desk</a>
+      </div>
     </div>
-    <div class="service-card animate-in">
+    <div class="service-card animate-in" data-category="advisory" data-client="enterprise fintech institutional" data-region="global eea mena na" data-delivery="advisory partner" data-status="advisory-only">
       <span class="service-icon">📜</span>
       <h3>Advisory</h3>
       <p>Compliance preparation, market entry, jurisdiction mapping i licensing readiness kao ozbiljan poslovni sloj širenja.</p>
@@ -160,9 +283,15 @@
         <li>Jurisdiction mapping i local partner search</li>
         <li>Business verification i dokumentaciona spremnost</li>
       </ul>
-      <span class="service-price">Compliance • Legal • Entry</span>
+      <div class="service-meta">
+        <span class="service-status service-status-advisory-only">Advisory-only</span>
+        <span class="service-price">Compliance • Legal • Entry</span>
+      </div>
+      <div class="service-actions">
+        <a href="contact.html?profile=licensing&subject=licensing&inquiryType=formal" class="btn-outline" data-track="service_cta_click" data-track-id="advisory-contact">Licensing razgovor</a>
+      </div>
     </div>
-    <div class="service-card animate-in">
+    <div class="service-card animate-in" data-category="education" data-client="retail fintech institutional" data-region="global" data-delivery="direct partner" data-status="available">
       <span class="service-icon">🎓</span>
       <h3>Education</h3>
       <p>Certification, academy programi, partner training i AI-finance literacy za razvoj tržišta i akreditacionih kapaciteta.</p>
@@ -171,9 +300,16 @@
         <li>Partner training i certification</li>
         <li>AI-finance literacy i konsulting</li>
       </ul>
-      <span class="service-price">Academy • Certification • Literacy</span>
+      <div class="service-meta">
+        <span class="service-status service-status-available">Available</span>
+        <span class="service-price">Academy • Certification • Literacy</span>
+      </div>
+      <div class="service-actions">
+        <a href="education.html" class="btn-outline" data-track="service_cta_click" data-track-id="education-page">Knowledge hub</a>
+        <a href="contact.html?profile=education&subject=education-certification" class="btn-outline" data-track="service_cta_click" data-track-id="education-contact">Certification inquiry</a>
+      </div>
     </div>
-    <div class="service-card animate-in">
+    <div class="service-card animate-in" data-category="expansion" data-client="enterprise fintech institutional" data-region="global eea mena na" data-delivery="partner white-label advisory" data-status="roadmap">
       <span class="service-icon">🤝</span>
       <h3>Expansion</h3>
       <p>Franchising, white-label, local operator model i country partnerships za odgovornu međunarodnu ekspanziju.</p>
@@ -182,7 +318,13 @@
         <li>Franchise i representative office modeli</li>
         <li>Country partnerships i regional operatori</li>
       </ul>
-      <span class="service-price">White-label • Franchise • Partner</span>
+      <div class="service-meta">
+        <span class="service-status service-status-roadmap">Roadmap</span>
+        <span class="service-price">White-label • Franchise • Partner</span>
+      </div>
+      <div class="service-actions">
+        <a href="contact.html?profile=partnership&subject=country-partnership&priority=high" class="btn-outline" data-track="service_cta_click" data-track-id="expansion-contact">Pokreni partnerstvo</a>
+      </div>
     </div>
   </div>
 
@@ -321,5 +463,6 @@
 <script src="js/toast.js"></script>
 <script src="js/chatbot.js"></script>
 <script src="js/cookie-consent.js"></script>
+<script src="js/services-catalog.js"></script>
 </body>
 </html>

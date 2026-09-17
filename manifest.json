@@ -1,7 +1,7 @@
 {
   "name": "Ai IQ Menjačnica",
   "short_name": "AIQMenja",
-  "description": "Svetska kripto menjačnica sa AI uvidima",
+  "description": "Static-first marketing i lead-generation platforma za AI IQ World Bank i Ai Iq Menjačnica ekosistem",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#070d1a",
@@ -18,14 +18,24 @@
   "screenshots": [],
   "shortcuts": [
     {
-      "name": "Trading",
+      "name": "Trading demo",
       "url": "/trade.html",
-      "description": "Otvori trading platformu"
+      "description": "Otvori demo trading prikaz"
     },
     {
-      "name": "Novčanik",
+      "name": "Globalne usluge",
+      "url": "/services.html",
+      "description": "Pregledaj katalog delatnosti"
+    },
+    {
+      "name": "Kontakt",
+      "url": "/contact.html",
+      "description": "Otvori intake i kontakt tok"
+    },
+    {
+      "name": "Novčanik demo",
       "url": "/wallet.html",
-      "description": "Otvori novčanik"
+      "description": "Otvori demo wallet prikaz"
     }
   ]
 }
