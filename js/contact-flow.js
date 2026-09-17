@@ -109,6 +109,14 @@
     return SUBJECT_LABELS[value] || value || 'general';
   }
 
+  function setSelectValue(field, value) {
+    if (!field || !value) return;
+    var hasOption = Array.prototype.some.call(field.options || [], function (option) {
+      return option.value === value;
+    });
+    if (hasOption) field.value = value;
+  }
+
   function syncExperience() {
     if (!profileField) return;
 
@@ -138,10 +146,10 @@
 
   function applyQueryPrefill() {
     var params = new URLSearchParams(window.location.search);
-    if (params.has('profile') && profileField) profileField.value = params.get('profile');
-    if (params.has('subject') && subjectField) subjectField.value = params.get('subject');
-    if (params.has('priority') && priorityField) priorityField.value = params.get('priority');
-    if (params.has('inquiryType') && inquiryTypeField) inquiryTypeField.value = params.get('inquiryType');
+    if (params.has('profile')) setSelectValue(profileField, params.get('profile'));
+    if (params.has('subject')) setSelectValue(subjectField, params.get('subject'));
+    if (params.has('priority')) setSelectValue(priorityField, params.get('priority'));
+    if (params.has('inquiryType')) setSelectValue(inquiryTypeField, params.get('inquiryType'));
     syncExperience();
   }
 

@@ -23,7 +23,7 @@
     return attr.split(/\s+/).indexOf(value) !== -1;
   }
 
-  function applyFilters() {
+  function applyFilters(shouldTrack) {
     var visible = 0;
 
     cards.forEach(function (card) {
@@ -42,7 +42,7 @@
       controls.count.textContent = visible + ' / ' + cards.length + ' usluga prikazano';
     }
 
-    if (window.aiqTrackEvent) {
+    if (shouldTrack && window.aiqTrackEvent) {
       window.aiqTrackEvent('services_catalog_filter', {
         category: controls.category ? controls.category.value : '',
         client: controls.client ? controls.client.value : '',
@@ -57,7 +57,9 @@
   ['category', 'client', 'region', 'delivery', 'status'].forEach(function (key) {
     var control = controls[key];
     if (!control) return;
-    control.addEventListener('change', applyFilters);
+    control.addEventListener('change', function () {
+      applyFilters(true);
+    });
   });
 
   if (controls.reset) {
@@ -65,9 +67,9 @@
       ['category', 'client', 'region', 'delivery', 'status'].forEach(function (key) {
         if (controls[key]) controls[key].value = '';
       });
-      applyFilters();
+      applyFilters(true);
     });
   }
 
-  applyFilters();
+  applyFilters(false);
 })();
