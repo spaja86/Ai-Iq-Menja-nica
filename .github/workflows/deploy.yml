@@ -21,8 +21,24 @@ jobs:
       - name: HTML validation
         run: htmlhint "**/*.html"
 
+      - name: Metadata quality checks
+        run: |
+          grep -q 'rel="canonical"' index.html
+          grep -q 'rel="canonical"' services.html
+          grep -q 'rel="canonical"' contact.html
+          grep -q 'rel="canonical"' trade.html
+          grep -q 'rel="canonical"' wallet.html
+          grep -q 'rel="canonical"' education.html
+
+      - name: Content governance checks
+        run: |
+          grep -q 'spajicn@yahoo.com' contact.html
+          grep -q 'demo/simulirane' trade.html
+          grep -q 'Demo wallet' wallet.html
+          grep -q 'serviceCatalog' services.html
+
       - name: Internal link validation
-        run: linkinator . --recurse --skip "mailto:.*" --skip "https://(www\\.)?(instagram|facebook|youtube|tiktok)\\.com/.*"
+        run: linkinator . --recurse --skip "mailto:.*" --skip "https://(www\\.)?(instagram|facebook|youtube|tiktok)\\.com/.*" --skip "https://spaja86\\.github\\.io/Ai-Iq-World-Bank.*" --skip "https://spaja86\\.github\\.io/IO-OPENUI-AO.*" --skip "https://spaja86\\.github\\.io/Kompanija-SPAJA.*"
 
       - name: Install Vercel CLI
         run: vercel --version

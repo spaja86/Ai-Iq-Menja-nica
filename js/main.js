@@ -224,6 +224,15 @@
       document.querySelectorAll('[data-i18n="' + key + '"]').forEach(function (el) {
         el.textContent = t[key];
       });
+      document.querySelectorAll('[data-i18n-placeholder="' + key + '"]').forEach(function (el) {
+        el.setAttribute('placeholder', t[key]);
+      });
+      document.querySelectorAll('[data-i18n-title="' + key + '"]').forEach(function (el) {
+        el.setAttribute('title', t[key]);
+      });
+      document.querySelectorAll('[data-i18n-aria-label="' + key + '"]').forEach(function (el) {
+        el.setAttribute('aria-label', t[key]);
+      });
     });
   }
 
@@ -232,6 +241,9 @@
     var next = current === 'sr' ? 'en' : 'sr';
     localStorage.setItem(LANG_KEY, next);
     applyLang(next);
+    if (window.aiqTrackEvent) {
+      window.aiqTrackEvent('language_toggle', { from: current, to: next });
+    }
   }
 
   var savedLang = localStorage.getItem(LANG_KEY) || 'sr';

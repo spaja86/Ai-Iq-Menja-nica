@@ -8,6 +8,58 @@
   var STORAGE_KEY = 'aiq-contact-submissions';
   var LAST_SUBMIT_KEY = 'aiq-contact-last-submit';
   var RATE_LIMIT_MS = 60 * 1000;
+  var SUBJECT_LABELS = {
+    licensing: 'Licenciranje i compliance',
+    'country-partnership': 'Partnerstvo po državi',
+    'white-label-api': 'White-label i API integracije',
+    'institutional-onboarding': 'Institutional onboarding',
+    'investor-relations': 'Investor relations',
+    'public-ngo': 'Public sector / NGO desk',
+    'trade-finance': 'Trade finance',
+    'custody-wallet': 'Custody / wallet support',
+    'education-certification': 'Education / certification',
+    'representative-office': 'Representative office request',
+    trading: 'Trading i exchange pitanje',
+    other: 'Ostalo'
+  };
+  var PROFILE_CONFIG = {
+    general: {
+      message: 'Najbolje za opšta pitanja, osnovni pregled usluga i početni kontakt preko web forme.',
+      channel: 'Web forma je dovoljna za prvi kontakt. Za formalni zahtev prebacite Tip upita na direktni kanal.',
+      subject: ''
+    },
+    business: {
+      message: 'Koristite za enterprise, treasury, payments, API i operativne razgovore koji traže kvalifikaciju lead-a.',
+      channel: 'Za ozbiljan poslovni onboarding preporučen je potpuni unos kompanije, tržišta i željenog modela saradnje.',
+      subject: 'institutional-onboarding'
+    },
+    licensing: {
+      message: 'Najbolje za licensing roadmap, compliance pripremu, regulatorne i višejurisdikcijske razgovore.',
+      channel: 'Za ovaj profil preporučen je formalni/direktni kanal kako bi zahtev stigao na pravi intake tok.',
+      subject: 'licensing'
+    },
+    partnership: {
+      message: 'Koristite za country partnership, white-label, franchise, local operator i partner-led ekspanziju.',
+      channel: 'Ako imate konkretan model partnerstva, uključite tržište, ulogu partnera i očekivani delivery model.',
+      subject: 'country-partnership'
+    },
+    institutional: {
+      message: 'Koristite za NGO, javni sektor, donor programe, audit-friendly modele i institucionalne tokove.',
+      channel: 'Za institucionalne zahteve preporučen je formalni/direktni kanal sa jasnim opisom jurisdikcije i obima.',
+      subject: 'public-ngo'
+    },
+    education: {
+      message: 'Koristite za certification, academy, partner training i educational licensing razgovore.',
+      channel: 'Za partnerske edukativne programe unesite ciljnu grupu, tržište i željeni format programa.',
+      subject: 'education-certification'
+    }
+  };
+  var inquiryTypeField = form.querySelector('#contactInquiryType');
+  var subjectField = form.querySelector('#contactSubject');
+  var profileField = form.querySelector('#contactProfile');
+  var priorityField = form.querySelector('#contactPriority');
+  var expectationField = document.getElementById('contactExpectation');
+  var channelField = document.getElementById('contactChannelNotice');
 
   function setFeedback(message, type) {
     feedback.style.display = 'block';
@@ -53,6 +105,54 @@
     return 'inq-' + Date.now() + '-' + Math.random().toString(36).slice(2, 8);
   }
 
+  function humanizeSubject(value) {
+    return SUBJECT_LABELS[value] || value || 'general';
+  }
+
+  function setSelectValue(field, value) {
+    if (!field || !value) return;
+    var hasOption = Array.prototype.some.call(field.options || [], function (option) {
+      return option.value === value;
+    });
+    if (hasOption) field.value = value;
+  }
+
+  function syncExperience() {
+    if (!profileField) return;
+
+    var profile = PROFILE_CONFIG[profileField.value] || PROFILE_CONFIG.general;
+    var inquiryType = inquiryTypeField ? inquiryTypeField.value : 'general';
+    var priority = priorityField ? priorityField.value : 'standard';
+
+    if (channelField) {
+      channelField.textContent = inquiryType === 'formal'
+        ? 'Odabrali ste direktni kanal: posle validacije forma otvara email prema formalnom prijemnom kanalu.'
+        : profile.channel;
+    }
+
+    if (expectationField) {
+      var priorityText = priority === 'urgent'
+        ? 'Prioritet je označen kao urgentan.'
+        : priority === 'high'
+          ? 'Prioritet je označen kao visok.'
+          : 'Prioritet je standardan.';
+      expectationField.textContent = profile.message + ' ' + priorityText;
+    }
+
+    if (profile.subject && subjectField && !subjectField.value) {
+      subjectField.value = profile.subject;
+    }
+  }
+
+  function applyQueryPrefill() {
+    var params = new URLSearchParams(window.location.search);
+    if (params.has('profile')) setSelectValue(profileField, params.get('profile'));
+    if (params.has('subject')) setSelectValue(subjectField, params.get('subject'));
+    if (params.has('priority')) setSelectValue(priorityField, params.get('priority'));
+    if (params.has('inquiryType')) setSelectValue(inquiryTypeField, params.get('inquiryType'));
+    syncExperience();
+  }
+
   function isRateLimited() {
     var last = Number(localStorage.getItem(LAST_SUBMIT_KEY) || 0);
     return Date.now() - last < RATE_LIMIT_MS;
@@ -68,6 +168,8 @@
       id: makeId(),
       ts: new Date().toISOString(),
       source: 'contact.html',
+      profile: sanitize(profileField && profileField.value || 'general'),
+      priority: sanitize(priorityField && priorityField.value || 'standard'),
       inquiryType: inquiryType,
       name: sanitize(form.querySelector('#contactName').value),
       email: sanitize(form.querySelector('#contactEmail').value),
@@ -81,20 +183,23 @@
   }
 
   function buildMailto(entry) {
-    var subject = encodeURIComponent('AI IQ World Bank - Formal Request - ' + (entry.subject || 'general'));
+    var subject = encodeURIComponent('AI IQ World Bank - Formal Request - ' + humanizeSubject(entry.subject));
     var body = encodeURIComponent(
       'Formal request details:\n' +
+      'Profile: ' + entry.profile + '\n' +
+      'Priority: ' + entry.priority + '\n' +
       'Name: ' + entry.name + '\n' +
       'Email: ' + entry.email + '\n' +
       'Company: ' + entry.company + '\n' +
       'Jurisdiction: ' + entry.jurisdiction + '\n' +
-      'Topic: ' + entry.subject + '\n\n' +
+      'Topic: ' + humanizeSubject(entry.subject) + '\n\n' +
       entry.message
     );
     return 'mailto:spajicn@yahoo.com?subject=' + subject + '&body=' + body;
   }
 
   function validate(entry) {
+    if (!entry.profile) return 'Izaberite profil razgovora.';
     if (!entry.name || entry.name.length < 2) return 'Unesite validno ime (minimum 2 karaktera).';
     if (!validEmail(entry.email)) return 'Unesite validnu email adresu.';
     if (!entry.subject) return 'Izaberite temu upita.';
@@ -132,17 +237,29 @@
     if (entry.inquiryType === 'formal') {
       setFeedback('Formalni/regulatorni zahtev je evidentiran i sada se otvara direktni email kanal ka spajicn@yahoo.com.', 'warn');
       if (window.aiqTrackEvent) {
-        window.aiqTrackEvent('contact_formal_redirect', { subject: entry.subject, jurisdiction: entry.jurisdiction });
+        window.aiqTrackEvent('contact_formal_redirect', { subject: entry.subject, jurisdiction: entry.jurisdiction, profile: entry.profile, priority: entry.priority });
       }
       setTimeout(function () {
         window.location.href = buildMailto(entry);
       }, 400);
     } else {
-      setFeedback('✅ Hvala! Vaš upit je evidentiran lokalno sa audit tragom. Naš tim će odgovoriti preko navedenog kanala.', 'success');
+      setFeedback('✅ Hvala! Vaš upit je evidentiran lokalno sa audit tragom. Ako bude potreban formalni nastavak, nastavite kroz direktni email kanal.', 'success');
       if (window.aiqTrackEvent) {
-        window.aiqTrackEvent('contact_general_submit', { subject: entry.subject, jurisdiction: entry.jurisdiction });
+        window.aiqTrackEvent('contact_general_submit', { subject: entry.subject, jurisdiction: entry.jurisdiction, profile: entry.profile, priority: entry.priority });
       }
       form.reset();
+      syncExperience();
     }
   });
+
+  feedback.setAttribute('role', 'status');
+  feedback.setAttribute('aria-live', 'polite');
+
+  [inquiryTypeField, profileField, priorityField].forEach(function (field) {
+    if (!field) return;
+    field.addEventListener('change', syncExperience);
+  });
+
+  applyQueryPrefill();
+  syncExperience();
 })();

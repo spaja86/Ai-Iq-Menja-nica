@@ -10,6 +10,12 @@
 
 const FEE_RATE = 0.02;
 const DEFAULT_COIN_ID = "bitcoin";
+const CACHE_TTL_MS = 30 * 60 * 1000;
+const CACHE_KEYS = {
+  fx: "aiq-trade-fx-cache",
+  market: "aiq-trade-market-cache",
+  pricePrefix: "aiq-trade-price-cache:"
+};
 
 const els = {
   tradeType: document.getElementById("trade-type"),
@@ -28,7 +34,31 @@ const state = {
   selected: null,
   priceEur: null,
   eurRsd: null,
+  dataSource: {
+    fx: "live",
+    market: "live",
+    price: "live",
+  },
 };
+
+function readCache(key) {
+  try {
+    return JSON.parse(localStorage.getItem(key) || "null");
+  } catch (err) {
+    return null;
+  }
+}
+
+function writeCache(key, value) {
+  try {
+    localStorage.setItem(key, JSON.stringify(value));
+  } catch (err) {}
+}
+
+function isFreshCache(entry) {
+  if (!entry || !entry.ts) return false;
+  return Date.now() - Date.parse(entry.ts) <= CACHE_TTL_MS;
+}
 
 function h(tag, attrs = {}, ...children) {
   const el = document.createElement(tag);
@@ -148,33 +178,69 @@ function ui() {
 }
 
 async function fetchEurRsd() {
-  const res = await fetch("https://api.exchangerate.host/latest?base=EUR&symbols=RSD");
-  if (!res.ok) throw new Error("FX error: cannot load EUR/RSD.");
-  const data = await res.json();
-  const rate = data?.rates?.RSD;
-  if (typeof rate !== "number") throw new Error("FX error: invalid EUR/RSD.");
-  return rate;
+  try {
+    const res = await fetch("https://api.exchangerate.host/latest?base=EUR&symbols=RSD");
+    if (!res.ok) throw new Error("FX error: cannot load EUR/RSD.");
+    const data = await res.json();
+    const rate = data?.rates?.RSD;
+    if (typeof rate !== "number") throw new Error("FX error: invalid EUR/RSD.");
+    state.dataSource.fx = "live";
+    writeCache(CACHE_KEYS.fx, { rate, ts: new Date().toISOString() });
+    return rate;
+  } catch (error) {
+    const cached = readCache(CACHE_KEYS.fx);
+    if (cached && typeof cached.rate === "number" && isFreshCache(cached)) {
+      state.dataSource.fx = "cache";
+      return cached.rate;
+    }
+    throw error;
+  }
 }
 
 async function fetchMarketPage(page, perPage) {
-  const url =
-    "https://api.coingecko.com/api/v3/coins/markets" +
-    `?vs_currency=eur&order=market_cap_desc&per_page=${perPage}&page=${page}&sparkline=false`;
-  const res = await fetch(url);
-  if (!res.ok) throw new Error("Market list error (CoinGecko). Try again later.");
-  return await res.json();
+  const key = `${CACHE_KEYS.market}:${page}:${perPage}`;
+  try {
+    const url =
+      "https://api.coingecko.com/api/v3/coins/markets" +
+      `?vs_currency=eur&order=market_cap_desc&per_page=${perPage}&page=${page}&sparkline=false`;
+    const res = await fetch(url);
+    if (!res.ok) throw new Error("Market list error (CoinGecko). Try again later.");
+    const data = await res.json();
+    state.dataSource.market = "live";
+    writeCache(key, { data, ts: new Date().toISOString() });
+    return data;
+  } catch (error) {
+    const cached = readCache(key);
+    if (cached && Array.isArray(cached.data) && isFreshCache(cached)) {
+      state.dataSource.market = "cache";
+      return cached.data;
+    }
+    throw error;
+  }
 }
 
 async function fetchPriceEur(coinId) {
-  const url =
-    "https://api.coingecko.com/api/v3/simple/price" +
-    `?ids=${encodeURIComponent(coinId)}&vs_currencies=eur`;
-  const res = await fetch(url);
-  if (!res.ok) throw new Error("Price error (CoinGecko). Try again later.");
-  const data = await res.json();
-  const p = data?.[coinId]?.eur;
-  if (typeof p !== "number") throw new Error("Price error: invalid response.");
-  return p;
+  const key = CACHE_KEYS.pricePrefix + coinId;
+  try {
+    const url =
+      "https://api.coingecko.com/api/v3/simple/price" +
+      `?ids=${encodeURIComponent(coinId)}&vs_currencies=eur`;
+    const res = await fetch(url);
+    if (!res.ok) throw new Error("Price error (CoinGecko). Try again later.");
+    const data = await res.json();
+    const p = data?.[coinId]?.eur;
+    if (typeof p !== "number") throw new Error("Price error: invalid response.");
+    state.dataSource.price = "live";
+    writeCache(key, { price: p, ts: new Date().toISOString() });
+    return p;
+  } catch (error) {
+    const cached = readCache(key);
+    if (cached && typeof cached.price === "number" && isFreshCache(cached)) {
+      state.dataSource.price = "cache";
+      return cached.price;
+    }
+    throw error;
+  }
 }
 
 function matches(c, q) {
@@ -319,6 +385,9 @@ async function loadMore(U) {
   renderCoins(U.coinListB, filtered, U);
 
   setStatus(`Loaded ${state.coins.length} coins.`, "ok");
+  if (state.dataSource.market === "cache") {
+    setStatus(`Loaded ${state.coins.length} coins from cached market data.`, "ok");
+  }
 }
 
 function onSearchChanged(U) {
@@ -340,7 +409,7 @@ async function selectDefaultBTC(U) {
   setStatus("Loading BTC price...", "");
   state.priceEur = await fetchPriceEur(DEFAULT_COIN_ID);
   await refreshQuote(U);
-  setStatus("Ready (BTC).", "ok");
+  setStatus(state.dataSource.price === "cache" || state.dataSource.fx === "cache" ? "Ready (BTC) using cached quote data." : "Ready (BTC).", "ok");
 }
 
 (async function init() {

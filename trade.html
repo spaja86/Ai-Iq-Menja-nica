@@ -3,10 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Ai Iq Menjačnica u AI IQ World Bank ekosistemu — trading, liquidity i exchange operativa sa live cenama i order book prikazom.">
+  <meta name="description" content="Ai Iq Menjačnica u AI IQ World Bank ekosistemu — demo trading iskustvo, edukativni market prikazi i API quote sloj kada je dostupan.">
+  <meta property="og:title" content="Trading — Ai Iq Menjačnica">
+  <meta property="og:description" content="Demo trading prikazi, edukativni kalkulatori i API quote sloj za exchange i market positioning iskustvo.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://spaja86.github.io/Ai-Iq-Menja-nica/trade.html">
   <meta name="theme-color" content="#00ff88">
   <link rel="manifest" href="manifest.json">
   <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="canonical" href="https://spaja86.github.io/Ai-Iq-Menja-nica/trade.html">
   <title>Trading — Ai Iq Menjačnica</title>
   <link rel="stylesheet" href="css/styles.css">
   <link rel="stylesheet" href="css/trading.css">
@@ -14,6 +19,7 @@
   <script src="js/theme.js"></script>
 </head>
 <body>
+<a class="skip-link" href="#mainContent">Preskoči na glavni sadržaj</a>
 
 <!-- LOADING -->
 <div class="loading-overlay"><div class="spinner"></div></div>
@@ -68,7 +74,15 @@
 </nav>
 
 <!-- TRADING LAYOUT -->
-<main>
+<main id="mainContent">
+<div class="section" style="padding-bottom:0">
+  <div class="section-inner">
+    <div class="demo-banner">
+      <h3>Trading prikaz kombinuje demo i API quote slojeve</h3>
+      <p class="compact-note">Gornji order-book, chart i AI prediction blokovi su simulirani. Donji market quote modul pokušava da učita spoljne podatke i koristi keširane vrednosti kada je mreža nedostupna.</p>
+    </div>
+  </div>
+</div>
 <div class="trading-layout">
 
   <!-- TOP BAR: coin selector + price display -->
@@ -103,7 +117,7 @@
   <div class="order-book-panel">
     <div class="panel-title">
       <span>Order Book</span>
-      <span class="badge badge-green">LIVE</span>
+      <span class="badge badge-gold">DEMO</span>
     </div>
     <div class="order-book-header">
       <span>Cena (USD)</span>
@@ -290,8 +304,8 @@
     </div>
 
     <div class="section-header">
-      <h2>🌐 Real Market Trade</h2>
-      <p>Pravi tržišni podaci sa CoinGecko API — EUR/RSD</p>
+      <h2>🌐 API market quotes</h2>
+      <p>Spoljni tržišni podaci sa fallback-om na keširane vrednosti kada CoinGecko ili FX izvor nisu dostupni.</p>
     </div>
     <div class="card" style="max-width:800px;margin:0 auto">
       <div style="display:flex;gap:16px;flex-wrap:wrap;margin-bottom:16px">
@@ -354,9 +368,9 @@
       <div class="footer-col">
         <h4>Ekosistem</h4>
         <div class="ecosystem-links">
-          <a href="https://io-openui-ao.vercel.app" target="_blank" rel="noopener" class="ecosystem-link">🌐 IO-OPENUI-AO</a>
+          <a href="https://spaja86.github.io/IO-OPENUI-AO" target="_blank" rel="noopener" class="ecosystem-link">🌐 IO-OPENUI-AO</a>
           <a href="https://spaja86.github.io/Ai-Iq-World-Bank" target="_blank" rel="noopener" class="ecosystem-link">🏦 AI IQ World Bank — Finansije, licence i partnerstva</a>
-          <a href="https://github.com/spaja86/Kompanija-SPAJA" target="_blank" rel="noopener" class="ecosystem-link">🏢 Kompanija SPAJA</a>
+          <a href="https://spaja86.github.io/Kompanija-SPAJA" target="_blank" rel="noopener" class="ecosystem-link">🏢 Kompanija SPAJA</a>
         </div>
       </div>
     </div>
