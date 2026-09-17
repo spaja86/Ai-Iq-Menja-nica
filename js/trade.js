@@ -10,6 +10,7 @@
 
 const FEE_RATE = 0.02;
 const DEFAULT_COIN_ID = "bitcoin";
+const CACHE_TTL_MS = 30 * 60 * 1000;
 const CACHE_KEYS = {
   fx: "aiq-trade-fx-cache",
   market: "aiq-trade-market-cache",
@@ -52,6 +53,11 @@ function writeCache(key, value) {
   try {
     localStorage.setItem(key, JSON.stringify(value));
   } catch (err) {}
+}
+
+function isFreshCache(entry) {
+  if (!entry || !entry.ts) return false;
+  return Date.now() - Date.parse(entry.ts) <= CACHE_TTL_MS;
 }
 
 function h(tag, attrs = {}, ...children) {
@@ -183,7 +189,7 @@ async function fetchEurRsd() {
     return rate;
   } catch (error) {
     const cached = readCache(CACHE_KEYS.fx);
-    if (cached && typeof cached.rate === "number") {
+    if (cached && typeof cached.rate === "number" && isFreshCache(cached)) {
       state.dataSource.fx = "cache";
       return cached.rate;
     }
@@ -205,7 +211,7 @@ async function fetchMarketPage(page, perPage) {
     return data;
   } catch (error) {
     const cached = readCache(key);
-    if (cached && Array.isArray(cached.data)) {
+    if (cached && Array.isArray(cached.data) && isFreshCache(cached)) {
       state.dataSource.market = "cache";
       return cached.data;
     }
@@ -229,7 +235,7 @@ async function fetchPriceEur(coinId) {
     return p;
   } catch (error) {
     const cached = readCache(key);
-    if (cached && typeof cached.price === "number") {
+    if (cached && typeof cached.price === "number" && isFreshCache(cached)) {
       state.dataSource.price = "cache";
       return cached.price;
     }

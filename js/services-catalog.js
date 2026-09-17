@@ -13,6 +13,7 @@
     reset: document.getElementById('servicesFilterReset'),
     count: document.getElementById('serviceResultsCount')
   };
+  var trackTimer = 0;
 
   var cards = Array.prototype.slice.call(catalog.querySelectorAll('.service-card[data-category]'));
   if (!cards.length) return;
@@ -21,6 +22,21 @@
     if (!value) return true;
     var attr = card.getAttribute('data-' + name) || '';
     return attr.split(/\s+/).indexOf(value) !== -1;
+  }
+
+  function queueTracking(visible) {
+    if (!window.aiqTrackEvent) return;
+    window.clearTimeout(trackTimer);
+    trackTimer = window.setTimeout(function () {
+      window.aiqTrackEvent('services_catalog_filter', {
+        category: controls.category ? controls.category.value : '',
+        client: controls.client ? controls.client.value : '',
+        region: controls.region ? controls.region.value : '',
+        delivery: controls.delivery ? controls.delivery.value : '',
+        status: controls.status ? controls.status.value : '',
+        visible: visible
+      });
+    }, 180);
   }
 
   function applyFilters(shouldTrack) {
@@ -42,16 +58,8 @@
       controls.count.textContent = visible + ' / ' + cards.length + ' usluga prikazano';
     }
 
-    if (shouldTrack && window.aiqTrackEvent) {
-      window.aiqTrackEvent('services_catalog_filter', {
-        category: controls.category ? controls.category.value : '',
-        client: controls.client ? controls.client.value : '',
-        region: controls.region ? controls.region.value : '',
-        delivery: controls.delivery ? controls.delivery.value : '',
-        status: controls.status ? controls.status.value : '',
-        visible: visible
-      });
-    }
+    if (controls.count) controls.count.setAttribute('aria-label', controls.count.textContent);
+    if (shouldTrack) queueTracking(visible);
   }
 
   ['category', 'client', 'region', 'delivery', 'status'].forEach(function (key) {

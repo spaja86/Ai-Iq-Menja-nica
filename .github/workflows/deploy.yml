@@ -38,7 +38,7 @@ jobs:
           grep -q 'serviceCatalog' services.html
 
       - name: Internal link validation
-        run: linkinator . --recurse --skip "mailto:.*" --skip "https://(www\\.)?(instagram|facebook|youtube|tiktok)\\.com/.*" --skip "https://spaja86\\.github\\.io/Ai-Iq-World-Bank.*" --skip "https://spaja86\\.github\\.io/IO-OPENUI-AO.*" --skip "https://spaja86\\.github\\.io/Kompanija-SPAJA.*" --skip "https://io-openui-ao\\.vercel\\.app/.*"
+        run: linkinator . --recurse --skip "mailto:.*" --skip "https://(www\\.)?(instagram|facebook|youtube|tiktok)\\.com/.*" --skip "https://spaja86\\.github\\.io/Ai-Iq-World-Bank.*" --skip "https://spaja86\\.github\\.io/IO-OPENUI-AO.*" --skip "https://spaja86\\.github\\.io/Kompanija-SPAJA.*"
 
       - name: Install Vercel CLI
         run: vercel --version
