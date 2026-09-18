@@ -12,6 +12,14 @@
 - Shared logika u `js/main.js` ili `js/shared/*`, page logika u `js/pages/*` (ili postojeći page fajlovi dok traje migracija).
 - Koristi `data-i18n` ključeve za deljene tekstove.
 - Koristi `data-track` za CTA/form događaje.
+- Za intent funnel CTA koristi i `data-intent` + `data-funnel-stage`.
 - Dodaj canonical/OG metapodatke na svaku novu javnu stranicu.
 - Demo, simulated i roadmap tvrdnje moraju ostati jasno označene u sadržaju.
 - Za nove CTA tokove koristi postojeći contact intake model i direktni formalni kanal kada je zahtev regulatorni ili institucionalni.
+
+## Merge gate (obavezno)
+- I18n konzistentnost za shared navigaciju.
+- Demo/simulated signalizacija bez "live" zavaravanja.
+- Formalni kanal (`mailto:spajicn@yahoo.com`) prisutan za regulatorne/institucionalne tokove.
+- Canonical i OG metadata na svim javnim stranicama.
+- Relevantna docs sekcija ažurirana.

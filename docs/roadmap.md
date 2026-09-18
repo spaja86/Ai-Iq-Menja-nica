@@ -20,3 +20,9 @@
 - Jurisdiction readiness matrix
 - Enterprise/compliance ekspanzija
 - Dedicated landing stranice po nameri i dublji knowledge hub
+
+## V2.5 — Intent Growth Layer
+- Licensing, institutional i partner onboarding landing stranice
+- Funnel-level analytics (`data-intent`, `data-funnel-stage`)
+- CI merge-gate proširen na sve javne stranice
+- Multi-endpoint post-deploy smoke checks

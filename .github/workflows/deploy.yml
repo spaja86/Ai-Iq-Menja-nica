@@ -23,18 +23,36 @@ jobs:
 
       - name: Metadata quality checks
         run: |
-          grep -q 'rel="canonical"' index.html
-          grep -q 'rel="canonical"' services.html
-          grep -q 'rel="canonical"' contact.html
-          grep -q 'rel="canonical"' trade.html
-          grep -q 'rel="canonical"' wallet.html
-          grep -q 'rel="canonical"' education.html
+          set -euo pipefail
+          pages=(
+            index.html
+            services.html
+            contact.html
+            trade.html
+            wallet.html
+            education.html
+            about.html
+            licensing.html
+            institutional.html
+            partner-onboarding.html
+          )
+
+          for page in "${pages[@]}"; do
+            grep -q 'rel="canonical"' "$page"
+            grep -q 'property="og:title"' "$page"
+            grep -q 'property="og:description"' "$page"
+          done
 
       - name: Content governance checks
         run: |
+          set -euo pipefail
           grep -q 'spajicn@yahoo.com' contact.html
-          grep -q 'demo/simulirane' trade.html
-          grep -q 'Demo wallet' wallet.html
+          grep -q 'spajicn@yahoo.com' licensing.html
+          grep -q 'spajicn@yahoo.com' institutional.html
+          grep -q 'spajicn@yahoo.com' partner-onboarding.html
+          grep -qi 'demo/simulirane' index.html
+          grep -qi 'simulirani podaci' trade.html
+          grep -qi 'Demo wallet' wallet.html
           grep -q 'serviceCatalog' services.html
 
       - name: Internal link validation
@@ -49,8 +67,19 @@ jobs:
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
 
-      - name: Post-deploy smoke check
+      - name: Post-deploy smoke check (single URL)
         if: ${{ secrets.PRODUCTION_HEALTHCHECK_URL != '' }}
         run: |
           curl -fL --max-time 20 "${{ secrets.PRODUCTION_HEALTHCHECK_URL }}" > /dev/null
           echo "Smoke check passed for ${{ secrets.PRODUCTION_HEALTHCHECK_URL }}"
+
+      - name: Post-deploy smoke checks (multiple URLs)
+        if: ${{ secrets.PRODUCTION_HEALTHCHECK_URLS != '' }}
+        run: |
+          IFS=',' read -ra URLS <<< "${{ secrets.PRODUCTION_HEALTHCHECK_URLS }}"
+          for raw_url in "${URLS[@]}"; do
+            url="$(echo "$raw_url" | xargs)"
+            [ -n "$url" ] || continue
+            curl -fL --max-time 20 "$url" > /dev/null
+            echo "Smoke check passed for $url"
+          done
