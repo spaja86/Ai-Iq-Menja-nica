@@ -5,6 +5,7 @@
 - Shared behavior je u `js/main.js`, a page-specifična logika je u zasebnim JS fajlovima.
 
 ## Ciljana organizacija (standard)
+- Trust/governance hub je javni HTML sloj (`trust-center.html`) koji povezuje policy, data-source, disclaimer i funnel pravila.
 - `pages/` — HTML stranice (faza migracije)
 - `assets/` — statički asseti (ikone, slike, media)
 - `css/` — stilovi
@@ -20,8 +21,8 @@
 - Sekcije na strani: Hero → Trust → Services → CTA → Footer
 
 ## Shared vs page-specific granica
-- Shared: navigacija, jezik, tema, analytics, bezbednosni bannery/disclaimeri.
-- Page-specific: trading simulacija, wallet prikaz, edukativni kalkulatori, contact tok, intent landing logika.
+- Shared: navigacija, jezik, tema, analytics, bezbednosni bannery/disclaimeri i trust/governance signalizacija.
+- Page-specific: trading simulacija, wallet prikaz, edukativni kalkulatori, contact tok, intent landing logika i capability-hub detalji.
 
 ## Pravila za nove fajlove
 1. Novi javni page ide kao root HTML dok traje migracija i mora imati canonical + OG metadata.

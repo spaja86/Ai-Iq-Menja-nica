@@ -35,6 +35,7 @@ jobs:
             licensing.html
             institutional.html
             partner-onboarding.html
+            trust-center.html
           )
 
           for page in "${pages[@]}"; do
@@ -50,6 +51,8 @@ jobs:
           grep -q 'spajicn@yahoo.com' licensing.html
           grep -q 'spajicn@yahoo.com' institutional.html
           grep -q 'spajicn@yahoo.com' partner-onboarding.html
+          grep -q 'spajicn@yahoo.com' trust-center.html
+          grep -qi 'formalni kanal' trust-center.html
           grep -qi 'demo/simulirane' index.html
           grep -qi 'simulirani podaci' trade.html
           grep -qi 'Demo wallet' wallet.html

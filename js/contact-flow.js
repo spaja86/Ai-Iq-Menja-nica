@@ -22,6 +22,34 @@
     trading: 'Trading i exchange pitanje',
     other: 'Ostalo'
   };
+  var COMPANY_SIZE_LABELS = {
+    solo: 'Solo / founder-led',
+    small: '2-10 ljudi',
+    sme: '11-50 ljudi',
+    growth: '51-250 ljudi',
+    enterprise: '250+ ljudi',
+    institutional: 'Institution / NGO / public body'
+  };
+  var TIMELINE_LABELS = {
+    immediate: '0-30 dana',
+    quarter: '1 kvartal',
+    'half-year': '3-6 meseci',
+    strategic: '6+ meseci'
+  };
+  var BUDGET_LABELS = {
+    exploratory: 'Exploratory / not fixed',
+    pilot: 'Pilot budget',
+    growth: 'Growth budget',
+    enterprise: 'Enterprise budget',
+    institutional: 'Institutional program budget'
+  };
+  var DELIVERY_LABELS = {
+    direct: 'Direktan servis',
+    partner: 'Partner-led model',
+    'white-label': 'White-label / branded model',
+    advisory: 'Advisory / roadmap support',
+    institutional: 'Institutional collaboration'
+  };
   var PROFILE_CONFIG = {
     general: {
       message: 'Najbolje za opšta pitanja, osnovni pregled usluga i početni kontakt preko web forme.',
@@ -109,6 +137,10 @@
     return SUBJECT_LABELS[value] || value || 'general';
   }
 
+  function humanizeLabel(value, labels) {
+    return labels[value] || value || 'n/a';
+  }
+
   function setSelectValue(field, value) {
     if (!field || !value) return;
     var hasOption = Array.prototype.some.call(field.options || [], function (option) {
@@ -136,7 +168,7 @@
         : priority === 'high'
           ? 'Prioritet je označen kao visok.'
           : 'Prioritet je standardan.';
-      expectationField.textContent = profile.message + ' ' + priorityText;
+      expectationField.textContent = profile.message + ' ' + priorityText + ' Uključite veličinu organizacije, timeline, budget tier i željeni delivery model.';
     }
 
     if (profile.subject && subjectField && !subjectField.value) {
@@ -175,6 +207,10 @@
       email: sanitize(form.querySelector('#contactEmail').value),
       company: sanitize(form.querySelector('#contactCompany').value),
       jurisdiction: sanitize(form.querySelector('#contactJurisdiction').value),
+      companySize: sanitize(form.querySelector('#contactCompanySize').value),
+      timeline: sanitize(form.querySelector('#contactTimeline').value),
+      budgetTier: sanitize(form.querySelector('#contactBudgetTier').value),
+      deliveryExpectation: sanitize(form.querySelector('#contactDeliveryExpectation').value),
       subject: sanitize(form.querySelector('#contactSubject').value),
       message: sanitize(form.querySelector('#contactMessage').value),
       status: inquiryType === 'formal' ? 'redirected-to-direct-channel' : 'captured-local',
@@ -192,6 +228,10 @@
       'Email: ' + entry.email + '\n' +
       'Company: ' + entry.company + '\n' +
       'Jurisdiction: ' + entry.jurisdiction + '\n' +
+      'Company size: ' + humanizeLabel(entry.companySize, COMPANY_SIZE_LABELS) + '\n' +
+      'Timeline: ' + humanizeLabel(entry.timeline, TIMELINE_LABELS) + '\n' +
+      'Budget tier: ' + humanizeLabel(entry.budgetTier, BUDGET_LABELS) + '\n' +
+      'Delivery expectation: ' + humanizeLabel(entry.deliveryExpectation, DELIVERY_LABELS) + '\n' +
       'Topic: ' + humanizeSubject(entry.subject) + '\n\n' +
       entry.message
     );
@@ -202,10 +242,14 @@
     if (!entry.profile) return 'Izaberite profil razgovora.';
     if (!entry.name || entry.name.length < 2) return 'Unesite validno ime (minimum 2 karaktera).';
     if (!validEmail(entry.email)) return 'Unesite validnu email adresu.';
-    if (!entry.subject) return 'Izaberite temu upita.';
-    if (!entry.message || entry.message.length < 20) return 'Poruka mora imati minimum 20 karaktera.';
     if (!entry.company || entry.company.length < 2) return 'Unesite naziv kompanije/organizacije.';
     if (!entry.jurisdiction || entry.jurisdiction.length < 2) return 'Unesite tržište/jurisdikciju.';
+    if (!entry.companySize) return 'Izaberite veličinu organizacije.';
+    if (!entry.timeline) return 'Izaberite očekivani timeline.';
+    if (!entry.budgetTier) return 'Izaberite budget tier.';
+    if (!entry.deliveryExpectation) return 'Izaberite očekivani delivery model.';
+    if (!entry.subject) return 'Izaberite temu upita.';
+    if (!entry.message || entry.message.length < 20) return 'Poruka mora imati minimum 20 karaktera.';
     if (entry.inquiryType === 'formal' && entry.subject === 'other') return 'Za formalni zahtev izaberite preciznu poslovnu temu.';
     return '';
   }
@@ -237,7 +281,7 @@
     if (entry.inquiryType === 'formal') {
       setFeedback('Formalni/regulatorni zahtev je evidentiran i sada se otvara direktni email kanal ka spajicn@yahoo.com.', 'warn');
       if (window.aiqTrackEvent) {
-        window.aiqTrackEvent('contact_formal_redirect', { subject: entry.subject, jurisdiction: entry.jurisdiction, profile: entry.profile, priority: entry.priority });
+        window.aiqTrackEvent('contact_formal_redirect', { subject: entry.subject, jurisdiction: entry.jurisdiction, profile: entry.profile, priority: entry.priority, companySize: entry.companySize, timeline: entry.timeline, budgetTier: entry.budgetTier, deliveryExpectation: entry.deliveryExpectation });
       }
       setTimeout(function () {
         window.location.href = buildMailto(entry);
@@ -245,7 +289,7 @@
     } else {
       setFeedback('✅ Hvala! Vaš upit je evidentiran lokalno sa audit tragom. Ako bude potreban formalni nastavak, nastavite kroz direktni email kanal.', 'success');
       if (window.aiqTrackEvent) {
-        window.aiqTrackEvent('contact_general_submit', { subject: entry.subject, jurisdiction: entry.jurisdiction, profile: entry.profile, priority: entry.priority });
+        window.aiqTrackEvent('contact_general_submit', { subject: entry.subject, jurisdiction: entry.jurisdiction, profile: entry.profile, priority: entry.priority, companySize: entry.companySize, timeline: entry.timeline, budgetTier: entry.budgetTier, deliveryExpectation: entry.deliveryExpectation });
       }
       form.reset();
       syncExperience();
@@ -257,7 +301,16 @@
 
   [inquiryTypeField, profileField, priorityField].forEach(function (field) {
     if (!field) return;
-    field.addEventListener('change', syncExperience);
+    field.addEventListener('change', function () {
+      syncExperience();
+      if (window.aiqTrackEvent) {
+        window.aiqTrackEvent('contact_intake_update', {
+          profile: profileField ? profileField.value : '',
+          inquiryType: inquiryTypeField ? inquiryTypeField.value : '',
+          priority: priorityField ? priorityField.value : ''
+        });
+      }
+    });
   });
 
   applyQueryPrefill();

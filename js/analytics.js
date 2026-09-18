@@ -30,7 +30,8 @@
       'about.html': 'about',
       'licensing.html': 'intent-licensing',
       'institutional.html': 'intent-institutional',
-      'partner-onboarding.html': 'intent-partnership'
+      'partner-onboarding.html': 'intent-partnership',
+      'trust-center.html': 'trust-center'
     };
     return map[path] || 'other';
   }
@@ -81,6 +82,42 @@
       acc.byName[event.name] = (acc.byName[event.name] || 0) + 1;
       return acc;
     }, { total: 0, byName: {} });
+  };
+
+  window.aiqAnalyticsKpis = function () {
+    var events = loadEvents();
+    return events.reduce(function (acc, event) {
+      acc.totalEvents += 1;
+      if (event.name === 'page_view') acc.pageViews += 1;
+      if (event.name === 'conversion_path_click' || event.name === 'homepage_path_click' || event.name === 'intent_cta_click') acc.pathClicks += 1;
+      if (event.name === 'service_cta_click' || event.name === 'services_hub_click') acc.serviceInterest += 1;
+      if (event.name === 'form_submit_attempt') acc.formAttempts += 1;
+      if (event.name === 'contact_general_submit') acc.generalSubmits += 1;
+      if (event.name === 'contact_formal_redirect') acc.formalRedirects += 1;
+      return acc;
+    }, {
+      totalEvents: 0,
+      pageViews: 0,
+      pathClicks: 0,
+      serviceInterest: 0,
+      formAttempts: 0,
+      generalSubmits: 0,
+      formalRedirects: 0
+    });
+  };
+
+  window.aiqAnalyticsExport = function (format) {
+    var events = loadEvents();
+    if (format === 'csv') {
+      var header = ['id', 'name', 'page', 'pageType', 'ts', 'payload'];
+      var rows = events.map(function (event) {
+        return [event.id, event.name, event.page, event.pageType, event.ts, JSON.stringify(event.payload || {})].map(function (value) {
+          return '"' + String(value || '').replace(/"/g, '""') + '"';
+        }).join(',');
+      });
+      return [header.join(','), rows.join('\n')].join('\n');
+    }
+    return JSON.stringify({ events: events, summary: window.aiqAnalyticsSummary(), kpis: window.aiqAnalyticsKpis() }, null, 2);
   };
 
   document.addEventListener('DOMContentLoaded', function () {

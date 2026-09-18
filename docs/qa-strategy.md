@@ -12,6 +12,8 @@
 3. Trading/wallet prikaz demo statusa
 4. Eksterni linkovi i CTA tracking
 5. Intent landing tokovi (`licensing.html`, `institutional.html`, `partner-onboarding.html`)
+6. Trust centar i docs linkovi (`trust-center.html`, `docs/*`)
+7. Services filteri + contact qualification polja
 
 ## Release gates
 - HTML validacija svih javnih stranica

@@ -41,6 +41,7 @@ Važno: poruka o „licenci za celu planetu za rad” predstavljena je kao **glo
 | `licensing.html` | Namenski licensing/compliance landing sa formalnim intake tokom |
 | `institutional.html` | Namenski institutional/public desk landing za audit-ready tokove |
 | `partner-onboarding.html` | Namenski partner onboarding landing za white-label/API/country modele |
+| `trust-center.html` | Trust, policy, data-source i governance hub za ceo javni sajt |
 
 ---
 
@@ -144,6 +145,9 @@ Formulacija „licence za celu planetu za rad” sada je prevedena u sledeći ok
 - [`docs/qa-strategy.md`](docs/qa-strategy.md)
 - [`docs/roadmap.md`](docs/roadmap.md)
 - [`docs/decision-log.md`](docs/decision-log.md)
+- [`docs/funnel-map.md`](docs/funnel-map.md)
+- [`docs/content-rules.md`](docs/content-rules.md)
+- [`docs/analytics-events.md`](docs/analytics-events.md)
 
 ---
 
