@@ -133,6 +133,7 @@
     }
 
     el.innerHTML =
+      '<div style="font-size:0.75rem;color:var(--crypto-muted);margin-bottom:10px">Demo snapshot (simulirane vrednosti, nije live brokerage feed)</div>' +
       '<div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">' +
         '<div>' +
           '<div style="font-size:0.8rem;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;color:var(--crypto-green);margin-bottom:10px">🚀 Top Gainers</div>' +

@@ -15,3 +15,15 @@
 1. API uspešan → prikaži normalno.
 2. API timeout/error → koristi poslednju poznatu vrednost ako postoji.
 3. Bez poslednje vrednosti → prikaži neutralni placeholder i status poruku.
+
+## Page-level data mapa
+- `index.html`: demo/simulated market snapshot (nije live feed).
+- `trade.html`: mešoviti režim (demo blokovi + API quote fallback gde je dostupno).
+- `wallet.html`: demo wallet/custody UX prikaz.
+- `services.html`, `about.html`, `contact.html`, `education.html`: static sadržaj + CTA/funnel podaci.
+- `licensing.html`, `institutional.html`, `partner-onboarding.html`: static intent landing sadržaj.
+
+## Status transparency standard
+- Svaki data blok koji nije live mora imati vidljivu oznaku (npr. demo banner, status note, ili card-level disclaimer).
+- Fallback status mora biti objašnjen korisniku bez skrivanja degradiranog stanja.
+- CTA copy ne sme sugerisati da demo prikazi predstavljaju izvršenje transakcija.

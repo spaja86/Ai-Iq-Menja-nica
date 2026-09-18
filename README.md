@@ -38,6 +38,9 @@ Važno: poruka o „licenci za celu planetu za rad” predstavljena je kao **glo
 | `trade.html` | Trading i exchange operativa unutar šireg ekosistema |
 | `wallet.html` | Wallet/custody iskustvo povezano sa globalnim finansijskim narativom |
 | `education.html` | Edukacija i akreditacioni pravac u okviru ekosistema |
+| `licensing.html` | Namenski licensing/compliance landing sa formalnim intake tokom |
+| `institutional.html` | Namenski institutional/public desk landing za audit-ready tokove |
+| `partner-onboarding.html` | Namenski partner onboarding landing za white-label/API/country modele |
 
 ---
 

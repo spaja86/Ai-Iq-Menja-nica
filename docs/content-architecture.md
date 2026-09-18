@@ -12,6 +12,11 @@
 - Demo i simulirani podaci moraju biti eksplicitno označeni.
 - Formalni/regulatorni zahtevi uvek imaju prioritetni direktni kanal.
 
+## Intent landing standard
+- Namenske landing stranice moraju biti fokusirane na jedan intent (licensing, institutional, partner onboarding).
+- Svaka intent landing stranica mora imati tri CTA nivoa: consider (informisanje), engage (intake), convert (formalni kanal).
+- CTA elementi na tim stranicama moraju imati `data-intent` i `data-funnel-stage`.
+
 ## Status mapiranja (obavezne stranice)
 - `index.html`
 - `services.html`
@@ -20,3 +25,6 @@
 - `trade.html`
 - `wallet.html`
 - `education.html`
+- `licensing.html`
+- `institutional.html`
+- `partner-onboarding.html`
