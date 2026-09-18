@@ -10,6 +10,9 @@
     region: document.getElementById('serviceRegionFilter'),
     delivery: document.getElementById('serviceDeliveryFilter'),
     status: document.getElementById('serviceStatusFilter'),
+    readiness: document.getElementById('serviceReadinessFilter'),
+    regulatory: document.getElementById('serviceRegulatoryFilter'),
+    integration: document.getElementById('serviceIntegrationFilter'),
     reset: document.getElementById('servicesFilterReset'),
     count: document.getElementById('serviceResultsCount')
   };
@@ -34,6 +37,9 @@
         region: controls.region ? controls.region.value : '',
         delivery: controls.delivery ? controls.delivery.value : '',
         status: controls.status ? controls.status.value : '',
+        readiness: controls.readiness ? controls.readiness.value : '',
+        regulatory: controls.regulatory ? controls.regulatory.value : '',
+        integration: controls.integration ? controls.integration.value : '',
         visible: visible
       });
     }, 180);
@@ -48,7 +54,10 @@
         matches(card, 'client', controls.client && controls.client.value) &&
         matches(card, 'region', controls.region && controls.region.value) &&
         matches(card, 'delivery', controls.delivery && controls.delivery.value) &&
-        matches(card, 'status', controls.status && controls.status.value);
+        matches(card, 'status', controls.status && controls.status.value) &&
+        matches(card, 'readiness', controls.readiness && controls.readiness.value) &&
+        matches(card, 'regulatory', controls.regulatory && controls.regulatory.value) &&
+        matches(card, 'integration', controls.integration && controls.integration.value);
 
       card.hidden = !show;
       if (show) visible += 1;
@@ -62,7 +71,7 @@
     if (shouldTrack) queueTracking(visible);
   }
 
-  ['category', 'client', 'region', 'delivery', 'status'].forEach(function (key) {
+  ['category', 'client', 'region', 'delivery', 'status', 'readiness', 'regulatory', 'integration'].forEach(function (key) {
     var control = controls[key];
     if (!control) return;
     control.addEventListener('change', function () {
@@ -72,7 +81,7 @@
 
   if (controls.reset) {
     controls.reset.addEventListener('click', function () {
-      ['category', 'client', 'region', 'delivery', 'status'].forEach(function (key) {
+      ['category', 'client', 'region', 'delivery', 'status', 'readiness', 'regulatory', 'integration'].forEach(function (key) {
         if (controls[key]) controls[key].value = '';
       });
       applyFilters(true);

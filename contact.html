@@ -216,6 +216,56 @@
             <label for="contactJurisdiction">Tržište / jurisdikcija</label>
             <input type="text" id="contactJurisdiction" name="jurisdiction" placeholder="npr. Serbia, EU, UAE..." required>
           </div>
+          <div class="filter-grid" style="margin-top:0;margin-bottom:16px">
+            <div class="form-group" style="margin-bottom:0">
+              <label for="contactCompanySize">Veličina organizacije</label>
+              <select id="contactCompanySize" name="companySize" required>
+                <option value="">Izaberite veličinu...</option>
+                <option value="solo">Solo / founder-led</option>
+                <option value="small">2-10 ljudi</option>
+                <option value="sme">11-50 ljudi</option>
+                <option value="growth">51-250 ljudi</option>
+                <option value="enterprise">250+ ljudi</option>
+                <option value="institutional">Institution / NGO / public body</option>
+              </select>
+            </div>
+            <div class="form-group" style="margin-bottom:0">
+              <label for="contactTimeline">Očekivani timeline</label>
+              <select id="contactTimeline" name="timeline" required>
+                <option value="">Izaberite timeline...</option>
+                <option value="immediate">0-30 dana</option>
+                <option value="quarter">1 kvartal</option>
+                <option value="half-year">3-6 meseci</option>
+                <option value="strategic">6+ meseci</option>
+              </select>
+            </div>
+            <div class="form-group" style="margin-bottom:0">
+              <label for="contactBudgetTier">Budget tier</label>
+              <select id="contactBudgetTier" name="budgetTier" required>
+                <option value="">Izaberite budget tier...</option>
+                <option value="exploratory">Exploratory / not fixed</option>
+                <option value="pilot">Pilot budget</option>
+                <option value="growth">Growth budget</option>
+                <option value="enterprise">Enterprise budget</option>
+                <option value="institutional">Institutional program budget</option>
+              </select>
+            </div>
+            <div class="form-group" style="margin-bottom:0">
+              <label for="contactDeliveryExpectation">Delivery expectation</label>
+              <select id="contactDeliveryExpectation" name="deliveryExpectation" required>
+                <option value="">Izaberite delivery model...</option>
+                <option value="direct">Direktan servis</option>
+                <option value="partner">Partner-led model</option>
+                <option value="white-label">White-label / branded model</option>
+                <option value="advisory">Advisory / roadmap support</option>
+                <option value="institutional">Institutional collaboration</option>
+              </select>
+            </div>
+          </div>
+          <div class="helper-panel" style="margin-top:0;margin-bottom:16px">
+            <h4>Qualification standard</h4>
+            <p>Pre formalnog nastavka tražimo veličinu organizacije, timeline, budget tier i očekivani delivery model kako bi licensing, partner i institutional tokovi bili jasnije usmereni.</p>
+          </div>
           <div class="form-group">
             <label for="contactSubject">Tema</label>
             <select id="contactSubject" name="subject">
@@ -249,7 +299,7 @@
 
       <div class="helper-panel">
         <h4>Šta se dešava posle slanja?</h4>
-        <p>Web forma pravi lokalni audit trag i služi za kvalifikaciju lead-a. Formalni licensing, regulatorni i institucionalni zahtevi posle validacije otvaraju direktni email kanal ka stvarnom prijemnom toku.</p>
+        <p>Web forma pravi lokalni audit trag, čuva kvalifikacione podatke i služi za funnel merenje. Formalni licensing, regulatorni i institucionalni zahtevi posle validacije otvaraju direktni email kanal ka stvarnom prijemnom toku.</p>
       </div>
 
       <div class="card" style="margin-top:20px">
@@ -272,6 +322,15 @@
           <a href="licensing.html" class="ecosystem-link" data-track="contact_intent_navigation" data-track-id="contact-licensing-landing" data-intent="licensing" data-funnel-stage="consider">📜 Licensing desk landing</a>
           <a href="institutional.html" class="ecosystem-link" data-track="contact_intent_navigation" data-track-id="contact-institutional-landing" data-intent="institutional" data-funnel-stage="consider">🏛️ Institutional desk landing</a>
           <a href="partner-onboarding.html" class="ecosystem-link" data-track="contact_intent_navigation" data-track-id="contact-partner-landing" data-intent="partnership" data-funnel-stage="consider">🤝 Partner onboarding landing</a>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:20px">
+        <h4 style="margin-bottom:14px;font-size:0.9rem;font-weight:700">🛡️ Trust, policy i data sources</h4>
+        <div class="ecosystem-links">
+          <a href="trust-center.html" class="ecosystem-link" data-track="contact_support_navigation" data-track-id="contact-trust-center" data-intent="general" data-funnel-stage="consider">🛡️ Trust center i governance pravila</a>
+          <a href="docs/data-sources-policy.md" class="ecosystem-link">📊 Data sources policy</a>
+          <a href="docs/funnel-map.md" class="ecosystem-link">🧭 Funnel map i qualification pravila</a>
         </div>
       </div>
 

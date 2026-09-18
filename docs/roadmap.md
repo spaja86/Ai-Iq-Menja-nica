@@ -26,3 +26,9 @@
 - Funnel-level analytics (`data-intent`, `data-funnel-stage`)
 - CI merge-gate proširen na sve javne stranice
 - Multi-endpoint post-deploy smoke checks
+
+## V2.6 — Trust + Qualification Layer
+- `trust-center.html` kao governance/data-source/policy hub
+- Dublji services filteri: readiness, regulatory dependency, integration complexity
+- Kvalifikovani intake podaci: company size, timeline, budget tier, delivery expectation
+- KPI/export helperi za lokalnu funnel analitiku
