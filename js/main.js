@@ -256,12 +256,13 @@
   });
 
   /* ---------- CTA TRACKING NORMALIZATION ---------- */
-  document.addEventListener('DOMContentLoaded', function () {
+  function normalizeCtaTracking(rootNode) {
     var ctaNormalization = window.aiqCtaNormalization;
     if (!ctaNormalization || typeof ctaNormalization.getTrackingDefaults !== 'function') return;
+    var root = rootNode && rootNode.querySelectorAll ? rootNode : document;
     var autoIdCounter = 0;
 
-    document.querySelectorAll('a[href]').forEach(function (a) {
+    root.querySelectorAll('a[href]').forEach(function (a) {
       var href = a.getAttribute('href');
       var defaults = ctaNormalization.getTrackingDefaults(href);
       if (!defaults) return;
@@ -283,6 +284,23 @@
         a.setAttribute('data-funnel-stage', defaults.funnelStage);
       }
     });
+  }
+
+  window.aiqNormalizeCtaTracking = normalizeCtaTracking;
+
+  document.addEventListener('DOMContentLoaded', function () {
+    normalizeCtaTracking(document);
+
+    var pending = false;
+    var observer = new MutationObserver(function () {
+      if (pending) return;
+      pending = true;
+      requestAnimationFrame(function () {
+        normalizeCtaTracking(document);
+        pending = false;
+      });
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
   });
 
   /* ---------- PWA SERVICE WORKER ---------- */

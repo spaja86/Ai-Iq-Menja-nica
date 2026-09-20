@@ -48,3 +48,12 @@ test('builds tracking defaults for supported landing pages', function () {
     funnelStage: 'consideration'
   });
 });
+
+test('handles case-insensitive page names and hash fragments', function () {
+  assert.deepEqual(getTrackingDefaults('CONTACT.HTML?profile=licensing#jump'), {
+    track: 'intent_cta_click',
+    trackIdPrefix: 'auto-contact',
+    intent: 'licensing',
+    funnelStage: 'qualification'
+  });
+});
