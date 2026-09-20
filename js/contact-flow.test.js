@@ -114,3 +114,20 @@ test('score band thresholds stay stable', function () {
   assert.equal(scoreBand(69), 'medium');
   assert.equal(scoreBand(70), 'high');
 });
+
+test('formal toggle alone does not redirect non-formal-preferred profiles', function () {
+  const routing = resolveSubmissionRouting({
+    profile: 'business',
+    inquiryType: 'formal',
+    priority: 'high',
+    companySize: 'enterprise',
+    timeline: 'immediate',
+    budgetTier: 'enterprise',
+    deliveryExpectation: 'direct',
+    subject: 'institutional-onboarding'
+  });
+
+  assert.equal(routing.recommendedChannel, 'qualified-web-form');
+  assert.equal(routing.channel, 'web-form-local');
+  assert.equal(routing.shouldRedirect, false);
+});

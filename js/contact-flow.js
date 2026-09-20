@@ -182,7 +182,7 @@
     var score = computeIntentScore(data);
     var band = scoreBand(score);
     var formalPreferredProfile = profile.intent === 'licensing' || profile.intent === 'institutional';
-    var recommendedChannelKey = data.inquiryType === 'formal'
+    var recommendedChannelKey = data.inquiryType === 'formal' && formalPreferredProfile
       ? 'direct-formal'
       : 'qualified-web-form';
 
@@ -191,6 +191,8 @@
       route: profile.route,
       channel: recommendedChannelKey === 'direct-formal'
         ? 'Direktan formalni kanal + validirani intake. ' + profile.channel
+        : data.inquiryType === 'formal'
+          ? 'Formal toggle je zabeležen, ali ovaj profil ostaje u kvalifikacionom web toku dok se ne usmeri na licensing ili institutional desk. ' + profile.channel
         : formalPreferredProfile
           ? 'Web qualification forma uz preporučen formalni kanal posle validacije. ' + profile.channel
           : 'Web qualification forma + sledeći discovery korak. ' + profile.channel,
@@ -287,9 +289,11 @@
     var summary = buildRouteSummary(preview);
 
     if (channelField) {
-      channelField.textContent = inquiryType === 'formal'
+      channelField.textContent = summary.recommendedChannelKey === 'direct-formal'
         ? 'Odabrali ste direktni kanal: posle validacije forma otvara email prema formalnom prijemnom kanalu.'
-        : profile.channel;
+        : inquiryType === 'formal'
+          ? 'Formal toggle je zabeležen, ali direktni email routing ostaje rezervisan za licensing i institutional profile.'
+          : profile.channel;
     }
 
     if (expectationField) {
