@@ -4,7 +4,8 @@ const assert = require('node:assert/strict');
 const {
   computeIntentScore,
   scoreBand,
-  buildRouteSummary
+  buildRouteSummary,
+  resolveSubmissionRouting
 } = require('./contact-flow.js');
 
 test('formal institutional routing produces direct high-intent summary', function () {
@@ -56,4 +57,22 @@ test('qualification detail changes increase score and keep partner route summary
   assert.equal(scoreBand(lowSignal.score), lowSignal.band);
   assert.equal(scoreBand(highSignal.score), highSignal.band);
   assert.notEqual(lowSignal.band, highSignal.band);
+});
+
+test('institutional web-form submission still resolves to direct formal routing', function () {
+  const routing = resolveSubmissionRouting({
+    profile: 'institutional',
+    inquiryType: 'general',
+    priority: 'high',
+    companySize: 'institutional',
+    timeline: 'quarter',
+    budgetTier: 'institutional',
+    deliveryExpectation: 'institutional',
+    subject: 'public-ngo'
+  });
+
+  assert.equal(routing.recommendedChannel, 'direct-formal');
+  assert.equal(routing.channel, 'mailto-direct');
+  assert.equal(routing.status, 'redirected-to-direct-channel');
+  assert.equal(routing.shouldRedirect, true);
 });

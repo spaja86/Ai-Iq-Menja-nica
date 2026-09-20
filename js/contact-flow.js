@@ -203,11 +203,26 @@
     };
   }
 
+  function resolveSubmissionRouting(data) {
+    var summary = buildRouteSummary(data);
+    var shouldRedirect = summary.recommendedChannelKey === 'direct-formal';
+
+    return {
+      intent: summary.intent,
+      intentScore: summary.score,
+      recommendedChannel: summary.recommendedChannelKey,
+      channel: shouldRedirect ? 'mailto-direct' : 'web-form-local',
+      status: shouldRedirect ? 'redirected-to-direct-channel' : 'captured-local',
+      shouldRedirect: shouldRedirect
+    };
+  }
+
   if (typeof module !== 'undefined' && module.exports) {
     module.exports = {
       computeIntentScore: computeIntentScore,
       scoreBand: scoreBand,
-      buildRouteSummary: buildRouteSummary
+      buildRouteSummary: buildRouteSummary,
+      resolveSubmissionRouting: resolveSubmissionRouting
     };
   }
 
@@ -335,14 +350,14 @@
       budgetTier: sanitize(form.querySelector('#contactBudgetTier').value),
       deliveryExpectation: sanitize(form.querySelector('#contactDeliveryExpectation').value),
       subject: sanitize(form.querySelector('#contactSubject').value),
-      message: sanitize(form.querySelector('#contactMessage').value),
-      status: inquiryType === 'formal' ? 'redirected-to-direct-channel' : 'captured-local',
-      channel: inquiryType === 'formal' ? 'mailto-direct' : 'web-form-local'
+      message: sanitize(form.querySelector('#contactMessage').value)
     };
-    var summary = buildRouteSummary(entry);
-    entry.intent = summary.intent;
-    entry.intentScore = summary.score;
-    entry.recommendedChannel = summary.recommendedChannelKey;
+    var routing = resolveSubmissionRouting(entry);
+    entry.intent = routing.intent;
+    entry.intentScore = routing.intentScore;
+    entry.recommendedChannel = routing.recommendedChannel;
+    entry.status = routing.status;
+    entry.channel = routing.channel;
     return entry;
   }
 
@@ -406,7 +421,7 @@
     saveSubmission(entry);
     setSubmittedNow();
 
-    if (entry.inquiryType === 'formal') {
+    if (entry.recommendedChannel === 'direct-formal') {
       setFeedback('Formalni/regulatorni zahtev je evidentiran i sada se otvara direktni email kanal ka spajicn@yahoo.com.', 'warn');
       if (window.aiqTrackEvent) {
         window.aiqTrackEvent('contact_formal_redirect', { subject: entry.subject, jurisdiction: entry.jurisdiction, profile: entry.profile, priority: entry.priority, companySize: entry.companySize, timeline: entry.timeline, budgetTier: entry.budgetTier, deliveryExpectation: entry.deliveryExpectation, intent: entry.intent, intentScore: entry.intentScore, recommendedChannel: entry.recommendedChannel });
