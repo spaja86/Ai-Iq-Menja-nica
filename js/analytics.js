@@ -186,7 +186,7 @@
 
   window.aiqAnalyticsIntentScore = function (intent) {
     var kpis = window.aiqAnalyticsIntentKpis();
-    var target = kpis[intent || 'general'];
+    var target = kpis[normalizeIntent(intent || 'general')];
     return target ? target.engagementScore : 0;
   };
 
