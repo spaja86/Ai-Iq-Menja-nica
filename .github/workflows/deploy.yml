@@ -61,6 +61,11 @@ jobs:
       - name: Internal link validation
         run: linkinator . --recurse --skip "mailto:.*" --skip "https://(www\\.)?(instagram|facebook|youtube|tiktok)\\.com/.*" --skip "https://spaja86\\.github\\.io/Ai-Iq-World-Bank.*" --skip "https://spaja86\\.github\\.io/IO-OPENUI-AO.*" --skip "https://spaja86\\.github\\.io/Kompanija-SPAJA.*"
 
+      - name: Secret scan gate
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Install Vercel CLI
         run: vercel --version
 

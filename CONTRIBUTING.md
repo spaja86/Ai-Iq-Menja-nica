@@ -3,9 +3,11 @@
 ## Workflow
 1. Otvori issue ili usaglasi scope promene.
 2. Prati dokumente u `docs/` (north-star, architecture, content, data policy).
-3. Napravi male, fokusirane promene.
-4. Potvrdi da su demo podaci jasno označeni i da su disclaimers prisutni.
-5. Ažuriraj dokumentaciju kada menjaš ponašanje.
+3. Prati obavezni ciklus: **Plan → Implementacija → Validacija → Dokumentacija → Release**.
+4. Napravi male, fokusirane promene.
+5. Potvrdi da su demo podaci jasno označeni i da su disclaimers prisutni.
+6. Ažuriraj dokumentaciju kada menjaš ponašanje.
+7. Zabeleži trag promene (odluka, uticaj, rizik, status) u `docs/decision-log.md`.
 
 ## Standards
 - Kebab-case za fajlove.
@@ -23,3 +25,10 @@
 - Formalni kanal (`mailto:spajicn@yahoo.com`) prisutan za regulatorne/institucionalne tokove.
 - Canonical i OG metadata na svim javnim stranicama.
 - Relevantna docs sekcija ažurirana.
+- Security i secret gate-ovi prošli pre release-a.
+
+## Repo-wide Definition of Done (DoD)
+- Promena nema regresiju u ključnim tokovima (navigacija, contact, trust, services).
+- Shared/page-level granica ostaje očuvana.
+- Konverzioni CTA ostaju merljivi (`data-track`, `data-track-id`; za intent i `data-intent`, `data-funnel-stage`).
+- Dokumentacija i decision log su ažurirani.

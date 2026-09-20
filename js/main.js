@@ -255,6 +255,32 @@
     applyLang(localStorage.getItem(LANG_KEY) || 'sr');
   });
 
+  /* ---------- CTA TRACKING NORMALIZATION ---------- */
+  function normalizeCtaTracking(rootNode) {
+    var ctaNormalization = window.aiqCtaNormalization;
+    if (!ctaNormalization || typeof ctaNormalization.normalizeAnchors !== 'function') return;
+    var root = rootNode && rootNode.querySelectorAll ? rootNode : document;
+    var anchors = root.matches && root.matches('a[href]')
+      ? [root]
+      : root.querySelectorAll('a[href]');
+    normalizeCtaTracking._counter = ctaNormalization.normalizeAnchors(anchors, normalizeCtaTracking._counter || 0);
+  }
+
+  window.aiqNormalizeCtaTracking = normalizeCtaTracking;
+
+  document.addEventListener('DOMContentLoaded', function () {
+    normalizeCtaTracking(document);
+
+    var observer = new MutationObserver(function (records) {
+      records.forEach(function (record) {
+        record.addedNodes.forEach(function (node) {
+          if (node.nodeType === 1) normalizeCtaTracking(node);
+        });
+      });
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
+  });
+
   /* ---------- PWA SERVICE WORKER ---------- */
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', function () {
