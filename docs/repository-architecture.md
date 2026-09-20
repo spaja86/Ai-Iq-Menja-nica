@@ -24,11 +24,18 @@
 - Shared: navigacija, jezik, tema, analytics, bezbednosni bannery/disclaimeri i trust/governance signalizacija.
 - Page-specific: trading simulacija, wallet prikaz, edukativni kalkulatori, contact tok, intent landing logika i capability-hub detalji.
 
+## Operativni model javnog sajta
+- `services.html` je capability hub: discovery, comparison i routing po readiness/regulatory signalima.
+- `contact.html` je qualification hub: profilisanje upita, intent routing i formal escalation odluka.
+- `trust-center.html` je governance hub: claims policy, proof architecture, data-source posture i escalation pravila.
+- Sve nove javne izmene treba da podrže makar jedan od ova tri centra bez kontradikcije sa ostalima.
+
 ## Pravila za nove fajlove
 1. Novi javni page ide kao root HTML dok traje migracija i mora imati canonical + OG metadata.
 2. Svaki novi CTA koji vodi ka konverziji mora imati `data-track` i `data-track-id`.
 3. Ako CTA pripada intent funnel-u, obavezni su `data-intent` i `data-funnel-stage`.
 4. Svaka promena javnog ponašanja mora biti dokumentovana u relevantnom `docs/*` fajlu.
+5. Ako promena utiče na capability, qualification ili governance logiku, proveriti da li zahteva paralelni update na `services.html`, `contact.html` ili `trust-center.html`.
 
 ## Obavezni merge gate (minimum)
 - I18n konzistentnost za shared navigaciju (`data-i18n`).
