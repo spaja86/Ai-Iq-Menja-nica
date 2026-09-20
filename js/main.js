@@ -257,47 +257,30 @@
 
   /* ---------- CTA TRACKING NORMALIZATION ---------- */
   document.addEventListener('DOMContentLoaded', function () {
-    var intentByLanding = {
-      'licensing.html': 'licensing',
-      'institutional.html': 'institutional',
-      'partner-onboarding.html': 'partnership',
-      'contact.html': 'general'
-    };
-
-    function inferIntentFromContactHref(href) {
-      if (href.indexOf('profile=licensing') !== -1) return 'licensing';
-      if (href.indexOf('profile=institutional') !== -1) return 'institutional';
-      if (href.indexOf('profile=partnership') !== -1) return 'partnership';
-      return 'general';
-    }
-
+    var ctaNormalization = window.aiqCtaNormalization;
+    if (!ctaNormalization || typeof ctaNormalization.getTrackingDefaults !== 'function') return;
     var autoIdCounter = 0;
-    document.querySelectorAll('a[href]').forEach(function (a) {
-      var href = (a.getAttribute('href') || '').trim();
-      var isExternal = /^(?:[a-z][a-z0-9+.-]*:)?\/\//i.test(href);
-      var isNonPageAction = /^(mailto:|tel:|javascript:)/i.test(href);
-      if (!href || isExternal || isNonPageAction || href.indexOf('#') === 0) return;
 
-      var cleanHref = href.split('#')[0];
-      var page = cleanHref.split('?')[0];
-      if (!Object.prototype.hasOwnProperty.call(intentByLanding, page)) return;
+    document.querySelectorAll('a[href]').forEach(function (a) {
+      var href = a.getAttribute('href');
+      var defaults = ctaNormalization.getTrackingDefaults(href);
+      if (!defaults) return;
 
       if (!a.hasAttribute('data-track')) {
-        a.setAttribute('data-track', 'intent_cta_click');
+        a.setAttribute('data-track', defaults.track);
       }
 
       if (!a.hasAttribute('data-track-id')) {
         autoIdCounter += 1;
-        a.setAttribute('data-track-id', 'auto-' + page.replace('.html', '') + '-' + autoIdCounter);
+        a.setAttribute('data-track-id', defaults.trackIdPrefix + '-' + autoIdCounter);
       }
 
       if (!a.hasAttribute('data-intent')) {
-        var inferredIntent = page === 'contact.html' ? inferIntentFromContactHref(cleanHref) : intentByLanding[page];
-        a.setAttribute('data-intent', inferredIntent);
+        a.setAttribute('data-intent', defaults.intent);
       }
 
       if (!a.hasAttribute('data-funnel-stage')) {
-        a.setAttribute('data-funnel-stage', page === 'contact.html' ? 'qualification' : 'consideration');
+        a.setAttribute('data-funnel-stage', defaults.funnelStage);
       }
     });
   });
