@@ -148,6 +148,7 @@ Formulacija „licence za celu planetu za rad” sada je prevedena u sledeći ok
 - [`docs/funnel-map.md`](docs/funnel-map.md)
 - [`docs/content-rules.md`](docs/content-rules.md)
 - [`docs/analytics-events.md`](docs/analytics-events.md)
+- [`docs/vrh-programskog-ekvivalenta.md`](docs/vrh-programskog-ekvivalenta.md)
 
 ---
 

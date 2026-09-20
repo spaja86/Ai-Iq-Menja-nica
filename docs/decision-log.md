@@ -23,3 +23,7 @@
 - `contact.html` je unapređen u qualification hub sa intent-routing summary panelom i lightweight intent score modelom.
 - `trust-center.html` je proširen proof-architecture, claims matrix i escalation pravilima kako bi javne tvrdnje bile jasnije razdvojene.
 - Analytics helperi sada podržavaju segmentaciju po intent-u i score-aware contact payload signalizaciju.
+- Uveden je jedinstveni repo standard: `docs/vrh-programskog-ekvivalenta.md` sa zaključanim ciljevima kvaliteta, sigurnosti, funnel konverzije i trust/compliance signalizacije.
+- Standardizovan je obavezni razvojni ciklus Plan → Implementacija → Validacija → Dokumentacija → Release i repo-wide Definition of Done.
+- Deploy quality gate je proširen eksplicitnim secret scan korakom pre release-a.
+- Shared runtime sloj je dopunjen automatskom CTA funnel normalizacijom za konzistentan tracking atribut model na javnim stranicama.

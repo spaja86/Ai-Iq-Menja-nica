@@ -20,9 +20,11 @@
 - Metadata/canonical check za svaku javnu stranicu
 - Content governance check za formalni kanal + demo signalizaciju
 - Link validacija sa definisanim izuzecima
+- Secret scan i security check pre release-a
 
 ## Definition of Done
 - Funkcionalnost radi bez regresije u ključnim tokovima.
 - Security i sadržajni disclaimer zahtevi su ispunjeni.
 - Dokumentacija je ažurirana za promenu.
 - CTA funnel tracking je prisutan za nove konverzione putanje.
+- Promena ima dokumentovan trag: odluka, uticaj, rizik, status.

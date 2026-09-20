@@ -39,3 +39,20 @@
 - `trust-center.html` kao claims-policy, proof-architecture i escalation centar
 - Analytics segmentacija po intent-u (`general`, `licensing`, `partnership`, `institutional`, `education`)
 - Jača veza između javnih trust sekcija i `docs/*` operativnog sloja
+
+## Operativne faze realizacije (repo-wide)
+
+### Faza A — Konsolidacija standarda i konzistentnosti
+- Zaključavanje jedinstvenog standarda (`docs/vrh-programskog-ekvivalenta.md`)
+- Ujednačen razvojni ciklus i repo-wide DoD
+- Usklađivanje javnog sadržaja sa North Star i scope pravilima
+
+### Faza B — Quality/Security gate i observability disciplina
+- Obavezni quality gate-ovi pre deploy-a (HTML/link/metadata/content)
+- Obavezni security i secret gate pre release-a
+- Jedinstvena taksonomija funnel i intent događaja za KPI praćenje
+
+### Faza C — Konverzija, trust signal i operativno skaliranje
+- Optimizacija conversion putanja na osnovu KPI signala
+- Dalje jačanje trust/compliance sadržaja i formal escalation jasnoće
+- Kontinuirani governance ritam (nedeljni kvalitet + mesečna trust revizija)
