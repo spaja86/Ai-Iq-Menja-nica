@@ -36,10 +36,16 @@
     return map[path] || 'other';
   }
 
+  function normalizeIntent(intent) {
+    if (!intent) return 'general';
+    if (intent === 'business' || intent === 'trading') return 'general';
+    return intent;
+  }
+
   function deriveIntentFromHref(href) {
     if (!href) return '';
     var profileMatch = href.match(/[?&]profile=([^&]+)/);
-    if (profileMatch && profileMatch[1]) return decodeURIComponent(profileMatch[1]);
+    if (profileMatch && profileMatch[1]) return normalizeIntent(decodeURIComponent(profileMatch[1]));
     if (href.indexOf('licensing') !== -1) return 'licensing';
     if (href.indexOf('institutional') !== -1 || href.indexOf('public-ngo') !== -1) return 'institutional';
     if (href.indexOf('partner') !== -1 || href.indexOf('white-label') !== -1 || href.indexOf('country-partnership') !== -1) return 'partnership';
@@ -57,7 +63,7 @@
   }
 
   function intentMeta(target, href) {
-    var intent = target.getAttribute('data-intent') || deriveIntentFromHref(href);
+    var intent = normalizeIntent(target.getAttribute('data-intent') || deriveIntentFromHref(href));
     var funnelStage = target.getAttribute('data-funnel-stage') || deriveStageFromHref(href);
     return {
       intent: intent || 'general',
@@ -89,7 +95,7 @@
   };
 
   function eventIntent(event) {
-    if (event && event.payload && event.payload.intent) return event.payload.intent;
+    if (event && event.payload && event.payload.intent) return normalizeIntent(event.payload.intent);
     if (!event) return 'general';
     if (event.pageType === 'intent-licensing') return 'licensing';
     if (event.pageType === 'intent-institutional') return 'institutional';
