@@ -4,8 +4,25 @@ const assert = require('node:assert/strict');
 const {
   inferIntentForContact,
   parseInternalLandingHref,
-  getTrackingDefaults
+  getTrackingDefaults,
+  normalizeAnchors
 } = require('./cta-normalization.js');
+
+function fakeAnchor(href, seedAttrs) {
+  const attrs = Object.assign({ href: href }, seedAttrs || {});
+  return {
+    getAttribute(name) {
+      return Object.prototype.hasOwnProperty.call(attrs, name) ? attrs[name] : null;
+    },
+    hasAttribute(name) {
+      return Object.prototype.hasOwnProperty.call(attrs, name);
+    },
+    setAttribute(name, value) {
+      attrs[name] = value;
+    },
+    _attrs: attrs
+  };
+}
 
 test('supports relative and absolute same-site landing links', function () {
   assert.deepEqual(parseInternalLandingHref('./contact.html?profile=licensing'), {
@@ -56,4 +73,25 @@ test('handles case-insensitive page names and hash fragments', function () {
     intent: 'licensing',
     funnelStage: 'qualification'
   });
+});
+
+test('runtime normalizer preserves existing attrs and generates ids for missing ones', function () {
+  const existing = fakeAnchor('contact.html?profile=licensing', {
+    'data-track': 'existing_event',
+    'data-track-id': 'manual-1',
+    'data-intent': 'licensing',
+    'data-funnel-stage': 'qualification'
+  });
+  const generated = fakeAnchor('/partner-onboarding.html');
+
+  const counter = normalizeAnchors([existing, generated], 3);
+  assert.equal(counter, 4);
+
+  assert.equal(existing._attrs['data-track'], 'existing_event');
+  assert.equal(existing._attrs['data-track-id'], 'manual-1');
+
+  assert.equal(generated._attrs['data-track'], 'intent_cta_click');
+  assert.equal(generated._attrs['data-track-id'], 'auto-partner-onboarding-4');
+  assert.equal(generated._attrs['data-intent'], 'partnership');
+  assert.equal(generated._attrs['data-funnel-stage'], 'consideration');
 });

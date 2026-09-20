@@ -258,32 +258,12 @@
   /* ---------- CTA TRACKING NORMALIZATION ---------- */
   function normalizeCtaTracking(rootNode) {
     var ctaNormalization = window.aiqCtaNormalization;
-    if (!ctaNormalization || typeof ctaNormalization.getTrackingDefaults !== 'function') return;
+    if (!ctaNormalization || typeof ctaNormalization.normalizeAnchors !== 'function') return;
     var root = rootNode && rootNode.querySelectorAll ? rootNode : document;
-    var autoIdCounter = 0;
-
-    root.querySelectorAll('a[href]').forEach(function (a) {
-      var href = a.getAttribute('href');
-      var defaults = ctaNormalization.getTrackingDefaults(href);
-      if (!defaults) return;
-
-      if (!a.hasAttribute('data-track')) {
-        a.setAttribute('data-track', defaults.track);
-      }
-
-      if (!a.hasAttribute('data-track-id')) {
-        autoIdCounter += 1;
-        a.setAttribute('data-track-id', defaults.trackIdPrefix + '-' + autoIdCounter);
-      }
-
-      if (!a.hasAttribute('data-intent')) {
-        a.setAttribute('data-intent', defaults.intent);
-      }
-
-      if (!a.hasAttribute('data-funnel-stage')) {
-        a.setAttribute('data-funnel-stage', defaults.funnelStage);
-      }
-    });
+    var anchors = root.matches && root.matches('a[href]')
+      ? [root]
+      : root.querySelectorAll('a[href]');
+    normalizeCtaTracking._counter = ctaNormalization.normalizeAnchors(anchors, normalizeCtaTracking._counter || 0);
   }
 
   window.aiqNormalizeCtaTracking = normalizeCtaTracking;
@@ -291,13 +271,11 @@
   document.addEventListener('DOMContentLoaded', function () {
     normalizeCtaTracking(document);
 
-    var pending = false;
-    var observer = new MutationObserver(function () {
-      if (pending) return;
-      pending = true;
-      requestAnimationFrame(function () {
-        normalizeCtaTracking(document);
-        pending = false;
+    var observer = new MutationObserver(function (records) {
+      records.forEach(function (record) {
+        record.addedNodes.forEach(function (node) {
+          if (node.nodeType === 1) normalizeCtaTracking(node);
+        });
       });
     });
     observer.observe(document.body, { childList: true, subtree: true });

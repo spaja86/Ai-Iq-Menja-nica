@@ -64,9 +64,40 @@
     };
   }
 
+  function normalizeAnchors(anchors, startCounter) {
+    var autoIdCounter = typeof startCounter === 'number' ? startCounter : 0;
+    if (!anchors) return autoIdCounter;
+
+    Array.prototype.forEach.call(anchors, function (a) {
+      if (!a || typeof a.getAttribute !== 'function' || typeof a.setAttribute !== 'function') return;
+      var defaults = getTrackingDefaults(a.getAttribute('href'));
+      if (!defaults) return;
+
+      if (!a.hasAttribute('data-track')) {
+        a.setAttribute('data-track', defaults.track);
+      }
+
+      if (!a.hasAttribute('data-track-id')) {
+        autoIdCounter += 1;
+        a.setAttribute('data-track-id', defaults.trackIdPrefix + '-' + autoIdCounter);
+      }
+
+      if (!a.hasAttribute('data-intent')) {
+        a.setAttribute('data-intent', defaults.intent);
+      }
+
+      if (!a.hasAttribute('data-funnel-stage')) {
+        a.setAttribute('data-funnel-stage', defaults.funnelStage);
+      }
+    });
+
+    return autoIdCounter;
+  }
+
   return {
     inferIntentForContact: inferIntentForContact,
     parseInternalLandingHref: parseInternalLandingHref,
-    getTrackingDefaults: getTrackingDefaults
+    getTrackingDefaults: getTrackingDefaults,
+    normalizeAnchors: normalizeAnchors
   };
 });
