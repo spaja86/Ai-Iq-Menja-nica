@@ -44,13 +44,13 @@
 
   function deriveIntentFromHref(href) {
     if (!href) return '';
-    var profileMatch = href.match(/[?&]profile=([^&]+)/);
-    if (profileMatch && profileMatch[1]) return normalizeIntent(decodeURIComponent(profileMatch[1]));
     if (href.indexOf('licensing') !== -1) return 'licensing';
     if (href.indexOf('institutional') !== -1 || href.indexOf('public-ngo') !== -1) return 'institutional';
     if (href.indexOf('partner') !== -1 || href.indexOf('white-label') !== -1 || href.indexOf('country-partnership') !== -1) return 'partnership';
     if (href.indexOf('education') !== -1 || href.indexOf('education-certification') !== -1) return 'education';
     if (href.indexOf('trading') !== -1 || href.indexOf('trade.html') !== -1) return 'general';
+    var profileMatch = href.match(/[?&]profile=([^&]+)/);
+    if (profileMatch && profileMatch[1]) return normalizeIntent(decodeURIComponent(profileMatch[1]));
     return '';
   }
 

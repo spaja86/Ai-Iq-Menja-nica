@@ -1,10 +1,6 @@
 (function () {
   'use strict';
 
-  var form = document.getElementById('contactForm');
-  var feedback = document.getElementById('formFeedback');
-  if (!form || !feedback) return;
-
   var STORAGE_KEY = 'aiq-contact-submissions';
   var LAST_SUBMIT_KEY = 'aiq-contact-last-submit';
   var RATE_LIMIT_MS = 60 * 1000;
@@ -100,36 +96,6 @@
       nextStep: 'Opišite ciljnu grupu i format programa pre certification ili partner training nastavka.'
     }
   };
-  var inquiryTypeField = form.querySelector('#contactInquiryType');
-  var subjectField = form.querySelector('#contactSubject');
-  var profileField = form.querySelector('#contactProfile');
-  var priorityField = form.querySelector('#contactPriority');
-  var expectationField = document.getElementById('contactExpectation');
-  var channelField = document.getElementById('contactChannelNotice');
-  var routeProfileField = document.getElementById('contactRouteProfile');
-  var routeChannelField = document.getElementById('contactRouteChannel');
-  var routeNextField = document.getElementById('contactRouteNext');
-  var routeScoreField = document.getElementById('contactRouteScore');
-  var routeScoreNoteField = document.getElementById('contactRouteScoreNote');
-
-  function setFeedback(message, type) {
-    feedback.style.display = 'block';
-    if (type === 'error') {
-      feedback.style.background = 'rgba(255,82,82,0.12)';
-      feedback.style.border = '1px solid rgba(255,82,82,0.35)';
-      feedback.style.color = '#ff7070';
-    } else if (type === 'warn') {
-      feedback.style.background = 'rgba(255,193,7,0.12)';
-      feedback.style.border = '1px solid rgba(255,193,7,0.35)';
-      feedback.style.color = '#ffd54f';
-    } else {
-      feedback.style.background = 'rgba(0,212,170,0.12)';
-      feedback.style.border = '1px solid rgba(0,212,170,0.3)';
-      feedback.style.color = '#00d4aa';
-    }
-    feedback.textContent = message;
-  }
-
   function sanitize(input) {
     return String(input || '').replace(/[<>]/g, '').trim();
   }
@@ -211,6 +177,75 @@
     return Math.min(100, score);
   }
 
+  function buildRouteSummary(data) {
+    var profile = PROFILE_CONFIG[data.profile] || PROFILE_CONFIG.general;
+    var score = computeIntentScore(data);
+    var band = scoreBand(score);
+    var recommendedChannelKey = data.inquiryType === 'formal' || profile.intent === 'licensing' || profile.intent === 'institutional'
+      ? 'direct-formal'
+      : 'qualified-web-form';
+
+    return {
+      intent: profile.intent || 'general',
+      route: profile.route,
+      channel: recommendedChannelKey === 'direct-formal'
+        ? 'Direktan formalni kanal + validirani intake. ' + profile.channel
+        : 'Web qualification forma + sledeći discovery korak. ' + profile.channel,
+      nextStep: profile.nextStep,
+      score: score,
+      band: band,
+      recommendedChannelKey: recommendedChannelKey,
+      scoreNote: band === 'high'
+        ? 'Visok score znači da je zahtev dovoljno definisan za formalni ili ubrzani poslovni nastavak.'
+        : band === 'medium'
+          ? 'Srednji score znači da je zahtev blizu ozbiljnijeg business razgovora, ali i dalje traži qualification detalje.'
+          : 'Niži score znači discovery fazu i potrebu za dodatnim qualification informacijama pre formalnog nastavka.'
+    };
+  }
+
+  if (typeof module !== 'undefined' && module.exports) {
+    module.exports = {
+      computeIntentScore: computeIntentScore,
+      scoreBand: scoreBand,
+      buildRouteSummary: buildRouteSummary
+    };
+  }
+
+  var doc = typeof document !== 'undefined' ? document : null;
+  var form = doc ? doc.getElementById('contactForm') : null;
+  var feedback = doc ? doc.getElementById('formFeedback') : null;
+  if (!form || !feedback) return;
+
+  var inquiryTypeField = form.querySelector('#contactInquiryType');
+  var subjectField = form.querySelector('#contactSubject');
+  var profileField = form.querySelector('#contactProfile');
+  var priorityField = form.querySelector('#contactPriority');
+  var expectationField = doc.getElementById('contactExpectation');
+  var channelField = doc.getElementById('contactChannelNotice');
+  var routeProfileField = doc.getElementById('contactRouteProfile');
+  var routeChannelField = doc.getElementById('contactRouteChannel');
+  var routeNextField = doc.getElementById('contactRouteNext');
+  var routeScoreField = doc.getElementById('contactRouteScore');
+  var routeScoreNoteField = doc.getElementById('contactRouteScoreNote');
+
+  function setFeedback(message, type) {
+    feedback.style.display = 'block';
+    if (type === 'error') {
+      feedback.style.background = 'rgba(255,82,82,0.12)';
+      feedback.style.border = '1px solid rgba(255,82,82,0.35)';
+      feedback.style.color = '#ff7070';
+    } else if (type === 'warn') {
+      feedback.style.background = 'rgba(255,193,7,0.12)';
+      feedback.style.border = '1px solid rgba(255,193,7,0.35)';
+      feedback.style.color = '#ffd54f';
+    } else {
+      feedback.style.background = 'rgba(0,212,170,0.12)';
+      feedback.style.border = '1px solid rgba(0,212,170,0.3)';
+      feedback.style.color = '#00d4aa';
+    }
+    feedback.textContent = message;
+  }
+
   function currentEntryPreview() {
     return {
       inquiryType: sanitize(inquiryTypeField && inquiryTypeField.value || 'general'),
@@ -231,11 +266,7 @@
     var inquiryType = inquiryTypeField ? inquiryTypeField.value : 'general';
     var priority = priorityField ? priorityField.value : 'standard';
     var preview = currentEntryPreview();
-    var intentScore = computeIntentScore(preview);
-    var band = scoreBand(intentScore);
-    var recommendedChannel = inquiryType === 'formal' || profile.intent === 'licensing' || profile.intent === 'institutional'
-      ? 'Direktan formalni kanal + validirani intake'
-      : 'Web qualification forma + sledeći discovery korak';
+    var summary = buildRouteSummary(preview);
 
     if (channelField) {
       channelField.textContent = inquiryType === 'formal'
@@ -253,21 +284,15 @@
     }
 
     if (routeProfileField) routeProfileField.textContent = profile.route;
-    if (routeChannelField) routeChannelField.textContent = recommendedChannel + '. ' + profile.channel;
-    if (routeNextField) routeNextField.textContent = profile.nextStep;
+    if (routeChannelField) routeChannelField.textContent = summary.channel;
+    if (routeNextField) routeNextField.textContent = summary.nextStep;
     if (routeScoreField) {
-      routeScoreField.textContent = 'Score ' + intentScore + ' / 100';
-      routeScoreField.className = 'score-badge score-badge-' + band;
+      routeScoreField.textContent = 'Score ' + summary.score + ' / 100';
+      routeScoreField.className = 'score-badge score-badge-' + summary.band;
     }
-    if (routeScoreNoteField) {
-      routeScoreNoteField.textContent = band === 'high'
-        ? 'Visok score znači da je zahtev dovoljno definisan za formalni ili ubrzani poslovni nastavak.'
-        : band === 'medium'
-          ? 'Srednji score znači da je zahtev blizu ozbiljnijeg business razgovora, ali i dalje traži qualification detalje.'
-          : 'Niži score znači discovery fazu i potrebu za dodatnim qualification informacijama pre formalnog nastavka.';
-    }
+    if (routeScoreNoteField) routeScoreNoteField.textContent = summary.scoreNote;
 
-    form.setAttribute('data-intent', profile.intent || 'general');
+    form.setAttribute('data-intent', summary.intent || 'general');
 
     if (profile.subject && subjectField && !subjectField.value) {
       subjectField.value = profile.subject;
@@ -314,12 +339,10 @@
       status: inquiryType === 'formal' ? 'redirected-to-direct-channel' : 'captured-local',
       channel: inquiryType === 'formal' ? 'mailto-direct' : 'web-form-local'
     };
-    var profileConfig = PROFILE_CONFIG[entry.profile] || PROFILE_CONFIG.general;
-    entry.intent = profileConfig.intent || 'general';
-    entry.intentScore = computeIntentScore(entry);
-    entry.recommendedChannel = inquiryType === 'formal' || entry.intent === 'licensing' || entry.intent === 'institutional'
-      ? 'direct-formal'
-      : 'qualified-web-form';
+    var summary = buildRouteSummary(entry);
+    entry.intent = summary.intent;
+    entry.intentScore = summary.score;
+    entry.recommendedChannel = summary.recommendedChannelKey;
     return entry;
   }
 
