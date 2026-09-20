@@ -17,3 +17,9 @@
 - CTA funnel je standardizovan kroz `data-intent` i `data-funnel-stage` a analytics je proširen na conversion-path i page-view evente.
 - CI merge gate je proširen da proverava canonical/OG metadata za sve javne stranice i governance signalizaciju za formalni kanal + demo sadržaj.
 - Uvedena je podrška za višestruke post-deploy smoke URL provere preko `PRODUCTION_HEALTHCHECK_URLS` secreta.
+
+## 2026-09-20
+- `services.html` je potvrđen kao centralni capability hub sa vidljivim readiness, regulatory i integration signalima na karticama.
+- `contact.html` je unapređen u qualification hub sa intent-routing summary panelom i lightweight intent score modelom.
+- `trust-center.html` je proširen proof-architecture, claims matrix i escalation pravilima kako bi javne tvrdnje bile jasnije razdvojene.
+- Analytics helperi sada podržavaju segmentaciju po intent-u i score-aware contact payload signalizaciju.

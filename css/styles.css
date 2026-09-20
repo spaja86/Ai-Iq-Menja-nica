@@ -227,6 +227,14 @@ button { cursor: pointer; font-family: var(--font-main); }
 .service-status-roadmap { background: rgba(240,185,11,0.12); border: 1px solid rgba(240,185,11,0.3); color: var(--crypto-gold); }
 .service-status-advisory-only { background: rgba(255,77,77,0.12); border: 1px solid rgba(255,77,77,0.28); color: var(--crypto-red); }
 .service-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 18px; }
+.service-signal-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 8px; margin: 14px 0 6px; }
+.service-signal { display: inline-flex; align-items: center; gap: 6px; min-height: 40px; border-radius: 10px; border: 1px solid var(--crypto-border); background: rgba(255,255,255,0.03); padding: 8px 10px; font-size: 0.76rem; line-height: 1.45; color: var(--crypto-text); }
+.service-signal strong { color: #fff; }
+.service-signal-readiness { border-color: rgba(0,212,170,0.2); }
+.service-signal-regulatory { border-color: rgba(240,185,11,0.24); }
+.service-signal-integration { border-color: rgba(52,152,219,0.25); }
+.service-signal-fit { border-color: rgba(255,255,255,0.08); }
+.service-trust-note { margin-top: 12px; }
 .inline-note { font-size: 0.8rem; color: var(--crypto-muted); }
 .trust-panel,
 .path-panel,
@@ -255,6 +263,18 @@ button { cursor: pointer; font-family: var(--font-main); }
 .helper-panel { margin-top: 20px; }
 .helper-panel h4 { margin-bottom: 10px; font-size: 0.9rem; font-weight: 700; }
 .helper-panel p { font-size: 0.88rem; color: var(--crypto-muted); }
+.summary-list { list-style: none; display: grid; gap: 10px; margin-top: 14px; }
+.summary-list li { display: flex; gap: 10px; align-items: flex-start; color: var(--crypto-muted); font-size: 0.86rem; line-height: 1.7; }
+.summary-list li strong { color: #fff; }
+.summary-badge { display: inline-flex; align-items: center; justify-content: center; min-width: 28px; height: 28px; border-radius: 999px; background: rgba(0,212,170,0.12); border: 1px solid rgba(0,212,170,0.28); color: var(--crypto-green); font-weight: 800; font-size: 0.75rem; flex-shrink: 0; }
+.policy-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 18px; margin-top: 20px; }
+.policy-card { background: rgba(255,255,255,0.02); border: 1px solid var(--crypto-border); border-radius: 12px; padding: 20px; }
+.policy-card h3 { font-size: 1rem; margin-bottom: 10px; color: #fff; }
+.score-badge { display: inline-flex; align-items: center; justify-content: center; border-radius: 999px; padding: 6px 12px; font-size: 0.78rem; font-weight: 800; letter-spacing: 0.2px; }
+.score-badge-low { background: rgba(255,77,77,0.12); border: 1px solid rgba(255,77,77,0.25); color: var(--crypto-red); }
+.score-badge-medium { background: rgba(240,185,11,0.12); border: 1px solid rgba(240,185,11,0.28); color: var(--crypto-gold); }
+.score-badge-high { background: rgba(0,212,170,0.12); border: 1px solid rgba(0,212,170,0.28); color: var(--crypto-green); }
+.status-note { font-size: 0.8rem; color: var(--crypto-muted); margin-top: 8px; }
 .resource-list { list-style: none; display: grid; gap: 10px; margin-top: 14px; }
 .resource-list li { padding-left: 16px; position: relative; color: var(--crypto-muted); font-size: 0.85rem; }
 .resource-list li::before { content: '•'; position: absolute; left: 0; color: var(--crypto-green); }

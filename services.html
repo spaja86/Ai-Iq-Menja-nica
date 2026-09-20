@@ -181,8 +181,20 @@
     </div>
   </div>
 
+  <div class="helper-panel animate-in" id="serviceFilterGuidance">
+    <h4>🧭 Decision assist za capability hub</h4>
+    <p id="serviceFilterGuidanceText">Kombinujte filtre da odvojite discovery-ready capability-je od partner-led, roadmap i formalnih licensing tokova.</p>
+    <p class="status-note" id="serviceFilterGuidanceMeta">Available najčešće vodi ka qualification razgovoru; partner-led, roadmap i critical regulatory dependency vode ka trust centru, licensing desku ili formalnom intake-u.</p>
+    <div class="tag-row">
+      <span class="service-status service-status-available">Available = discovery i rani komercijalni razgovor</span>
+      <span class="service-status service-status-partner-led">Partner-led = zavisi od lokalnih mreža i partnera</span>
+      <span class="service-status service-status-roadmap">Roadmap = phased readiness i dokumentacija</span>
+      <span class="service-status service-status-advisory-only">Advisory-only = policy, compliance i market-entry priprema</span>
+    </div>
+  </div>
+
   <div class="services-grid" id="serviceCatalog">
-    <div class="service-card animate-in" data-category="banking" data-client="sme enterprise fintech" data-region="global eea" data-delivery="partner direct" data-status="partner-led" data-readiness="phase-1" data-regulatory="elevated" data-integration="medium">
+    <div class="service-card animate-in" data-category="banking" data-client="sme enterprise fintech" data-region="global eea" data-delivery="partner direct" data-status="partner-led" data-readiness="phase-1" data-regulatory="elevated" data-integration="medium" data-best-fit="SME, enterprise i fintech operateri" data-trust-note="Dostupnost zavisi od partner bankinga, onboarding dokumentacije i tržišta na kome se otvara account model.">
       <span class="service-icon">🏦</span>
       <h3>Banking</h3>
       <p>Current accounts, savings modeli, business accounts, multicurrency accounts, virtual cards i expense control za međunarodne korisnike i kompanije.</p>
@@ -199,7 +211,7 @@
         <a href="contact.html?profile=business&subject=institutional-onboarding&priority=high" class="btn-outline" data-track="service_cta_click" data-track-id="banking-contact">Pokreni onboarding</a>
       </div>
     </div>
-    <div class="service-card animate-in" data-category="payments" data-client="retail sme enterprise institutional" data-region="global eea mena" data-delivery="partner direct white-label" data-status="available" data-readiness="phase-1" data-regulatory="elevated" data-integration="medium">
+    <div class="service-card animate-in" data-category="payments" data-client="retail sme enterprise institutional" data-region="global eea mena" data-delivery="partner direct white-label" data-status="available" data-readiness="phase-1" data-regulatory="elevated" data-integration="medium" data-best-fit="Retail, SME, enterprise i institutional payout use-case-ovi" data-trust-note="Payments capability traži proveru tržišta, rail-ova i partner modela pre nego što se potvrdi produkcioni rollout.">
       <span class="service-icon">💳</span>
       <h3>Payments</h3>
       <p>Lokalni i međunarodni transferi, merchant payments, QR/POS tokovi, invoicing, subscriptions i payout rails za različite modele naplate.</p>
@@ -216,7 +228,7 @@
         <a href="contact.html?profile=business&subject=institutional-onboarding" class="btn-outline" data-track="service_cta_click" data-track-id="payments-contact">Razgovaraj o payments</a>
       </div>
     </div>
-    <div class="service-card animate-in" data-category="exchange" data-client="retail enterprise fintech" data-region="global eea na" data-delivery="direct partner white-label" data-status="available" data-readiness="phase-1" data-regulatory="medium" data-integration="medium">
+    <div class="service-card animate-in" data-category="exchange" data-client="retail enterprise fintech" data-region="global eea na" data-delivery="direct partner white-label" data-status="available" data-readiness="phase-1" data-regulatory="medium" data-integration="medium" data-best-fit="Retail, treasury i partner-distribution exchange tokovi" data-trust-note="Demo trading prikazi ostaju edukativni sloj; komercijalni rollout zavisi od modela isporuke i odgovarajuće jurisdikcije.">
       <span class="service-icon">💱</span>
       <h3>Exchange</h3>
       <p>Kripto, FX, OTC, liquidity desk, settlement desk i treasury exchange operativa za retail, B2B i partner scenarije.</p>
@@ -234,7 +246,7 @@
         <a href="contact.html?profile=business&subject=trading" class="btn-outline" data-track="service_cta_click" data-track-id="exchange-contact">Komercijalni razgovor</a>
       </div>
     </div>
-    <div class="service-card animate-in" data-category="digital-assets" data-client="retail enterprise fintech institutional" data-region="global na" data-delivery="partner white-label" data-status="partner-led" data-readiness="phase-2" data-regulatory="critical" data-integration="high">
+    <div class="service-card animate-in" data-category="digital-assets" data-client="retail enterprise fintech institutional" data-region="global na" data-delivery="partner white-label" data-status="partner-led" data-readiness="phase-2" data-regulatory="critical" data-integration="high" data-best-fit="Enterprise, fintech i institutional custody modeli" data-trust-note="Custody, tokenization i digital asset servicing traže formalni compliance pregled, partner mrežu i dublju tehničku integraciju.">
       <span class="service-icon">🪙</span>
       <h3>Digital Assets</h3>
       <p>Token issuance support, tokenization, custody, wallet infrastructure i asset servicing za digitalnu aktivu i fintech integracije.</p>
@@ -251,7 +263,7 @@
         <a href="contact.html?profile=business&subject=custody-wallet&priority=high" class="btn-outline" data-track="service_cta_click" data-track-id="digital-assets-contact">Custody razgovor</a>
       </div>
     </div>
-    <div class="service-card animate-in" data-category="enterprise" data-client="enterprise fintech institutional" data-region="global eea na" data-delivery="partner white-label" data-status="partner-led" data-readiness="phase-1" data-regulatory="elevated" data-integration="high">
+    <div class="service-card animate-in" data-category="enterprise" data-client="enterprise fintech institutional" data-region="global eea na" data-delivery="partner white-label" data-status="partner-led" data-readiness="phase-1" data-regulatory="elevated" data-integration="high" data-best-fit="Enterprise treasury, fintech distribution i embedded finance" data-trust-note="Enterprise servisi obično počinju kvalifikacijom use-case-a, partner uloge i API/onboarding zahteva pre formalnog komercijalnog toka.">
       <span class="service-icon">🏢</span>
       <h3>Enterprise</h3>
       <p>Payroll, vendor payouts, treasury dashboards, embedded finance i API banking tokovi za rastuće i međunarodne kompanije.</p>
@@ -268,7 +280,7 @@
         <a href="contact.html?profile=business&subject=institutional-onboarding&priority=high" class="btn-outline" data-track="service_cta_click" data-track-id="enterprise-contact">Enterprise intake</a>
       </div>
     </div>
-    <div class="service-card animate-in" data-category="capital" data-client="sme enterprise" data-region="global na" data-delivery="partner advisory" data-status="roadmap" data-readiness="phase-2" data-regulatory="elevated" data-integration="medium">
+    <div class="service-card animate-in" data-category="capital" data-client="sme enterprise" data-region="global na" data-delivery="partner advisory" data-status="roadmap" data-readiness="phase-2" data-regulatory="elevated" data-integration="medium" data-best-fit="SME growth, startup banking i investor-readiness timovi" data-trust-note="Capital capability je roadmap sloj i ne predstavlja garantovanu dostupnost bez partner sourcing-a, tržišne pripreme i dokumentacione validacije.">
       <span class="service-icon">📈</span>
       <h3>Capital</h3>
       <p>Lending, factoring, invoice finance, startup banking i investor onboarding za komercijalni i growth kapital.</p>
@@ -285,7 +297,7 @@
         <a href="contact.html?profile=business&subject=investor-relations" class="btn-outline" data-track="service_cta_click" data-track-id="capital-contact">Capital razgovor</a>
       </div>
     </div>
-    <div class="service-card animate-in" data-category="institutional" data-client="institutional enterprise" data-region="global mena" data-delivery="partner advisory" data-status="partner-led" data-readiness="phase-2" data-regulatory="critical" data-integration="high">
+    <div class="service-card animate-in" data-category="institutional" data-client="institutional enterprise" data-region="global mena" data-delivery="partner advisory" data-status="partner-led" data-readiness="phase-2" data-regulatory="critical" data-integration="high" data-best-fit="NGO, public-sector i audit-ready disbursement programi" data-trust-note="Institutional modeli zahtevaju formalni kanal, jurisdikcijski pregled i partner-led operativu pre daljeg planiranja implementacije.">
       <span class="service-icon">🏛️</span>
       <h3>Institutional</h3>
       <p>NGO/public sector flows, donor distribution, controlled disbursement i audit-friendly payment modeli za institucije i fondacije.</p>
@@ -303,7 +315,7 @@
         <a href="institutional.html" class="btn-outline" data-track="service_cta_click" data-track-id="institutional-landing" data-intent="institutional" data-funnel-stage="consider">Institutional landing</a>
       </div>
     </div>
-    <div class="service-card animate-in" data-category="advisory" data-client="enterprise fintech institutional" data-region="global eea mena na" data-delivery="advisory partner" data-status="advisory-only" data-readiness="phase-1" data-regulatory="critical" data-integration="low">
+    <div class="service-card animate-in" data-category="advisory" data-client="enterprise fintech institutional" data-region="global eea mena na" data-delivery="advisory partner" data-status="advisory-only" data-readiness="phase-1" data-regulatory="critical" data-integration="low" data-best-fit="Licensing, market-entry i compliance-first ekspanzija" data-trust-note="Ovaj sloj služi za claims review, jurisdiction mapping i formalnu pripremu; ne predstavlja operativnu potvrdu bez dodatnih koraka.">
       <span class="service-icon">📜</span>
       <h3>Advisory</h3>
       <p>Compliance preparation, market entry, jurisdiction mapping i licensing readiness kao ozbiljan poslovni sloj širenja.</p>
@@ -321,7 +333,7 @@
         <a href="licensing.html" class="btn-outline" data-track="service_cta_click" data-track-id="advisory-landing" data-intent="licensing" data-funnel-stage="consider">Licensing landing</a>
       </div>
     </div>
-    <div class="service-card animate-in" data-category="education" data-client="retail fintech institutional" data-region="global" data-delivery="direct partner" data-status="available" data-readiness="phase-1" data-regulatory="low" data-integration="low">
+    <div class="service-card animate-in" data-category="education" data-client="retail fintech institutional" data-region="global" data-delivery="direct partner" data-status="available" data-readiness="phase-1" data-regulatory="low" data-integration="low" data-best-fit="Partner enablement, certification i market literacy programi" data-trust-note="Education capability je najlakši ulaz u ekosistem, ali certification i licensing programi i dalje zavise od ciljnog tržišta i partner formata.">
       <span class="service-icon">🎓</span>
       <h3>Education</h3>
       <p>Certification, academy programi, partner training i AI-finance literacy za razvoj tržišta i akreditacionih kapaciteta.</p>
@@ -339,7 +351,7 @@
         <a href="contact.html?profile=education&subject=education-certification" class="btn-outline" data-track="service_cta_click" data-track-id="education-contact">Certification inquiry</a>
       </div>
     </div>
-    <div class="service-card animate-in" data-category="expansion" data-client="enterprise fintech institutional" data-region="global eea mena na" data-delivery="partner white-label advisory" data-status="roadmap" data-readiness="phase-3" data-regulatory="critical" data-integration="high">
+    <div class="service-card animate-in" data-category="expansion" data-client="enterprise fintech institutional" data-region="global eea mena na" data-delivery="partner white-label advisory" data-status="roadmap" data-readiness="phase-3" data-regulatory="critical" data-integration="high" data-best-fit="Country partnerships, white-label rollout i regional operator modeli" data-trust-note="Expansion capability traži najstroži trust i documentation sloj zato što kombinuje partner sourcing, tržišni ulazak i formalnu readiness proveru.">
       <span class="service-icon">🤝</span>
       <h3>Expansion</h3>
       <p>Franchising, white-label, local operator model i country partnerships za odgovornu međunarodnu ekspanziju.</p>
@@ -374,6 +386,47 @@
       <a href="licensing.html" class="btn-outline" data-track="services_hub_click" data-track-id="services-licensing-hub" data-intent="licensing" data-funnel-stage="consider">Licensing desk</a>
       <a href="partner-onboarding.html" class="btn-outline" data-track="services_hub_click" data-track-id="services-partner-hub" data-intent="partnership" data-funnel-stage="consider">Partner onboarding desk</a>
       <a href="contact.html?profile=business&priority=high" class="btn-outline" data-track="services_hub_click" data-track-id="services-qualified-intake" data-intent="general" data-funnel-stage="engage">Kvalifikuj poslovni zahtev</a>
+    </div>
+  </div>
+
+  <div class="trust-panel animate-in">
+    <div class="section-header" style="margin-bottom:24px">
+      <h2>🎯 Sledeći korak po <span>intent-u</span></h2>
+      <p>Services strana sada radi kao capability hub: svaka grupa servisa ima preporučeni desk, qualification tok i trust referencu.</p>
+    </div>
+    <div class="path-grid">
+      <div class="path-card">
+        <h3>📜 Licensing / compliance</h3>
+        <p class="compact-note">Ako je regulatory dependency elevated ili critical, najpre otvorite trust pravila i licensing desk.</p>
+        <div class="split-actions">
+          <a href="licensing.html" class="btn-outline" data-track="services_hub_click" data-track-id="services-decision-licensing" data-intent="licensing" data-funnel-stage="consider">Licensing desk</a>
+          <a href="contact.html?profile=licensing&subject=licensing&inquiryType=formal" class="btn-outline" data-track="services_hub_click" data-track-id="services-decision-licensing-intake" data-intent="licensing" data-funnel-stage="convert">Formalni licensing intake</a>
+        </div>
+      </div>
+      <div class="path-card">
+        <h3>🏛️ Institutional / NGO</h3>
+        <p class="compact-note">Institutional i audit-friendly programi nastavljaju se kroz dedicated desk i formalni kanal.</p>
+        <div class="split-actions">
+          <a href="institutional.html" class="btn-outline" data-track="services_hub_click" data-track-id="services-decision-institutional" data-intent="institutional" data-funnel-stage="consider">Institutional desk</a>
+          <a href="contact.html?profile=institutional&subject=public-ngo&inquiryType=formal&priority=high" class="btn-outline" data-track="services_hub_click" data-track-id="services-decision-institutional-intake" data-intent="institutional" data-funnel-stage="convert">Formalni institutional intake</a>
+        </div>
+      </div>
+      <div class="path-card">
+        <h3>🤝 Partner / expansion</h3>
+        <p class="compact-note">White-label, country partnership i rollout capability zahtevaju partner-led discovery i qualification.</p>
+        <div class="split-actions">
+          <a href="partner-onboarding.html" class="btn-outline" data-track="services_hub_click" data-track-id="services-decision-partner" data-intent="partnership" data-funnel-stage="consider">Partner onboarding</a>
+          <a href="contact.html?profile=partnership&subject=country-partnership&priority=high" class="btn-outline" data-track="services_hub_click" data-track-id="services-decision-partner-intake" data-intent="partnership" data-funnel-stage="engage">Partner qualification</a>
+        </div>
+      </div>
+      <div class="path-card">
+        <h3>💱 General business / exchange</h3>
+        <p class="compact-note">Available i phase-1 capability-i mogu da počnu kroz web qualification ili demo discovery pre komercijalnog razgovora.</p>
+        <div class="split-actions">
+          <a href="trade.html" class="btn-outline" data-track="services_hub_click" data-track-id="services-decision-trade" data-intent="general" data-funnel-stage="consider">Demo trading sloj</a>
+          <a href="contact.html?profile=business&subject=trading" class="btn-outline" data-track="services_hub_click" data-track-id="services-decision-business-intake" data-intent="general" data-funnel-stage="engage">Business qualification</a>
+        </div>
+      </div>
     </div>
   </div>
 

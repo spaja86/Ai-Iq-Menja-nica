@@ -32,3 +32,10 @@
 - Dublji services filteri: readiness, regulatory dependency, integration complexity
 - Kvalifikovani intake podaci: company size, timeline, budget tier, delivery expectation
 - KPI/export helperi za lokalnu funnel analitiku
+
+## V2.7 — Capability + Trust Operating Model
+- `services.html` kao centralni capability hub sa decision-assist logikom i vidljivim readiness/regulatory/integration signalima
+- `contact.html` kao qualification hub sa intent routing i lightweight scoring modelom
+- `trust-center.html` kao claims-policy, proof-architecture i escalation centar
+- Analytics segmentacija po intent-u (`general`, `licensing`, `partnership`, `institutional`, `education`)
+- Jača veza između javnih trust sekcija i `docs/*` operativnog sloja

@@ -36,11 +36,21 @@
     return map[path] || 'other';
   }
 
+  function normalizeIntent(intent) {
+    if (!intent) return 'general';
+    if (intent === 'business' || intent === 'trading') return 'general';
+    return intent;
+  }
+
   function deriveIntentFromHref(href) {
     if (!href) return '';
     if (href.indexOf('licensing') !== -1) return 'licensing';
     if (href.indexOf('institutional') !== -1 || href.indexOf('public-ngo') !== -1) return 'institutional';
     if (href.indexOf('partner') !== -1 || href.indexOf('white-label') !== -1 || href.indexOf('country-partnership') !== -1) return 'partnership';
+    if (href.indexOf('education') !== -1 || href.indexOf('education-certification') !== -1) return 'education';
+    if (href.indexOf('trading') !== -1 || href.indexOf('trade.html') !== -1) return 'general';
+    var profileMatch = href.match(/[?&]profile=([^&]+)/);
+    if (profileMatch && profileMatch[1]) return normalizeIntent(decodeURIComponent(profileMatch[1]));
     return '';
   }
 
@@ -53,7 +63,7 @@
   }
 
   function intentMeta(target, href) {
-    var intent = target.getAttribute('data-intent') || deriveIntentFromHref(href);
+    var intent = normalizeIntent(target.getAttribute('data-intent') || deriveIntentFromHref(href));
     var funnelStage = target.getAttribute('data-funnel-stage') || deriveStageFromHref(href);
     return {
       intent: intent || 'general',
@@ -84,6 +94,37 @@
     }, { total: 0, byName: {} });
   };
 
+  function eventIntent(event) {
+    if (event && event.payload && event.payload.intent) return normalizeIntent(event.payload.intent);
+    if (!event) return 'general';
+    if (event.pageType === 'intent-licensing') return 'licensing';
+    if (event.pageType === 'intent-institutional') return 'institutional';
+    if (event.pageType === 'intent-partnership') return 'partnership';
+    if (event.pageType === 'education') return 'education';
+    return 'general';
+  }
+
+  function pageIntent() {
+    var href = (location.pathname || '') + (location.search || '');
+    var derived = deriveIntentFromHref(href);
+    if (derived) return derived;
+    return eventIntent({ pageType: pageType(location.pathname) });
+  }
+
+  function makeIntentBucket() {
+    return {
+      pageViews: 0,
+      pathClicks: 0,
+      serviceInterest: 0,
+      intakeUpdates: 0,
+      generalSubmits: 0,
+      formalRedirects: 0,
+      avgLeadScore: 0,
+      latestLeadScore: 0,
+      engagementScore: 0
+    };
+  }
+
   window.aiqAnalyticsKpis = function () {
     var events = loadEvents();
     return events.reduce(function (acc, event) {
@@ -106,6 +147,56 @@
     });
   };
 
+  window.aiqAnalyticsIntentKpis = function () {
+    var events = loadEvents();
+    var scoresByIntent = {};
+    var summary = events.reduce(function (acc, event) {
+      var intent = eventIntent(event) || 'general';
+      if (!acc[intent]) acc[intent] = makeIntentBucket();
+      if (!scoresByIntent[intent]) scoresByIntent[intent] = [];
+
+      var bucket = acc[intent];
+      if (event.name === 'page_view') bucket.pageViews += 1;
+      if (event.name === 'conversion_path_click' || event.name === 'homepage_path_click' || event.name === 'intent_cta_click') bucket.pathClicks += 1;
+      if (event.name === 'service_cta_click' || event.name === 'services_hub_click') bucket.serviceInterest += 1;
+      if (event.name === 'contact_intake_update') bucket.intakeUpdates += 1;
+      if (event.name === 'contact_general_submit') bucket.generalSubmits += 1;
+      if (event.name === 'contact_formal_redirect') bucket.formalRedirects += 1;
+
+      if (event.payload && typeof event.payload.intentScore === 'number') {
+        scoresByIntent[intent].push(event.payload.intentScore);
+        bucket.latestLeadScore = event.payload.intentScore;
+      }
+
+      return acc;
+    }, {});
+
+    Object.keys(summary).forEach(function (intent) {
+      var bucket = summary[intent];
+      var scores = scoresByIntent[intent] || [];
+      if (scores.length) {
+        bucket.avgLeadScore = Math.round(scores.reduce(function (sum, value) { return sum + value; }, 0) / scores.length);
+      }
+      bucket.engagementScore = Math.round(
+        bucket.pageViews * 1 +
+        bucket.pathClicks * 4 +
+        bucket.serviceInterest * 5 +
+        bucket.intakeUpdates * 2 +
+        bucket.generalSubmits * 12 +
+        bucket.formalRedirects * 16 +
+        (bucket.avgLeadScore ? bucket.avgLeadScore / 4 : 0)
+      );
+    });
+
+    return summary;
+  };
+
+  window.aiqAnalyticsIntentScore = function (intent) {
+    var kpis = window.aiqAnalyticsIntentKpis();
+    var target = kpis[normalizeIntent(intent || 'general')];
+    return target ? target.engagementScore : 0;
+  };
+
   window.aiqAnalyticsExport = function (format) {
     var events = loadEvents();
     if (format === 'csv') {
@@ -117,13 +208,14 @@
       });
       return [header.join(','), rows.join('\n')].join('\n');
     }
-    return JSON.stringify({ events: events, summary: window.aiqAnalyticsSummary(), kpis: window.aiqAnalyticsKpis() }, null, 2);
+    return JSON.stringify({ events: events, summary: window.aiqAnalyticsSummary(), kpis: window.aiqAnalyticsKpis(), intentKpis: window.aiqAnalyticsIntentKpis() }, null, 2);
   };
 
   document.addEventListener('DOMContentLoaded', function () {
     trackEvent('page_view', {
       pageType: pageType(location.pathname),
-      lang: document.documentElement.lang || 'sr'
+      lang: document.documentElement.lang || 'sr',
+      intent: pageIntent()
     });
   });
 

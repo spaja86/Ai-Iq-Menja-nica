@@ -1,10 +1,6 @@
 (function () {
   'use strict';
 
-  var form = document.getElementById('contactForm');
-  var feedback = document.getElementById('formFeedback');
-  if (!form || !feedback) return;
-
   var STORAGE_KEY = 'aiq-contact-submissions';
   var LAST_SUBMIT_KEY = 'aiq-contact-last-submit';
   var RATE_LIMIT_MS = 60 * 1000;
@@ -54,59 +50,52 @@
     general: {
       message: 'Najbolje za opšta pitanja, osnovni pregled usluga i početni kontakt preko web forme.',
       channel: 'Web forma je dovoljna za prvi kontakt. Za formalni zahtev prebacite Tip upita na direktni kanal.',
-      subject: ''
+      subject: '',
+      intent: 'general',
+      route: 'Discovery i početni qualification razgovor.',
+      nextStep: 'Pošaljite web intake i nastavite ka services ili trust centru ako vam treba dublji pregled.'
     },
     business: {
       message: 'Koristite za enterprise, treasury, payments, API i operativne razgovore koji traže kvalifikaciju lead-a.',
       channel: 'Za ozbiljan poslovni onboarding preporučen je potpuni unos kompanije, tržišta i željenog modela saradnje.',
-      subject: 'institutional-onboarding'
+      subject: 'institutional-onboarding',
+      intent: 'general',
+      route: 'Business / enterprise qualification tok.',
+      nextStep: 'Kvalifikujte use-case, tržište i delivery model pre komercijalnog razgovora.'
     },
     licensing: {
       message: 'Najbolje za licensing roadmap, compliance pripremu, regulatorne i višejurisdikcijske razgovore.',
       channel: 'Za ovaj profil preporučen je formalni/direktni kanal kako bi zahtev stigao na pravi intake tok.',
-      subject: 'licensing'
+      subject: 'licensing',
+      intent: 'licensing',
+      route: 'Compliance-first i formalni licensing tok.',
+      nextStep: 'Posle validacije otvorite direktni mail kanal i po potrebi pregledajte trust center i documentation standarde.'
     },
     partnership: {
       message: 'Koristite za country partnership, white-label, franchise, local operator i partner-led ekspanziju.',
       channel: 'Ako imate konkretan model partnerstva, uključite tržište, ulogu partnera i očekivani delivery model.',
-      subject: 'country-partnership'
+      subject: 'country-partnership',
+      intent: 'partnership',
+      route: 'Partner-led onboarding i expansion qualification.',
+      nextStep: 'Definišite tržište, partner ulogu i delivery očekivanje pre daljeg partner desk razgovora.'
     },
     institutional: {
       message: 'Koristite za NGO, javni sektor, donor programe, audit-friendly modele i institucionalne tokove.',
       channel: 'Za institucionalne zahteve preporučen je formalni/direktni kanal sa jasnim opisom jurisdikcije i obima.',
-      subject: 'public-ngo'
+      subject: 'public-ngo',
+      intent: 'institutional',
+      route: 'Institutional / NGO / public-sector escalation tok.',
+      nextStep: 'Pripremite audit-ready obim, tržište i formalni kanal za nastavak razgovora.'
     },
     education: {
       message: 'Koristite za certification, academy, partner training i educational licensing razgovore.',
       channel: 'Za partnerske edukativne programe unesite ciljnu grupu, tržište i željeni format programa.',
-      subject: 'education-certification'
+      subject: 'education-certification',
+      intent: 'education',
+      route: 'Education i partner-enablement qualification tok.',
+      nextStep: 'Opišite ciljnu grupu i format programa pre certification ili partner training nastavka.'
     }
   };
-  var inquiryTypeField = form.querySelector('#contactInquiryType');
-  var subjectField = form.querySelector('#contactSubject');
-  var profileField = form.querySelector('#contactProfile');
-  var priorityField = form.querySelector('#contactPriority');
-  var expectationField = document.getElementById('contactExpectation');
-  var channelField = document.getElementById('contactChannelNotice');
-
-  function setFeedback(message, type) {
-    feedback.style.display = 'block';
-    if (type === 'error') {
-      feedback.style.background = 'rgba(255,82,82,0.12)';
-      feedback.style.border = '1px solid rgba(255,82,82,0.35)';
-      feedback.style.color = '#ff7070';
-    } else if (type === 'warn') {
-      feedback.style.background = 'rgba(255,193,7,0.12)';
-      feedback.style.border = '1px solid rgba(255,193,7,0.35)';
-      feedback.style.color = '#ffd54f';
-    } else {
-      feedback.style.background = 'rgba(0,212,170,0.12)';
-      feedback.style.border = '1px solid rgba(0,212,170,0.3)';
-      feedback.style.color = '#00d4aa';
-    }
-    feedback.textContent = message;
-  }
-
   function sanitize(input) {
     return String(input || '').replace(/[<>]/g, '').trim();
   }
@@ -149,17 +138,162 @@
     if (hasOption) field.value = value;
   }
 
+  function scoreBand(score) {
+    if (score >= 70) return 'high';
+    if (score >= 40) return 'medium';
+    return 'low';
+  }
+
+  function computeIntentScore(data) {
+    var score = 12;
+    if ((data.inquiryType || 'general') === 'formal') score += 22;
+
+    if (data.priority === 'urgent') score += 18;
+    else if (data.priority === 'high') score += 12;
+    else score += 4;
+
+    if (data.companySize === 'institutional' || data.companySize === 'enterprise') score += 14;
+    else if (data.companySize === 'growth') score += 10;
+    else if (data.companySize === 'sme') score += 7;
+    else if (data.companySize === 'small') score += 4;
+
+    if (data.timeline === 'immediate') score += 12;
+    else if (data.timeline === 'quarter') score += 9;
+    else if (data.timeline === 'half-year') score += 6;
+    else if (data.timeline === 'strategic') score += 4;
+
+    if (data.budgetTier === 'institutional' || data.budgetTier === 'enterprise') score += 14;
+    else if (data.budgetTier === 'growth') score += 10;
+    else if (data.budgetTier === 'pilot') score += 6;
+    else if (data.budgetTier === 'exploratory') score += 3;
+
+    if (data.deliveryExpectation === 'institutional' || data.deliveryExpectation === 'white-label') score += 10;
+    else if (data.deliveryExpectation === 'partner') score += 8;
+    else if (data.deliveryExpectation === 'advisory') score += 6;
+    else if (data.deliveryExpectation === 'direct') score += 5;
+
+    if (data.subject && data.subject !== 'other') score += 6;
+
+    return Math.min(100, score);
+  }
+
+  function buildRouteSummary(data) {
+    var profile = PROFILE_CONFIG[data.profile] || PROFILE_CONFIG.general;
+    var score = computeIntentScore(data);
+    var band = scoreBand(score);
+    var formalPreferredProfile = profile.intent === 'licensing' || profile.intent === 'institutional';
+    var recommendedChannelKey = data.inquiryType === 'formal' && formalPreferredProfile
+      ? 'direct-formal'
+      : 'qualified-web-form';
+
+    return {
+      intent: profile.intent || 'general',
+      route: profile.route,
+      channel: recommendedChannelKey === 'direct-formal'
+        ? 'Direktan formalni kanal + validirani intake. ' + profile.channel
+        : data.inquiryType === 'formal'
+          ? 'Formal toggle je zabeležen, ali ovaj profil ostaje u kvalifikacionom web toku dok se ne usmeri na licensing ili institutional desk. ' + profile.channel
+        : formalPreferredProfile
+          ? 'Web qualification forma uz preporučen formalni kanal posle validacije. ' + profile.channel
+          : 'Web qualification forma + sledeći discovery korak. ' + profile.channel,
+      nextStep: profile.nextStep,
+      score: score,
+      band: band,
+      recommendedChannelKey: recommendedChannelKey,
+      scoreNote: band === 'high'
+        ? 'Visok score znači da je zahtev dovoljno definisan za formalni ili ubrzani poslovni nastavak.'
+        : band === 'medium'
+          ? 'Srednji score znači da je zahtev blizu ozbiljnijeg business razgovora, ali i dalje traži qualification detalje.'
+          : 'Niži score znači discovery fazu i potrebu za dodatnim qualification informacijama pre formalnog nastavka.'
+    };
+  }
+
+  function resolveSubmissionRouting(data) {
+    var summary = buildRouteSummary(data);
+    var shouldRedirect = summary.recommendedChannelKey === 'direct-formal';
+
+    return {
+      intent: summary.intent,
+      intentScore: summary.score,
+      recommendedChannel: summary.recommendedChannelKey,
+      channel: shouldRedirect ? 'mailto-direct' : 'web-form-local',
+      status: shouldRedirect ? 'redirected-to-direct-channel' : 'captured-local',
+      shouldRedirect: shouldRedirect
+    };
+  }
+
+  if (typeof module !== 'undefined' && module.exports) {
+    module.exports = {
+      computeIntentScore: computeIntentScore,
+      scoreBand: scoreBand,
+      buildRouteSummary: buildRouteSummary,
+      resolveSubmissionRouting: resolveSubmissionRouting
+    };
+  }
+
+  var doc = typeof document !== 'undefined' ? document : null;
+  var form = doc ? doc.getElementById('contactForm') : null;
+  var feedback = doc ? doc.getElementById('formFeedback') : null;
+  if (!form || !feedback) return;
+
+  var inquiryTypeField = form.querySelector('#contactInquiryType');
+  var subjectField = form.querySelector('#contactSubject');
+  var profileField = form.querySelector('#contactProfile');
+  var priorityField = form.querySelector('#contactPriority');
+  var expectationField = doc.getElementById('contactExpectation');
+  var channelField = doc.getElementById('contactChannelNotice');
+  var routeProfileField = doc.getElementById('contactRouteProfile');
+  var routeChannelField = doc.getElementById('contactRouteChannel');
+  var routeNextField = doc.getElementById('contactRouteNext');
+  var routeScoreField = doc.getElementById('contactRouteScore');
+  var routeScoreNoteField = doc.getElementById('contactRouteScoreNote');
+
+  function setFeedback(message, type) {
+    feedback.style.display = 'block';
+    if (type === 'error') {
+      feedback.style.background = 'rgba(255,82,82,0.12)';
+      feedback.style.border = '1px solid rgba(255,82,82,0.35)';
+      feedback.style.color = '#ff7070';
+    } else if (type === 'warn') {
+      feedback.style.background = 'rgba(255,193,7,0.12)';
+      feedback.style.border = '1px solid rgba(255,193,7,0.35)';
+      feedback.style.color = '#ffd54f';
+    } else {
+      feedback.style.background = 'rgba(0,212,170,0.12)';
+      feedback.style.border = '1px solid rgba(0,212,170,0.3)';
+      feedback.style.color = '#00d4aa';
+    }
+    feedback.textContent = message;
+  }
+
+  function currentEntryPreview() {
+    return {
+      inquiryType: sanitize(inquiryTypeField && inquiryTypeField.value || 'general'),
+      priority: sanitize(priorityField && priorityField.value || 'standard'),
+      profile: sanitize(profileField && profileField.value || 'general'),
+      companySize: sanitize(form.querySelector('#contactCompanySize') && form.querySelector('#contactCompanySize').value),
+      timeline: sanitize(form.querySelector('#contactTimeline') && form.querySelector('#contactTimeline').value),
+      budgetTier: sanitize(form.querySelector('#contactBudgetTier') && form.querySelector('#contactBudgetTier').value),
+      deliveryExpectation: sanitize(form.querySelector('#contactDeliveryExpectation') && form.querySelector('#contactDeliveryExpectation').value),
+      subject: sanitize(subjectField && subjectField.value)
+    };
+  }
+
   function syncExperience() {
     if (!profileField) return;
 
     var profile = PROFILE_CONFIG[profileField.value] || PROFILE_CONFIG.general;
     var inquiryType = inquiryTypeField ? inquiryTypeField.value : 'general';
     var priority = priorityField ? priorityField.value : 'standard';
+    var preview = currentEntryPreview();
+    var summary = buildRouteSummary(preview);
 
     if (channelField) {
-      channelField.textContent = inquiryType === 'formal'
+      channelField.textContent = summary.recommendedChannelKey === 'direct-formal'
         ? 'Odabrali ste direktni kanal: posle validacije forma otvara email prema formalnom prijemnom kanalu.'
-        : profile.channel;
+        : inquiryType === 'formal'
+          ? 'Formal toggle je zabeležen, ali direktni email routing ostaje rezervisan za licensing i institutional profile.'
+          : profile.channel;
     }
 
     if (expectationField) {
@@ -170,6 +304,17 @@
           : 'Prioritet je standardan.';
       expectationField.textContent = profile.message + ' ' + priorityText + ' Uključite veličinu organizacije, timeline, budget tier i željeni delivery model.';
     }
+
+    if (routeProfileField) routeProfileField.textContent = profile.route;
+    if (routeChannelField) routeChannelField.textContent = summary.channel;
+    if (routeNextField) routeNextField.textContent = summary.nextStep;
+    if (routeScoreField) {
+      routeScoreField.textContent = 'Score ' + summary.score + ' / 100';
+      routeScoreField.className = 'score-badge score-badge-' + summary.band;
+    }
+    if (routeScoreNoteField) routeScoreNoteField.textContent = summary.scoreNote;
+
+    form.setAttribute('data-intent', summary.intent || 'general');
 
     if (profile.subject && subjectField && !subjectField.value) {
       subjectField.value = profile.subject;
@@ -196,7 +341,7 @@
 
   function serializeForm() {
     var inquiryType = sanitize(form.querySelector('#contactInquiryType').value || 'general');
-    return {
+    var entry = {
       id: makeId(),
       ts: new Date().toISOString(),
       source: 'contact.html',
@@ -212,10 +357,15 @@
       budgetTier: sanitize(form.querySelector('#contactBudgetTier').value),
       deliveryExpectation: sanitize(form.querySelector('#contactDeliveryExpectation').value),
       subject: sanitize(form.querySelector('#contactSubject').value),
-      message: sanitize(form.querySelector('#contactMessage').value),
-      status: inquiryType === 'formal' ? 'redirected-to-direct-channel' : 'captured-local',
-      channel: inquiryType === 'formal' ? 'mailto-direct' : 'web-form-local'
+      message: sanitize(form.querySelector('#contactMessage').value)
     };
+    var routing = resolveSubmissionRouting(entry);
+    entry.intent = routing.intent;
+    entry.intentScore = routing.intentScore;
+    entry.recommendedChannel = routing.recommendedChannel;
+    entry.status = routing.status;
+    entry.channel = routing.channel;
+    return entry;
   }
 
   function buildMailto(entry) {
@@ -278,10 +428,10 @@
     saveSubmission(entry);
     setSubmittedNow();
 
-    if (entry.inquiryType === 'formal') {
+    if (entry.recommendedChannel === 'direct-formal') {
       setFeedback('Formalni/regulatorni zahtev je evidentiran i sada se otvara direktni email kanal ka spajicn@yahoo.com.', 'warn');
       if (window.aiqTrackEvent) {
-        window.aiqTrackEvent('contact_formal_redirect', { subject: entry.subject, jurisdiction: entry.jurisdiction, profile: entry.profile, priority: entry.priority, companySize: entry.companySize, timeline: entry.timeline, budgetTier: entry.budgetTier, deliveryExpectation: entry.deliveryExpectation });
+        window.aiqTrackEvent('contact_formal_redirect', { subject: entry.subject, jurisdiction: entry.jurisdiction, profile: entry.profile, priority: entry.priority, companySize: entry.companySize, timeline: entry.timeline, budgetTier: entry.budgetTier, deliveryExpectation: entry.deliveryExpectation, intent: entry.intent, intentScore: entry.intentScore, recommendedChannel: entry.recommendedChannel });
       }
       setTimeout(function () {
         window.location.href = buildMailto(entry);
@@ -289,7 +439,7 @@
     } else {
       setFeedback('✅ Hvala! Vaš upit je evidentiran lokalno sa audit tragom. Ako bude potreban formalni nastavak, nastavite kroz direktni email kanal.', 'success');
       if (window.aiqTrackEvent) {
-        window.aiqTrackEvent('contact_general_submit', { subject: entry.subject, jurisdiction: entry.jurisdiction, profile: entry.profile, priority: entry.priority, companySize: entry.companySize, timeline: entry.timeline, budgetTier: entry.budgetTier, deliveryExpectation: entry.deliveryExpectation });
+        window.aiqTrackEvent('contact_general_submit', { subject: entry.subject, jurisdiction: entry.jurisdiction, profile: entry.profile, priority: entry.priority, companySize: entry.companySize, timeline: entry.timeline, budgetTier: entry.budgetTier, deliveryExpectation: entry.deliveryExpectation, intent: entry.intent, intentScore: entry.intentScore, recommendedChannel: entry.recommendedChannel });
       }
       form.reset();
       syncExperience();
@@ -304,13 +454,22 @@
     field.addEventListener('change', function () {
       syncExperience();
       if (window.aiqTrackEvent) {
+        var preview = currentEntryPreview();
+        var profileConfig = PROFILE_CONFIG[preview.profile] || PROFILE_CONFIG.general;
         window.aiqTrackEvent('contact_intake_update', {
           profile: profileField ? profileField.value : '',
           inquiryType: inquiryTypeField ? inquiryTypeField.value : '',
-          priority: priorityField ? priorityField.value : ''
+          priority: priorityField ? priorityField.value : '',
+          intent: profileConfig.intent || 'general',
+          intentScore: computeIntentScore(preview)
         });
       }
     });
+  });
+
+  [subjectField, form.querySelector('#contactCompanySize'), form.querySelector('#contactTimeline'), form.querySelector('#contactBudgetTier'), form.querySelector('#contactDeliveryExpectation')].forEach(function (field) {
+    if (!field) return;
+    field.addEventListener('change', syncExperience);
   });
 
   applyQueryPrefill();
