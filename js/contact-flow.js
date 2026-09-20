@@ -181,7 +181,8 @@
     var profile = PROFILE_CONFIG[data.profile] || PROFILE_CONFIG.general;
     var score = computeIntentScore(data);
     var band = scoreBand(score);
-    var recommendedChannelKey = data.inquiryType === 'formal' || profile.intent === 'licensing' || profile.intent === 'institutional'
+    var formalPreferredProfile = profile.intent === 'licensing' || profile.intent === 'institutional';
+    var recommendedChannelKey = data.inquiryType === 'formal'
       ? 'direct-formal'
       : 'qualified-web-form';
 
@@ -190,7 +191,9 @@
       route: profile.route,
       channel: recommendedChannelKey === 'direct-formal'
         ? 'Direktan formalni kanal + validirani intake. ' + profile.channel
-        : 'Web qualification forma + sledeći discovery korak. ' + profile.channel,
+        : formalPreferredProfile
+          ? 'Web qualification forma uz preporučen formalni kanal posle validacije. ' + profile.channel
+          : 'Web qualification forma + sledeći discovery korak. ' + profile.channel,
       nextStep: profile.nextStep,
       score: score,
       band: band,

@@ -104,6 +104,13 @@
     return 'general';
   }
 
+  function pageIntent() {
+    var href = (location.pathname || '') + (location.search || '');
+    var derived = deriveIntentFromHref(href);
+    if (derived) return derived;
+    return eventIntent({ pageType: pageType(location.pathname) });
+  }
+
   function makeIntentBucket() {
     return {
       pageViews: 0,
@@ -207,7 +214,8 @@
   document.addEventListener('DOMContentLoaded', function () {
     trackEvent('page_view', {
       pageType: pageType(location.pathname),
-      lang: document.documentElement.lang || 'sr'
+      lang: document.documentElement.lang || 'sr',
+      intent: pageIntent()
     });
   });
 
