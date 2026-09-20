@@ -274,7 +274,9 @@
     var autoIdCounter = 0;
     document.querySelectorAll('a[href]').forEach(function (a) {
       var href = (a.getAttribute('href') || '').trim();
-      if (!href || href.indexOf('mailto:') === 0 || href.indexOf('http') === 0 || href.indexOf('#') === 0) return;
+      var isExternal = /^(?:[a-z][a-z0-9+.-]*:)?\/\//i.test(href);
+      var isNonPageAction = /^(mailto:|tel:|javascript:)/i.test(href);
+      if (!href || isExternal || isNonPageAction || href.indexOf('#') === 0) return;
 
       var cleanHref = href.split('#')[0];
       var page = cleanHref.split('?')[0];
