@@ -2,6 +2,9 @@
 - Scope:
 - Impact:
 - Risk:
+- Central hub:
+- KPI signal:
+- Capability / Qualification / Governance mapping:
 
 # Development Cycle (mandatory)
 - [ ] Plan
@@ -11,6 +14,8 @@
 - [ ] Release readiness
 
 # Repo-wide DoD Checklist (mandatory)
+- [ ] Developer + Create remain one operating flow under `MONTEZACIJA NAD MONTEZACIJAMA`
+- [ ] Change is mapped to capability, qualification, or governance and to the relevant central hub
 - [ ] Shared/page-level boundary preserved (global behavior in shared layer, page logic isolated)
 - [ ] Shared navigation/i18n consistency preserved (`data-i18n` + shared table updates where needed)
 - [ ] New conversion CTA uses `data-track` + `data-track-id`
@@ -24,6 +29,7 @@
 # Verification
 - Tests/checks run:
 - Result:
+- Final merge/release criterion met: quality, security, funnel measurement, trust signal, and documentation trace aligned
 
 # Related Docs Updates
 - [ ] `docs/decision-log.md`
