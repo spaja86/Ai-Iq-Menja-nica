@@ -131,6 +131,17 @@
     });
   }
 
+  function distinctCompletedInquiryCount(events) {
+    var seen = {};
+    trackedInquiryEvents(events).forEach(function (event) {
+      var inquiryId = event && event.payload && event.payload.inquiryId
+        ? event.payload.inquiryId
+        : event.id;
+      if (inquiryId) seen[inquiryId] = true;
+    });
+    return Object.keys(seen).length;
+  }
+
   function isQualifiedInquiry(event) {
     return !!(event && event.payload && typeof event.payload.intentScore === 'number' && event.payload.intentScore >= 40);
   }
@@ -250,7 +261,6 @@
 
   window.aiqAnalyticsOperatingMetrics = function () {
     var events = loadEvents();
-    var inquiries = trackedInquiryEvents(events);
     var pageViewsByIntent = {
       licensing: 0,
       institutional: 0,
@@ -270,9 +280,9 @@
     var segmentQuality = {};
     var totals = {
       qualifiedInboundInquiries: 0,
-      completedInquiries: inquiries.length,
+      completedInquiries: distinctCompletedInquiryCount(events),
       formAttempts: 0,
-      generalSubmits: 0,
+      qualifiedGeneralSubmits: 0,
       formalRedirects: 0
     };
 
@@ -282,7 +292,6 @@
         : ctaIntentFromEvent(event);
 
       if (event.name === 'form_submit_attempt') totals.formAttempts += 1;
-      if (event.name === 'contact_general_submit') totals.generalSubmits += 1;
       if (event.name === 'contact_formal_redirect') totals.formalRedirects += 1;
 
       if (event.name === 'page_view' && Object.prototype.hasOwnProperty.call(pageViewsByIntent, intent)) {
@@ -300,6 +309,7 @@
 
         tierCounts[tier] += 1;
         if (isQualifiedInquiry(event)) totals.qualifiedInboundInquiries += 1;
+        if (event.name === 'contact_general_submit' && isQualifiedInquiry(event)) totals.qualifiedGeneralSubmits += 1;
         if (!segmentQuality[segment]) {
           segmentQuality[segment] = {
             inquiries: 0,
@@ -332,10 +342,10 @@
         partnership: safeRate(ctaClicksByIntent.partnership, pageViewsByIntent.partnership)
       },
       localVsFormal: {
-        localQualifiedSubmits: totals.generalSubmits,
+        localQualifiedSubmits: totals.qualifiedGeneralSubmits,
         formalRedirects: totals.formalRedirects,
-        formalShare: safeRate(totals.formalRedirects, totals.completedInquiries),
-        localToFormalRatio: totals.formalRedirects ? Math.round((totals.generalSubmits / totals.formalRedirects) * 100) / 100 : totals.generalSubmits
+        formalShare: safeRate(totals.formalRedirects, totals.qualifiedGeneralSubmits + totals.formalRedirects),
+        localToFormalRatio: totals.formalRedirects ? Math.round((totals.qualifiedGeneralSubmits / totals.formalRedirects) * 100) / 100 : totals.qualifiedGeneralSubmits
       },
       leadSegmentQuality: segmentQuality,
       monetizationTiers: tierCounts

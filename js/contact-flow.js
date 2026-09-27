@@ -431,7 +431,7 @@
     if (entry.recommendedChannel === 'direct-formal') {
       setFeedback('Formalni/regulatorni zahtev je evidentiran i sada se otvara direktni email kanal ka spajicn@yahoo.com.', 'warn');
       if (window.aiqTrackEvent) {
-        window.aiqTrackEvent('contact_formal_redirect', { subject: entry.subject, jurisdiction: entry.jurisdiction, profile: entry.profile, priority: entry.priority, companySize: entry.companySize, timeline: entry.timeline, budgetTier: entry.budgetTier, deliveryExpectation: entry.deliveryExpectation, intent: entry.intent, intentScore: entry.intentScore, recommendedChannel: entry.recommendedChannel });
+        window.aiqTrackEvent('contact_formal_redirect', { inquiryId: entry.id, subject: entry.subject, jurisdiction: entry.jurisdiction, profile: entry.profile, priority: entry.priority, companySize: entry.companySize, timeline: entry.timeline, budgetTier: entry.budgetTier, deliveryExpectation: entry.deliveryExpectation, intent: entry.intent, intentScore: entry.intentScore, recommendedChannel: entry.recommendedChannel });
       }
       setTimeout(function () {
         window.location.href = buildMailto(entry);
@@ -439,7 +439,7 @@
     } else {
       setFeedback('✅ Hvala! Vaš upit je evidentiran lokalno sa audit tragom. Ako bude potreban formalni nastavak, nastavite kroz direktni email kanal.', 'success');
       if (window.aiqTrackEvent) {
-        window.aiqTrackEvent('contact_general_submit', { subject: entry.subject, jurisdiction: entry.jurisdiction, profile: entry.profile, priority: entry.priority, companySize: entry.companySize, timeline: entry.timeline, budgetTier: entry.budgetTier, deliveryExpectation: entry.deliveryExpectation, intent: entry.intent, intentScore: entry.intentScore, recommendedChannel: entry.recommendedChannel });
+        window.aiqTrackEvent('contact_general_submit', { inquiryId: entry.id, subject: entry.subject, jurisdiction: entry.jurisdiction, profile: entry.profile, priority: entry.priority, companySize: entry.companySize, timeline: entry.timeline, budgetTier: entry.budgetTier, deliveryExpectation: entry.deliveryExpectation, intent: entry.intent, intentScore: entry.intentScore, recommendedChannel: entry.recommendedChannel });
       }
       form.reset();
       syncExperience();
