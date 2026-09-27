@@ -1,5 +1,8 @@
 # QA Strategija
 
+## Nadređeni standard
+- QA i release kriterijumi su zaključani kroz `docs/vrh-programskog-ekvivalenta.md`.
+
 ## Obavezna checklista
 - Cross-browser: Chrome, Edge, Safari, Firefox
 - Mobile/responsive: kritične breakpoint provere
@@ -21,6 +24,7 @@
 - Content governance check za formalni kanal + demo signalizaciju
 - Link validacija sa definisanim izuzecima
 - Secret scan i security check pre release-a
+- Merge/release blokada dok svi gate-ovi nisu green
 
 ## Definition of Done
 - Funkcionalnost radi bez regresije u ključnim tokovima.

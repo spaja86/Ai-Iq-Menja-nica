@@ -1,5 +1,11 @@
 # Decision Log
 
+## 2026-09-27
+- Potvrđeno je da je `docs/vrh-programskog-ekvivalenta.md` jedini repo-wide operativni standard za DoD, razvojni ciklus i release kriterijume.
+- Usklađeni su `docs/roadmap.md`, `docs/repository-architecture.md`, `docs/content-rules.md`, `docs/qa-strategy.md` i `docs/funnel-map.md` da ne postoji kontradikcija oko CTA discipline, formalnog kanala, demo signalizacije i dokumentacionog traga.
+- Uveden je obavezni PR checklist template (`.github/pull_request_template.md`) koji mapira Plan → Implementacija → Validacija → Dokumentacija → Release i repo-wide DoD tačke.
+- Potvrđeno hard pravilo: bez green CI quality/security gate-ova nema merge-a za javne izmene.
+
 ## 2026-09-16
 - Repo pozicioniran kao marketing + lead-generation platforma sa demo trading komponentama.
 - KPI model zaključan na: qualified inquiries, contact conversion, high-intent CTA engagement.

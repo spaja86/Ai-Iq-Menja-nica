@@ -19,6 +19,8 @@ Svaka promena mora pratiti isti ciklus:
 4. **Dokumentacija** — obavezan trag u `docs/*`.
 5. **Release** — samo posle prolaska svih gate-ova.
 
+PR opis mora koristiti obavezni checklist template (`.github/pull_request_template.md`) koji potvrđuje ovaj ciklus i DoD.
+
 ## Obavezan trag promene u dokumentaciji
 Svaka funkcionalna ili sadržajna izmena mora imati:
 - odluku (šta je promenjeno),

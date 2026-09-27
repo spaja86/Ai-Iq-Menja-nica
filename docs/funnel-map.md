@@ -1,5 +1,8 @@
 # Funnel Map
 
+## Operativni okvir
+- Funnel pravila i DoD kriterijumi su usklađeni sa `docs/vrh-programskog-ekvivalenta.md`.
+
 ## Glavni funnel
 1. Awareness — `index.html`, `about.html`, `education.html`
 2. Consideration — `services.html`, `trust-center.html`, intent landing stranice
@@ -15,5 +18,6 @@
 ## Pravila kvalifikacije
 - Web forma ostaje lead-qualification i lokalni audit sloj.
 - Formalni/regulatorni tokovi moraju nuditi direktni email kanal.
-- Novi CTA ka konverziji treba da nosi `data-track`, `data-track-id`, a za intent tokove i `data-intent` + `data-funnel-stage`.
+- Svaki novi CTA ka konverziji mora da nosi `data-track` + `data-track-id`, a za intent tokove i `data-intent` + `data-funnel-stage`.
 - Services filtering i contact qualification moraju biti merljivi kroz lokalnu analytics taksonomiju.
+- Svaka promena funnel toka mora biti praćena decision log zapisom (odluka, uticaj, rizik, status).

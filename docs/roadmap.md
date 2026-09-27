@@ -1,5 +1,10 @@
 # Product Roadmap
 
+## Operativni standard (obavezno)
+- Jedini repo-wide operativni standard je `docs/vrh-programskog-ekvivalenta.md`.
+- Svi roadmap prioriteti, DoD kriterijumi i merge odluke moraju biti usklađeni sa tim dokumentom.
+- Nema merge-a za javne izmene bez zelenih quality/security gate-ova.
+
 ## V1 — Foundation
 - Struktura i konvencije
 - I18n i content baseline
@@ -51,6 +56,7 @@
 - Obavezni quality gate-ovi pre deploy-a (HTML/link/metadata/content)
 - Obavezni security i secret gate pre release-a
 - Jedinstvena taksonomija funnel i intent događaja za KPI praćenje
+- Hard merge pravilo: release i merge su dozvoljeni samo uz green CI gate-ove.
 
 ### Faza C — Konverzija, trust signal i operativno skaliranje
 - Optimizacija conversion putanja na osnovu KPI signala
