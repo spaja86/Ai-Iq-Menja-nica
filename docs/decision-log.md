@@ -1,6 +1,9 @@
 # Decision Log
 
 ## 2026-09-27
+- Implementiran je zaključani Developer + Create operating model kao jedinstven repo-wide tok pod programom `MONTEZACIJA NAD MONTEZACIJAMA`, bez odvojenih approval pravila po disciplini.
+- Contributor i PR workflow su pooštreni tako da svaka promena mora eksplicitno mapirati capability/qualification/governance cilj, centralni hub i očekivani KPI signal.
+- Finalni merge/release kriterijum je dodatno zaključan: kvalitet, sigurnost, funnel merenje, trust signal i dokumentacioni trag moraju biti istovremeno usklađeni.
 - Formalno je odobren repo-wide program `MONTEZACIJA NAD MONTEZACIJAMA` kao nadređeni operativni sloj iznad pojedinačnih izmena.
 - Program je definisan kao approval okvir koji povezuje development, content, trust, funnel i release disciplinu u jedan upravljački model.
 - Potvrđeno je da `VRH PROGRAMSKOG EKVIVALENTA` označava ciljno stanje maksimalne usklađenosti kvaliteta, sigurnosti, konverzije i governance-a.

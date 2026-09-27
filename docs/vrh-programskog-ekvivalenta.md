@@ -7,6 +7,7 @@ Ovaj standard zaključava jedinstven operativni okvir za ceo repozitorijum kako 
 - `MONTEZACIJA NAD MONTEZACIJAMA` je naziv nadređenog repo-wide operativnog sloja.
 - Program povezuje development, content, trust, funnel i release disciplinu u jedan approval model.
 - `VRH PROGRAMSKOG EKVIVALENTA` je ciljno stanje programa: maksimalna usklađenost kvaliteta, sigurnosti, konverzije i governance-a.
+- Developer i create sloj rade kao jedan operativni tok; ne postoje odvojeni approval kriterijumi po disciplini.
 
 ## Zaključani scope programa
 - Program obavezno pokriva tri centralna huba: `services.html`, `contact.html` i `trust-center.html`.
@@ -35,6 +36,7 @@ PR opis mora koristiti obavezni checklist template (`.github/pull_request_templa
 - Odobrenje postoji samo za promene koje prolaze ceo ciklus Plan → Implementacija → Validacija → Dokumentacija → Release.
 - Ne odobravaju se izmene koje uvode regresiju u ključnim tokovima, trust signalizaciji ili funnel merenju.
 - Approval zahteva green quality/security gate-ove i ažuran dokumentacioni trag u `docs/*`.
+- Ništa ne ide u merge ili release dok kvalitet, sigurnost, funnel merenje, trust signal i dokumentacioni trag nisu istovremeno usklađeni.
 
 ## Obavezan trag promene u dokumentaciji
 Svaka funkcionalna ili sadržajna izmena mora imati:
@@ -47,6 +49,7 @@ Minimalni trag ide u `docs/decision-log.md` i relevantni domen dokument (`docs/q
 
 ## Repo-wide Definition of Done (DoD)
 Promena je završena samo kada je sve ispunjeno:
+- Nova inicijativa je mapirana na capability, qualification ili governance cilj i na relevantni centralni hub.
 - Shared i page-level granica nije narušena.
 - Navigacija i i18n ostaju konzistentni.
 - Novi ili izmenjeni conversion CTA imaju `data-track` i `data-track-id`.
@@ -63,6 +66,12 @@ Promena je završena samo kada je sve ispunjeno:
 - Javne tvrdnje i `docs/*` dokumenti ne smeju biti u kontradikciji.
 - Approval paket mora zadržati jedan naziv programa, jedan repo-wide standard, jedan DoD i jedan KPI skup.
 
+## Jedinstveni approval paket
+- Jedan naziv programa: `MONTEZACIJA NAD MONTEZACIJAMA`
+- Jedan repo-wide standard: `docs/vrh-programskog-ekvivalenta.md`
+- Jedan Definition of Done za developer + create sloj
+- Jedan KPI skup: qualified inbound, completion rate, intent CTA CTR, local-vs-formal ratio, lead quality po intent/tier segmentima
+
 ## Usklađivanje sa operativnim modelom
 Svaka javna izmena mora podržati makar jedan od tri centra bez kontradikcije:
 - `services.html` (capability hub)
@@ -78,6 +87,7 @@ Svaka javna izmena mora podržati makar jedan od tri centra bez kontradikcije:
 - Developer sloj nosi stabilnost, testabilnost, security i shared konvencije.
 - Create sloj nosi jasnu poruku, trust signal, funnel CTA disciplinu i intent segmentaciju.
 - Oba sloja rade po istom DoD-u i istom approval gate-u; nisu odvojeni tokovi.
+- Repo-wide izlazi ostaju isti za oba sloja: pouzdan proizvod, merljiv funnel i održiva monetizacija.
 
 ## Prioritet realizacije
 - **Faza A:** Konsolidacija standarda i konzistentnosti.

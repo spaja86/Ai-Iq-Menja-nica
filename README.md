@@ -173,6 +173,11 @@ Obavezni approval paket:
 - jedan Definition of Done
 - jedan KPI skup: qualified inbound, completion rate, intent CTR, local-vs-formal ratio, lead quality
 
+Operativna pravila:
+- Developer i Create rade kao jedan tok pod istim approval gate-om.
+- Svaka nova inicijativa mora biti mapirana na capability, qualification ili governance cilj.
+- Ništa ne ide u merge ili release bez istovremeno usklađenih quality, security, funnel, trust i documentation signala.
+
 ---
 
 ## 🛠️ Local run
