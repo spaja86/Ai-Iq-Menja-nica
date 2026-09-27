@@ -132,9 +132,20 @@
   }
 
   function inquiryIdentity(event) {
-    return event && event.payload && event.payload.inquiryId
-      ? event.payload.inquiryId
-      : event && event.id;
+    if (!event) return '';
+    if (event.payload && event.payload.inquiryId) return event.payload.inquiryId;
+    if (event.id) return event.id;
+
+    var payload = event.payload || {};
+    return [
+      event.name || 'inquiry',
+      payload.profile || '',
+      payload.subject || '',
+      payload.jurisdiction || '',
+      payload.intent || '',
+      payload.intentScore || '',
+      event.ts || ''
+    ].join('|');
   }
 
   function distinctInquiryEvents(events) {
