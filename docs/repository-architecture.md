@@ -1,5 +1,8 @@
 # Repository Architecture i Konvencije
 
+## Operativni prioritet
+- `docs/vrh-programskog-ekvivalenta.md` je jedini zaključani operativni standard za repo-wide DoD i razvojni takt.
+
 ## Trenutni runtime model
 - Static-first HTML/CSS/JS sa PWA support-om.
 - Shared behavior je u `js/main.js`, a page-specifična logika je u zasebnim JS fajlovima.
@@ -23,6 +26,8 @@
 ## Shared vs page-specific granica
 - Shared: navigacija, jezik, tema, analytics, bezbednosni bannery/disclaimeri i trust/governance signalizacija.
 - Page-specific: trading simulacija, wallet prikaz, edukativni kalkulatori, contact tok, intent landing logika i capability-hub detalji.
+- Shared sloj (`js/main.js`, shared tracking/i18n) je jedino mesto za globalno ponašanje.
+- Svaka promena u jednom operativnom centru (`services.html`, `contact.html`, `trust-center.html`) mora proveriti uticaj na preostala dva centra.
 
 ## Operativni model javnog sajta
 - `services.html` je capability hub: discovery, comparison i routing po readiness/regulatory signalima.
@@ -42,3 +47,4 @@
 - Jasna demo/simulated oznaka gde podaci nisu live.
 - Formalni/regulatorni tokovi moraju imati direktni email kanal.
 - Canonical/OG prisutnost na svim javnim stranicama.
+- Bez green quality/security gate-ova nema merge-a.

@@ -8,6 +8,7 @@
 5. Potvrdi da su demo podaci jasno označeni i da su disclaimers prisutni.
 6. Ažuriraj dokumentaciju kada menjaš ponašanje.
 7. Zabeleži trag promene (odluka, uticaj, rizik, status) u `docs/decision-log.md`.
+8. PR opis mora koristiti obavezni checklist template i eksplicitno potvrditi DoD tačke.
 
 ## Standards
 - Kebab-case za fajlove.
@@ -26,6 +27,7 @@
 - Canonical i OG metadata na svim javnim stranicama.
 - Relevantna docs sekcija ažurirana.
 - Security i secret gate-ovi prošli pre release-a.
+- Bez potpuno zelenih gate-ova PR ne sme biti mergovan.
 
 ## Repo-wide Definition of Done (DoD)
 - Promena nema regresiju u ključnim tokovima (navigacija, contact, trust, services).
