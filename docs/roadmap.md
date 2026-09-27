@@ -5,6 +5,11 @@
 - Svi roadmap prioriteti, DoD kriterijumi i merge odluke moraju biti usklađeni sa tim dokumentom.
 - Nema merge-a za javne izmene bez zelenih quality/security gate-ova.
 
+## Nadređeni program (obavezno)
+- `MONTEZACIJA NAD MONTEZACIJAMA` je nadređeni program za sve roadmap tokove.
+- Program je approval okvir koji povezuje development, content, trust, funnel i release disciplinu.
+- Ciljno stanje programa je `VRH PROGRAMSKOG EKVIVALENTA`: jedinstvena usklađenost kvaliteta, sigurnosti, konverzije i governance-a.
+
 ## V1 — Foundation
 - Struktura i konvencije
 - I18n i content baseline
@@ -51,6 +56,7 @@
 - Zaključavanje jedinstvenog standarda (`docs/vrh-programskog-ekvivalenta.md`)
 - Ujednačen razvojni ciklus i repo-wide DoD
 - Usklađivanje javnog sadržaja sa North Star i scope pravilima
+- Formalizacija programa `MONTEZACIJA NAD MONTEZACIJAMA` i njegovog approval modela
 
 ### Faza B — Quality/Security gate i observability disciplina
 - Obavezni quality gate-ovi pre deploy-a (HTML/link/metadata/content)
@@ -68,6 +74,12 @@
 - Jasan prelaz iz capability kataloga u qualification i formal deal tok
 - KPI discipline za qualified inbound, intent CTR i local-vs-formal routing odnos
 - Rollout readiness za partner, licensing i jurisdiction-heavy inicijative
+
+## Approval paket programa
+- Jedan naziv programa: `MONTEZACIJA NAD MONTEZACIJAMA`
+- Jedan repo-wide standard: `docs/vrh-programskog-ekvivalenta.md`
+- Jedan Definition of Done za developer i create sloj
+- Jedan KPI skup: qualified inbound, completion rate, intent CTR, local-vs-formal ratio i lead quality
 
 ## Operating-model metrike
 - Qualified inbound inquiries
