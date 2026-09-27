@@ -125,6 +125,57 @@
     };
   }
 
+  function trackedInquiryEvents(events) {
+    return events.filter(function (event) {
+      return event.name === 'contact_general_submit' || event.name === 'contact_formal_redirect';
+    });
+  }
+
+  function isQualifiedInquiry(event) {
+    return !!(event && event.payload && typeof event.payload.intentScore === 'number' && event.payload.intentScore >= 40);
+  }
+
+  function safeRate(numerator, denominator) {
+    if (!denominator) return 0;
+    return Math.round((numerator / denominator) * 1000) / 10;
+  }
+
+  function ctaIntentFromEvent(event) {
+    if (!event || !event.payload) return '';
+    return normalizeIntent(event.payload.intent || '');
+  }
+
+  function isIntentCtaEvent(event) {
+    return !!(event && (
+      event.name === 'intent_cta_click' ||
+      event.name === 'service_cta_click' ||
+      event.name === 'services_hub_click' ||
+      event.name === 'contact_intent_navigation'
+    ));
+  }
+
+  function monetizationTier(event) {
+    var payload = event && event.payload ? event.payload : {};
+    var intent = normalizeIntent(payload.intent || '');
+    var subject = payload.subject || '';
+    var profile = payload.profile || '';
+    var deliveryExpectation = payload.deliveryExpectation || '';
+
+    if (intent === 'licensing' || subject === 'licensing' || subject === 'country-partnership' || subject === 'representative-office') {
+      return 'strategic';
+    }
+
+    if (intent === 'institutional' || profile === 'institutional' || subject === 'institutional-onboarding' || subject === 'public-ngo' || subject === 'trade-finance' || subject === 'custody-wallet' || deliveryExpectation === 'institutional') {
+      return 'enterprise';
+    }
+
+    if (intent === 'partnership' || profile === 'partnership' || subject === 'white-label-api' || deliveryExpectation === 'partner' || deliveryExpectation === 'white-label') {
+      return 'growth';
+    }
+
+    return 'entry';
+  }
+
   window.aiqAnalyticsKpis = function () {
     var events = loadEvents();
     return events.reduce(function (acc, event) {
@@ -197,6 +248,100 @@
     return target ? target.engagementScore : 0;
   };
 
+  window.aiqAnalyticsOperatingMetrics = function () {
+    var events = loadEvents();
+    var inquiries = trackedInquiryEvents(events);
+    var pageViewsByIntent = {
+      licensing: 0,
+      institutional: 0,
+      partnership: 0
+    };
+    var ctaClicksByIntent = {
+      licensing: 0,
+      institutional: 0,
+      partnership: 0
+    };
+    var tierCounts = {
+      entry: 0,
+      growth: 0,
+      enterprise: 0,
+      strategic: 0
+    };
+    var segmentQuality = {};
+    var totals = {
+      qualifiedInboundInquiries: 0,
+      completedInquiries: inquiries.length,
+      formAttempts: 0,
+      generalSubmits: 0,
+      formalRedirects: 0
+    };
+
+    events.forEach(function (event) {
+      var intent = event && event.name === 'page_view'
+        ? normalizeIntent(event.payload && event.payload.intent || eventIntent(event))
+        : ctaIntentFromEvent(event);
+
+      if (event.name === 'form_submit_attempt') totals.formAttempts += 1;
+      if (event.name === 'contact_general_submit') totals.generalSubmits += 1;
+      if (event.name === 'contact_formal_redirect') totals.formalRedirects += 1;
+
+      if (event.name === 'page_view' && Object.prototype.hasOwnProperty.call(pageViewsByIntent, intent)) {
+        pageViewsByIntent[intent] += 1;
+      }
+
+      if (isIntentCtaEvent(event) && Object.prototype.hasOwnProperty.call(ctaClicksByIntent, intent)) {
+        ctaClicksByIntent[intent] += 1;
+      }
+
+      if (event.name === 'contact_general_submit' || event.name === 'contact_formal_redirect') {
+        var tier = monetizationTier(event);
+        var score = event.payload && typeof event.payload.intentScore === 'number' ? event.payload.intentScore : 0;
+        var segment = normalizeIntent(event.payload && event.payload.intent || 'general');
+
+        tierCounts[tier] += 1;
+        if (isQualifiedInquiry(event)) totals.qualifiedInboundInquiries += 1;
+        if (!segmentQuality[segment]) {
+          segmentQuality[segment] = {
+            inquiries: 0,
+            qualified: 0,
+            highIntent: 0,
+            avgIntentScore: 0
+          };
+        }
+
+        segmentQuality[segment].inquiries += 1;
+        if (score >= 40) segmentQuality[segment].qualified += 1;
+        if (score >= 70) segmentQuality[segment].highIntent += 1;
+        segmentQuality[segment].avgIntentScore += score;
+      }
+    });
+
+    Object.keys(segmentQuality).forEach(function (segment) {
+      var bucket = segmentQuality[segment];
+      bucket.avgIntentScore = bucket.inquiries ? Math.round(bucket.avgIntentScore / bucket.inquiries) : 0;
+      bucket.qualifiedRate = safeRate(bucket.qualified, bucket.inquiries);
+      bucket.highIntentRate = safeRate(bucket.highIntent, bucket.inquiries);
+    });
+
+    return {
+      qualifiedInboundInquiries: totals.qualifiedInboundInquiries,
+      contactFlowCompletionRate: safeRate(totals.completedInquiries, totals.formAttempts),
+      ctaCtrByIntent: {
+        licensing: safeRate(ctaClicksByIntent.licensing, pageViewsByIntent.licensing),
+        institutional: safeRate(ctaClicksByIntent.institutional, pageViewsByIntent.institutional),
+        partnership: safeRate(ctaClicksByIntent.partnership, pageViewsByIntent.partnership)
+      },
+      localVsFormal: {
+        localQualifiedSubmits: totals.generalSubmits,
+        formalRedirects: totals.formalRedirects,
+        formalShare: safeRate(totals.formalRedirects, totals.completedInquiries),
+        localToFormalRatio: totals.formalRedirects ? Math.round((totals.generalSubmits / totals.formalRedirects) * 100) / 100 : totals.generalSubmits
+      },
+      leadSegmentQuality: segmentQuality,
+      monetizationTiers: tierCounts
+    };
+  };
+
   window.aiqAnalyticsExport = function (format) {
     var events = loadEvents();
     if (format === 'csv') {
@@ -208,7 +353,7 @@
       });
       return [header.join(','), rows.join('\n')].join('\n');
     }
-    return JSON.stringify({ events: events, summary: window.aiqAnalyticsSummary(), kpis: window.aiqAnalyticsKpis(), intentKpis: window.aiqAnalyticsIntentKpis() }, null, 2);
+    return JSON.stringify({ events: events, summary: window.aiqAnalyticsSummary(), kpis: window.aiqAnalyticsKpis(), intentKpis: window.aiqAnalyticsIntentKpis(), operatingMetrics: window.aiqAnalyticsOperatingMetrics() }, null, 2);
   };
 
   document.addEventListener('DOMContentLoaded', function () {
