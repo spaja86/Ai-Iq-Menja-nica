@@ -152,6 +152,19 @@ Formulacija „licence za celu planetu za rad” sada je prevedena u sledeći ok
 
 ---
 
+## 🏁 Developer + Create operating model
+
+- **Pouzdan proizvod** — shared runtime, trust signal i qualification tok moraju ostati bez regresije.
+- **Merljiv funnel** — intent CTA, contact qualification i formal escalation ostaju analitički proverljivi.
+- **Održiva monetizacija** — capability katalog vodi ka `entry`, `growth`, `enterprise` i `strategic` komercijalnim slojevima.
+
+Ključni javni operativni centri:
+- `services.html` — capability i monetization hub
+- `contact.html` — qualification hub
+- `trust-center.html` — governance hub
+
+---
+
 ## 🛠️ Local run
 
 Projekat je static-first. Pokretanje lokalno:

@@ -5,6 +5,9 @@
 - Usklađeni su `docs/roadmap.md`, `docs/repository-architecture.md`, `docs/content-rules.md`, `docs/qa-strategy.md` i `docs/funnel-map.md` da ne postoji kontradikcija oko CTA discipline, formalnog kanala, demo signalizacije i dokumentacionog traga.
 - Uveden je obavezni PR checklist template (`.github/pull_request_template.md`) koji mapira Plan → Implementacija → Validacija → Dokumentacija → Release i repo-wide DoD tačke.
 - Potvrđeno hard pravilo: bez green CI quality/security gate-ova nema merge-a za javne izmene.
+- Services, contact i trust sloj su dodatno usklađeni oko modela “Developer + Create = vrh programskog ekvivalenta” sa tri repo-wide izlaza: pouzdan proizvod, merljiv funnel i održiva monetizacija.
+- Uveden je operating-model analytics helper koji iz postojećih događaja izvodi qualified inbound, completion rate, intent CTA CTR, local-vs-formal routing odnos i monetization tier pregled.
+- Monetizacioni slojevi su zaključani kao `entry`, `growth`, `enterprise` i `strategic`, uz jasno mapiranje capability → qualification → formal deal toka.
 
 ## 2026-09-16
 - Repo pozicioniran kao marketing + lead-generation platforma sa demo trading komponentama.

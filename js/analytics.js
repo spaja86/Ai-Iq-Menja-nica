@@ -125,6 +125,125 @@
     };
   }
 
+  function trackedInquiryEvents(events) {
+    return events.filter(function (event) {
+      return event.name === 'contact_general_submit' || event.name === 'contact_formal_redirect';
+    });
+  }
+
+  function inquiryIdentity(event) {
+    if (!event) return '';
+    if (event.payload && event.payload.inquiryId) return event.payload.inquiryId;
+    if (event.id) return event.id;
+
+    var payload = event.payload || {};
+    return [
+      event.name || 'inquiry',
+      payload.profile || '',
+      payload.subject || '',
+      payload.jurisdiction || '',
+      payload.intent || '',
+      payload.intentScore || '',
+      event.ts || ''
+    ].join('|');
+  }
+
+  function distinctInquiryEvents(events) {
+    var byId = new Map();
+    trackedInquiryEvents(events).forEach(function (event) {
+      var inquiryId = inquiryIdentity(event);
+      if (!inquiryId) return;
+      var existing = byId.get(inquiryId);
+      var eventTime = Date.parse(event.ts || 0) || 0;
+      var existingTime = existing ? (Date.parse(existing.ts || 0) || 0) : 0;
+      var shouldReplace = !existing || eventTime > existingTime || (eventTime === existingTime && event.name === 'contact_formal_redirect' && existing.name !== 'contact_formal_redirect');
+      if (shouldReplace) {
+        byId.set(inquiryId, event);
+      }
+    });
+    return Array.from(byId.values());
+  }
+
+  var INTENT_PAGE_VIEW_TYPES = {
+    licensing: {
+      homepage: true,
+      services: true,
+      contact: true,
+      'trust-center': true,
+      'intent-licensing': true
+    },
+    institutional: {
+      homepage: true,
+      services: true,
+      contact: true,
+      'trust-center': true,
+      'intent-institutional': true
+    },
+    partnership: {
+      homepage: true,
+      services: true,
+      contact: true,
+      'intent-partnership': true
+    }
+  };
+
+  function isEligibleIntentPageView(event, intent) {
+    if (!event || event.name !== 'page_view') return false;
+    var pageTypeForIntent = INTENT_PAGE_VIEW_TYPES[intent] || {};
+    var declaredIntent = normalizeIntent(event.payload && event.payload.intent || eventIntent(event));
+    return declaredIntent === intent || !!pageTypeForIntent[event.pageType];
+  }
+
+  function isEligibleIntentPageType(pageType, intent) {
+    var pageTypeForIntent = INTENT_PAGE_VIEW_TYPES[intent] || {};
+    return !!pageTypeForIntent[pageType];
+  }
+
+  function isQualifiedInquiry(event) {
+    return !!(event && event.payload && typeof event.payload.intentScore === 'number' && event.payload.intentScore >= 40);
+  }
+
+  function safeRate(numerator, denominator) {
+    if (!denominator) return 0;
+    return Math.round((numerator / denominator) * 1000) / 10;
+  }
+
+  function ctaIntentFromEvent(event) {
+    if (!event || !event.payload) return '';
+    return normalizeIntent(event.payload.intent || '');
+  }
+
+  function isIntentCtaEvent(event) {
+    return !!(event && (
+      event.name === 'intent_cta_click' ||
+      event.name === 'service_cta_click' ||
+      event.name === 'services_hub_click' ||
+      event.name === 'contact_intent_navigation'
+    ));
+  }
+
+  function monetizationTier(event) {
+    var payload = event && event.payload ? event.payload : {};
+    var intent = normalizeIntent(payload.intent || '');
+    var subject = payload.subject || '';
+    var profile = payload.profile || '';
+    var deliveryExpectation = payload.deliveryExpectation || '';
+
+    if (intent === 'licensing' || subject === 'licensing' || subject === 'country-partnership' || subject === 'representative-office') {
+      return 'strategic';
+    }
+
+    if (intent === 'institutional' || profile === 'institutional' || subject === 'institutional-onboarding' || subject === 'public-ngo' || subject === 'trade-finance' || subject === 'custody-wallet' || deliveryExpectation === 'institutional') {
+      return 'enterprise';
+    }
+
+    if (intent === 'partnership' || profile === 'partnership' || subject === 'white-label-api' || deliveryExpectation === 'partner' || deliveryExpectation === 'white-label') {
+      return 'growth';
+    }
+
+    return 'entry';
+  }
+
   window.aiqAnalyticsKpis = function () {
     var events = loadEvents();
     return events.reduce(function (acc, event) {
@@ -197,6 +316,101 @@
     return target ? target.engagementScore : 0;
   };
 
+  window.aiqAnalyticsOperatingMetrics = function () {
+    var events = loadEvents();
+    var inquiries = distinctInquiryEvents(events);
+    var pageViewsByIntent = {
+      licensing: 0,
+      institutional: 0,
+      partnership: 0
+    };
+    var ctaClicksByIntent = {
+      licensing: 0,
+      institutional: 0,
+      partnership: 0
+    };
+    var tierCounts = {
+      entry: 0,
+      growth: 0,
+      enterprise: 0,
+      strategic: 0
+    };
+    var segmentQuality = {};
+    var totals = {
+      qualifiedInboundInquiries: 0,
+      completedInquiries: inquiries.length,
+      formAttempts: 0,
+      qualifiedGeneralSubmits: 0,
+      formalRedirects: 0
+    };
+
+    events.forEach(function (event) {
+      var intent = event && event.name === 'page_view'
+        ? normalizeIntent(event.payload && event.payload.intent || eventIntent(event))
+        : ctaIntentFromEvent(event);
+
+      if (event.name === 'form_submit_attempt') totals.formAttempts += 1;
+      ['licensing', 'institutional', 'partnership'].forEach(function (targetIntent) {
+        if (isEligibleIntentPageView(event, targetIntent)) {
+          pageViewsByIntent[targetIntent] += 1;
+        }
+      });
+
+      if (isIntentCtaEvent(event) && Object.prototype.hasOwnProperty.call(ctaClicksByIntent, intent) && isEligibleIntentPageType(event.pageType, intent)) {
+        ctaClicksByIntent[intent] += 1;
+      }
+    });
+
+    inquiries.forEach(function (event) {
+      var tier = monetizationTier(event);
+      var score = event.payload && typeof event.payload.intentScore === 'number' ? event.payload.intentScore : 0;
+      var segment = normalizeIntent(event.payload && event.payload.intent || 'general');
+
+      tierCounts[tier] += 1;
+      if (event.name === 'contact_formal_redirect') totals.formalRedirects += 1;
+      if (isQualifiedInquiry(event)) totals.qualifiedInboundInquiries += 1;
+      if (event.name === 'contact_general_submit' && isQualifiedInquiry(event)) totals.qualifiedGeneralSubmits += 1;
+      if (!segmentQuality[segment]) {
+        segmentQuality[segment] = {
+          inquiries: 0,
+          qualified: 0,
+          highIntent: 0,
+          avgIntentScore: 0
+        };
+      }
+
+      segmentQuality[segment].inquiries += 1;
+      if (score >= 40) segmentQuality[segment].qualified += 1;
+      if (score >= 70) segmentQuality[segment].highIntent += 1;
+      segmentQuality[segment].avgIntentScore += score;
+    });
+
+    Object.keys(segmentQuality).forEach(function (segment) {
+      var bucket = segmentQuality[segment];
+      bucket.avgIntentScore = bucket.inquiries ? Math.round(bucket.avgIntentScore / bucket.inquiries) : 0;
+      bucket.qualifiedRate = safeRate(bucket.qualified, bucket.inquiries);
+      bucket.highIntentRate = safeRate(bucket.highIntent, bucket.inquiries);
+    });
+
+    return {
+      qualifiedInboundInquiries: totals.qualifiedInboundInquiries,
+      contactFlowCompletionRate: safeRate(totals.completedInquiries, totals.formAttempts),
+      ctaCtrByIntent: {
+        licensing: safeRate(ctaClicksByIntent.licensing, pageViewsByIntent.licensing),
+        institutional: safeRate(ctaClicksByIntent.institutional, pageViewsByIntent.institutional),
+        partnership: safeRate(ctaClicksByIntent.partnership, pageViewsByIntent.partnership)
+      },
+      localVsFormal: {
+        localQualifiedSubmits: totals.qualifiedGeneralSubmits,
+        formalRedirects: totals.formalRedirects,
+        formalShare: safeRate(totals.formalRedirects, totals.qualifiedGeneralSubmits + totals.formalRedirects),
+        localToFormalRatio: totals.formalRedirects ? Math.round((totals.qualifiedGeneralSubmits / totals.formalRedirects) * 100) / 100 : totals.qualifiedGeneralSubmits
+      },
+      leadSegmentQuality: segmentQuality,
+      monetizationTiers: tierCounts
+    };
+  };
+
   window.aiqAnalyticsExport = function (format) {
     var events = loadEvents();
     if (format === 'csv') {
@@ -208,7 +422,7 @@
       });
       return [header.join(','), rows.join('\n')].join('\n');
     }
-    return JSON.stringify({ events: events, summary: window.aiqAnalyticsSummary(), kpis: window.aiqAnalyticsKpis(), intentKpis: window.aiqAnalyticsIntentKpis() }, null, 2);
+    return JSON.stringify({ events: events, summary: window.aiqAnalyticsSummary(), kpis: window.aiqAnalyticsKpis(), intentKpis: window.aiqAnalyticsIntentKpis(), operatingMetrics: window.aiqAnalyticsOperatingMetrics() }, null, 2);
   };
 
   document.addEventListener('DOMContentLoaded', function () {

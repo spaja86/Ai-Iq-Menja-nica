@@ -62,3 +62,16 @@
 - Optimizacija conversion putanja na osnovu KPI signala
 - Dalje jačanje trust/compliance sadržaja i formal escalation jasnoće
 - Kontinuirani governance ritam (nedeljni kvalitet + mesečna trust revizija)
+
+### Faza D — Monetizaciona paketizacija i rollout readiness
+- Paketizacija ponude kroz `entry`, `growth`, `enterprise` i `strategic` sloj
+- Jasan prelaz iz capability kataloga u qualification i formal deal tok
+- KPI discipline za qualified inbound, intent CTR i local-vs-formal routing odnos
+- Rollout readiness za partner, licensing i jurisdiction-heavy inicijative
+
+## Operating-model metrike
+- Qualified inbound inquiries
+- Contact flow completion rate
+- Licensing / institutional / partnership CTA CTR
+- Odnos lokalnog qualification toka prema formalnom escalation toku
+- Kvalitet lead segmentacije po intent-u i monetization tier-u
