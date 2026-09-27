@@ -131,15 +131,24 @@
     });
   }
 
-  function distinctCompletedInquiryCount(events) {
-    var seen = {};
+  function inquiryIdentity(event) {
+    return event && event.payload && event.payload.inquiryId
+      ? event.payload.inquiryId
+      : event && event.id;
+  }
+
+  function distinctInquiryEvents(events) {
+    var byId = {};
     trackedInquiryEvents(events).forEach(function (event) {
-      var inquiryId = event && event.payload && event.payload.inquiryId
-        ? event.payload.inquiryId
-        : event.id;
-      if (inquiryId) seen[inquiryId] = true;
+      var inquiryId = inquiryIdentity(event);
+      if (!inquiryId) return;
+      if (!byId[inquiryId] || event.name === 'contact_formal_redirect') {
+        byId[inquiryId] = event;
+      }
     });
-    return Object.keys(seen).length;
+    return Object.keys(byId).map(function (key) {
+      return byId[key];
+    });
   }
 
   function isQualifiedInquiry(event) {
@@ -261,6 +270,7 @@
 
   window.aiqAnalyticsOperatingMetrics = function () {
     var events = loadEvents();
+    var inquiries = distinctInquiryEvents(events);
     var pageViewsByIntent = {
       licensing: 0,
       institutional: 0,
@@ -280,7 +290,7 @@
     var segmentQuality = {};
     var totals = {
       qualifiedInboundInquiries: 0,
-      completedInquiries: distinctCompletedInquiryCount(events),
+      completedInquiries: inquiries.length,
       formAttempts: 0,
       qualifiedGeneralSubmits: 0,
       formalRedirects: 0
@@ -292,8 +302,6 @@
         : ctaIntentFromEvent(event);
 
       if (event.name === 'form_submit_attempt') totals.formAttempts += 1;
-      if (event.name === 'contact_formal_redirect') totals.formalRedirects += 1;
-
       if (event.name === 'page_view' && Object.prototype.hasOwnProperty.call(pageViewsByIntent, intent)) {
         pageViewsByIntent[intent] += 1;
       }
@@ -301,29 +309,30 @@
       if (isIntentCtaEvent(event) && Object.prototype.hasOwnProperty.call(ctaClicksByIntent, intent)) {
         ctaClicksByIntent[intent] += 1;
       }
+    });
 
-      if (event.name === 'contact_general_submit' || event.name === 'contact_formal_redirect') {
-        var tier = monetizationTier(event);
-        var score = event.payload && typeof event.payload.intentScore === 'number' ? event.payload.intentScore : 0;
-        var segment = normalizeIntent(event.payload && event.payload.intent || 'general');
+    inquiries.forEach(function (event) {
+      var tier = monetizationTier(event);
+      var score = event.payload && typeof event.payload.intentScore === 'number' ? event.payload.intentScore : 0;
+      var segment = normalizeIntent(event.payload && event.payload.intent || 'general');
 
-        tierCounts[tier] += 1;
-        if (isQualifiedInquiry(event)) totals.qualifiedInboundInquiries += 1;
-        if (event.name === 'contact_general_submit' && isQualifiedInquiry(event)) totals.qualifiedGeneralSubmits += 1;
-        if (!segmentQuality[segment]) {
-          segmentQuality[segment] = {
-            inquiries: 0,
-            qualified: 0,
-            highIntent: 0,
-            avgIntentScore: 0
-          };
-        }
-
-        segmentQuality[segment].inquiries += 1;
-        if (score >= 40) segmentQuality[segment].qualified += 1;
-        if (score >= 70) segmentQuality[segment].highIntent += 1;
-        segmentQuality[segment].avgIntentScore += score;
+      tierCounts[tier] += 1;
+      if (event.name === 'contact_formal_redirect') totals.formalRedirects += 1;
+      if (isQualifiedInquiry(event)) totals.qualifiedInboundInquiries += 1;
+      if (event.name === 'contact_general_submit' && isQualifiedInquiry(event)) totals.qualifiedGeneralSubmits += 1;
+      if (!segmentQuality[segment]) {
+        segmentQuality[segment] = {
+          inquiries: 0,
+          qualified: 0,
+          highIntent: 0,
+          avgIntentScore: 0
+        };
       }
+
+      segmentQuality[segment].inquiries += 1;
+      if (score >= 40) segmentQuality[segment].qualified += 1;
+      if (score >= 70) segmentQuality[segment].highIntent += 1;
+      segmentQuality[segment].avgIntentScore += score;
     });
 
     Object.keys(segmentQuality).forEach(function (segment) {
