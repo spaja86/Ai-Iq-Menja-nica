@@ -158,10 +158,20 @@ Formulacija „licence za celu planetu za rad” sada je prevedena u sledeći ok
 - **Merljiv funnel** — intent CTA, contact qualification i formal escalation ostaju analitički proverljivi.
 - **Održiva monetizacija** — capability katalog vodi ka `entry`, `growth`, `enterprise` i `strategic` komercijalnim slojevima.
 
+Nadređeni repo-wide program:
+- **MONTEZACIJA NAD MONTEZACIJAMA** — approval okvir koji povezuje development, content, trust, funnel i release disciplinu.
+- **VRH PROGRAMSKOG EKVIVALENTA** — ciljno stanje maksimalne usklađenosti kvaliteta, sigurnosti, konverzije i governance-a.
+
 Ključni javni operativni centri:
 - `services.html` — capability i monetization hub
 - `contact.html` — qualification hub
 - `trust-center.html` — governance hub
+
+Obavezni approval paket:
+- jedan naziv programa
+- jedan repo-wide standard
+- jedan Definition of Done
+- jedan KPI skup: qualified inbound, completion rate, intent CTR, local-vs-formal ratio, lead quality
 
 ---
 

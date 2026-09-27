@@ -1,6 +1,12 @@
 # Decision Log
 
 ## 2026-09-27
+- Formalno je odobren repo-wide program `MONTEZACIJA NAD MONTEZACIJAMA` kao nadređeni operativni sloj iznad pojedinačnih izmena.
+- Program je definisan kao approval okvir koji povezuje development, content, trust, funnel i release disciplinu u jedan upravljački model.
+- Potvrđeno je da `VRH PROGRAMSKOG EKVIVALENTA` označava ciljno stanje maksimalne usklađenosti kvaliteta, sigurnosti, konverzije i governance-a.
+- Zaključan scope programa na tri centralna huba: `services.html`, `contact.html` i `trust-center.html`, uz zadržavanje marketing + lead-generation North Star okvira.
+- Approval model je potvrđen samo za promene koje prolaze Plan → Implementacija → Validacija → Dokumentacija → Release bez regresije i sa green quality/security gate-ovima.
+- Uveden je završni approval paket: jedan naziv programa, jedan repo-wide standard, jedan DoD i jedan KPI skup (qualified inbound, completion rate, intent CTR, local-vs-formal ratio, lead quality).
 - Potvrđeno je da je `docs/vrh-programskog-ekvivalenta.md` jedini repo-wide operativni standard za DoD, razvojni ciklus i release kriterijume.
 - Usklađeni su `docs/roadmap.md`, `docs/repository-architecture.md`, `docs/content-rules.md`, `docs/qa-strategy.md` i `docs/funnel-map.md` da ne postoji kontradikcija oko CTA discipline, formalnog kanala, demo signalizacije i dokumentacionog traga.
 - Uveden je obavezni PR checklist template (`.github/pull_request_template.md`) koji mapira Plan → Implementacija → Validacija → Dokumentacija → Release i repo-wide DoD tačke.

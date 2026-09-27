@@ -3,6 +3,16 @@
 ## Svrha
 Ovaj standard zaključava jedinstven operativni okvir za ceo repozitorijum kako bi kvalitet, sigurnost, sadržajna konzistentnost, funnel konverzija i trust/compliance signal ostali usklađeni u svakoj izmeni.
 
+## Nadređeni program
+- `MONTEZACIJA NAD MONTEZACIJAMA` je naziv nadređenog repo-wide operativnog sloja.
+- Program povezuje development, content, trust, funnel i release disciplinu u jedan approval model.
+- `VRH PROGRAMSKOG EKVIVALENTA` je ciljno stanje programa: maksimalna usklađenost kvaliteta, sigurnosti, konverzije i governance-a.
+
+## Zaključani scope programa
+- Program obavezno pokriva tri centralna huba: `services.html`, `contact.html` i `trust-center.html`.
+- Repo ostaje u okviru marketing + lead-generation platforme sa demo prikazima, bez širenja u full backend ili neproverene regulatorne tvrdnje.
+- Svaka nova inicijativa mora biti mapirana makar na jedan od tri cilja: capability, qualification ili governance.
+
 ## Zaključani ciljevi (obavezni)
 1. Kvalitet: bez regresije u ključnim korisničkim tokovima.
 2. Sigurnost: bez novih ranjivosti i bez curenja tajni.
@@ -20,6 +30,11 @@ Svaka promena mora pratiti isti ciklus:
 5. **Release** — samo posle prolaska svih gate-ova.
 
 PR opis mora koristiti obavezni checklist template (`.github/pull_request_template.md`) koji potvrđuje ovaj ciklus i DoD.
+
+## Approval model programa
+- Odobrenje postoji samo za promene koje prolaze ceo ciklus Plan → Implementacija → Validacija → Dokumentacija → Release.
+- Ne odobravaju se izmene koje uvode regresiju u ključnim tokovima, trust signalizaciji ili funnel merenju.
+- Approval zahteva green quality/security gate-ove i ažuran dokumentacioni trag u `docs/*`.
 
 ## Obavezan trag promene u dokumentaciji
 Svaka funkcionalna ili sadržajna izmena mora imati:
@@ -41,6 +56,13 @@ Promena je završena samo kada je sve ispunjeno:
 - CI quality/security gate-ovi prolaze.
 - Dokumentacija je ažurirana.
 
+## Merila za odobrenje programa
+- Svaki conversion CTA mora biti merljiv.
+- Formalni/regulatorni tokovi moraju ostati jasno odvojeni i direktni.
+- Demo i simulirani podaci moraju ostati jasno označeni.
+- Javne tvrdnje i `docs/*` dokumenti ne smeju biti u kontradikciji.
+- Approval paket mora zadržati jedan naziv programa, jedan repo-wide standard, jedan DoD i jedan KPI skup.
+
 ## Usklađivanje sa operativnim modelom
 Svaka javna izmena mora podržati makar jedan od tri centra bez kontradikcije:
 - `services.html` (capability hub)
@@ -52,7 +74,13 @@ Svaka javna izmena mora podržati makar jedan od tri centra bez kontradikcije:
 - Mesečno: revizija trust/compliance sadržaja i funnel performansi.
 - Kontinuirano: održavanje decision log-a i rollback smernica.
 
+## Developer + Create operativni režim
+- Developer sloj nosi stabilnost, testabilnost, security i shared konvencije.
+- Create sloj nosi jasnu poruku, trust signal, funnel CTA disciplinu i intent segmentaciju.
+- Oba sloja rade po istom DoD-u i istom approval gate-u; nisu odvojeni tokovi.
+
 ## Prioritet realizacije
 - **Faza A:** Konsolidacija standarda i konzistentnosti.
 - **Faza B:** Jačanje quality/security gate-ova i observability discipline.
 - **Faza C:** Optimizacija konverzije, trust signala i operativnog skaliranja.
+- **Faza D:** Monetizaciona paketizacija i rollout readiness.
