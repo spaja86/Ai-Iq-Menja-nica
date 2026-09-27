@@ -149,17 +149,15 @@
   }
 
   function distinctInquiryEvents(events) {
-    var byId = {};
+    var byId = new Map();
     trackedInquiryEvents(events).forEach(function (event) {
       var inquiryId = inquiryIdentity(event);
       if (!inquiryId) return;
-      if (!byId[inquiryId] || event.name === 'contact_formal_redirect') {
-        byId[inquiryId] = event;
+      if (!byId.has(inquiryId) || event.name === 'contact_formal_redirect') {
+        byId.set(inquiryId, event);
       }
     });
-    return Object.keys(byId).map(function (key) {
-      return byId[key];
-    });
+    return Array.from(byId.values());
   }
 
   function isQualifiedInquiry(event) {
