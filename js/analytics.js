@@ -153,11 +153,50 @@
     trackedInquiryEvents(events).forEach(function (event) {
       var inquiryId = inquiryIdentity(event);
       if (!inquiryId) return;
-      if (!byId.has(inquiryId) || event.name === 'contact_formal_redirect') {
+      var existing = byId.get(inquiryId);
+      var eventTime = Date.parse(event.ts || 0) || 0;
+      var existingTime = existing ? (Date.parse(existing.ts || 0) || 0) : 0;
+      var shouldReplace = !existing || eventTime > existingTime || (eventTime === existingTime && event.name === 'contact_formal_redirect' && existing.name !== 'contact_formal_redirect');
+      if (shouldReplace) {
         byId.set(inquiryId, event);
       }
     });
     return Array.from(byId.values());
+  }
+
+  var INTENT_PAGE_VIEW_TYPES = {
+    licensing: {
+      homepage: true,
+      services: true,
+      contact: true,
+      'trust-center': true,
+      'intent-licensing': true
+    },
+    institutional: {
+      homepage: true,
+      services: true,
+      contact: true,
+      'trust-center': true,
+      'intent-institutional': true
+    },
+    partnership: {
+      homepage: true,
+      services: true,
+      contact: true,
+      'intent-partnership': true
+    }
+  };
+
+  function isEligibleIntentPageView(event, intent) {
+    if (!event || event.name !== 'page_view') return false;
+    var pageTypeForIntent = INTENT_PAGE_VIEW_TYPES[intent] || {};
+    var declaredIntent = normalizeIntent(event.payload && event.payload.intent || eventIntent(event));
+    return declaredIntent === intent || !!pageTypeForIntent[event.pageType];
+  }
+
+  function isEligibleIntentPageType(pageType, intent) {
+    var pageTypeForIntent = INTENT_PAGE_VIEW_TYPES[intent] || {};
+    return !!pageTypeForIntent[pageType];
   }
 
   function isQualifiedInquiry(event) {
@@ -311,11 +350,13 @@
         : ctaIntentFromEvent(event);
 
       if (event.name === 'form_submit_attempt') totals.formAttempts += 1;
-      if (event.name === 'page_view' && Object.prototype.hasOwnProperty.call(pageViewsByIntent, intent)) {
-        pageViewsByIntent[intent] += 1;
-      }
+      ['licensing', 'institutional', 'partnership'].forEach(function (targetIntent) {
+        if (isEligibleIntentPageView(event, targetIntent)) {
+          pageViewsByIntent[targetIntent] += 1;
+        }
+      });
 
-      if (isIntentCtaEvent(event) && Object.prototype.hasOwnProperty.call(ctaClicksByIntent, intent)) {
+      if (isIntentCtaEvent(event) && Object.prototype.hasOwnProperty.call(ctaClicksByIntent, intent) && isEligibleIntentPageType(event.pageType, intent)) {
         ctaClicksByIntent[intent] += 1;
       }
     });

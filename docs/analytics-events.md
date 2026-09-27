@@ -32,8 +32,8 @@
 
 ## Operating-model metrike
 - `qualifiedInboundInquiries` računa submit/redirect događaje sa `intentScore >= 40`.
-- `contactFlowCompletionRate` poredi broj jedinstvenih završenih inquiry događaja (`contact_general_submit` + `contact_formal_redirect`, preko `inquiryId` uz legacy fallback identitet) sa sirovim brojem `form_submit_attempt`.
-- `ctaCtrByIntent` meri licensing, institutional i partnership CTA klikove u odnosu na page-view signal za isti intent.
+- `contactFlowCompletionRate` poredi jedan završni completion događaj po inquiry identitetu (preko `inquiryId` uz legacy fallback identitet) sa sirovim brojem `form_submit_attempt`.
+- `ctaCtrByIntent` meri licensing, institutional i partnership CTA klikove u odnosu na page-view signal sa odgovarajućih intent deskova i shared hub stranica.
 - `localVsFormal` pokazuje odnos kvalifikovanih lokalnih submit-a (`contact_general_submit` sa `intentScore >= 40`) prema `contact_formal_redirect`.
 - `leadSegmentQuality` daje prosečan intent score, qualified rate i high-intent rate po intent segmentu.
 - `monetizationTiers` grupiše leadove u `entry`, `growth`, `enterprise` i `strategic` sloj prema intent-u, subject-u i delivery očekivanju.
