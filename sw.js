@@ -3,7 +3,7 @@
    Service Worker for offline caching (PWA)
    =================================================== */
 
-var CACHE_NAME = 'aiq-menja-v4';
+var CACHE_NAME = 'aiq-menja-v5';
 
 var CACHE_URLS = [
   '/',
@@ -53,7 +53,7 @@ self.addEventListener('activate', function (event) {
   event.waitUntil(
     caches.keys().then(function (keys) {
       return Promise.all(
-        keys.filter(function (k) { return k !== CACHE_NAME; })
+        keys.filter(function (k) { return k.startsWith('aiq-menja-') && k !== CACHE_NAME; })
             .map(function (k) { return caches.delete(k); })
       );
     }).then(function () { return self.clients.claim(); })

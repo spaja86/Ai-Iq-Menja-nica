@@ -6,87 +6,62 @@
 (function () {
   'use strict';
 
-  /* ---- MOCK RESPONSES ---- */
-  var responses = [
+  var topics = [
     {
-      patterns: ['bitcoin', 'btc', 'cena', 'price', 'koliko', 'vrednost'],
-      reply: function () {
-        var p = (67000 + Math.random() * 3000).toFixed(0);
-        var t = Math.random() > 0.5 ? '▲' : '▼';
-        var ch = (Math.random() * 4).toFixed(2);
-        return '₿ Bitcoin (BTC)\n💲 Cena: $' + Number(p).toLocaleString() + '\n' + t + ' Promena (24h): ' + ch + '%\n\n⚠️ Simulirani podaci — ne finansijski savet.';
-      }
+      matches: /soc[\s-]*2|sertifik|certif|revizij|audit/i,
+      answer: 'U dokumentaciji ovog demoa nije naveden SOC 2 Type II izveštaj za Menjačnicu. Za proveru zatražite izveštaj sa nazivom pružaoca usluge, opisom sistema, periodom provere i mišljenjem nezavisnog revizora.'
     },
     {
-      patterns: ['kupiti', 'kupi', 'kupovina', 'how to buy', 'kako', 'pocetak', 'početak'],
-      reply: function () {
-        return '📋 Kako kupiti kripto u 4 koraka:\n\n1️⃣ Registrujte se i verifikujte nalog\n2️⃣ Uplatite fiat (EUR/RSD) na vaš račun\n3️⃣ Odaberite kriptovalutu na /trade stranici\n4️⃣ Unesite iznos → kliknite Kupi!\n\n💡 Za početnike preporučujemo BTC ili ETH.';
-      }
+      matches: /sigur|bezbed|security|2fa|dvofaktor|cold storage|hladn|hakovan|hakova|haker|hack|inciden|phishing|zaključav|zakljucav|enkripc|šifrov|sifrov|ssl|tls/i,
+      answer: 'Ovaj demo ne potvrđuje koje su mere zaštite primenjene u produkciji, kako se čuvaju sredstva ili kakva je istorija incidenata. Za konkretnu uslugu tražite dokumentaciju operatera.'
     },
     {
-      patterns: ['podrzavate', 'podržavate', 'podrzava', 'podržava', 'lista', 'valute', 'altcoin', 'koje kripto'],
-      reply: function () {
-        return '🪙 Podržavamo 500+ kriptovaluta!\n\nNajpopularnije:\n• ₿ Bitcoin (BTC)\n• Ξ Ethereum (ETH)\n• ⬡ BNB\n• ◎ Solana (SOL)\n• ₳ Cardano (ADA)\n• ● Polkadot (DOT)\n• 🔷 XRP, DOGE, AVAX, MATIC...\n\nPotražite ih sve na /trade stranici!';
-      }
+      matches: /naknad|cenovnik|\bfees?\b|tro[šs](?:ak|k)|provizij|popust|vip/i,
+      answer: 'Naknade u demo obrascu služe za primer obračuna. Za trošak stvarne trgovine, uplate ili isplate potreban je važeći cenovnik operatera.'
     },
     {
-      patterns: ['naknada', 'naknade', 'fee', 'fees', 'trosak', 'trošak', 'provizija'],
-      reply: function () {
-        return '💸 Naše naknade:\n\n• Trejding naknada: 0.1%\n• Uplata fiat: Besplatno\n• Isplata fiat: 0.5% (min €1)\n• Kripto prenos: mrežna naknada (gas)\n\n🎁 VIP korisnici dobijaju 50% popust na sve naknade!';
-      }
+      matches: /staking|pasivn|zarad|prinos|yield/i,
+      answer: 'Staking je tema edukativnog primera. Ovaj demo ne nudi aktivaciju stakinga niti potvrđuje dostupnost proizvoda ili stopu prinosa.'
     },
     {
-      patterns: ['defi', 'decentralizovano', 'decentralized'],
-      reply: function () {
-        return '🏛️ DeFi (Decentralized Finance):\n\nDeFi je finansijski ekosistem baziran na blockchain-u koji funkcioniše BEZ banaka ili posrednika.\n\n🔹 Ključne karakteristike:\n• Pametni ugovori (Smart Contracts)\n• Yield Farming & Staking\n• Decentralizovane berze (DEX)\n• Permissionless — nema KYC\n\n⚡ Primeri: Uniswap, Aave, Compound';
-      }
+      matches: /portfolio|preporu|investi|ulaganj|ai predict/i,
+      answer: 'Portfolio prikazuje kako se udeo svake valute računa u ukupnoj vrednosti. Primer sa dve jednake pozicije daje po 50% svakoj. To je ilustracija obračuna, bez preporuke za ulaganje.'
     },
     {
-      patterns: ['portfolio', 'preporuka', 'preporuci', 'preporuči', 'investicija', 'ai predict', 'investirati'],
-      reply: function () {
-        return '🤖 AI Portfolio Predlog (Mock):\n\n📊 Konzervativni (niski rizik):\n• 60% BTC • 30% ETH • 10% Stable\n\n📈 Balansiran (srednji rizik):\n• 40% BTC • 30% ETH • 20% SOL/BNB • 10% Altcoini\n\n🚀 Agresivni (visoki rizik):\n• 25% BTC • 25% ETH • 50% Altkoini\n\n⚠️ Ovo su simulirani podaci, ne finansijski savet!';
-      }
+      matches: /podr[žz]av|list[au]|valute|altcoin|koje kripto/i,
+      answer: 'BTC i ETH su primeri valuta u demonstraciji. Ovaj prikaz ne potvrđuje listu valuta dostupnih za stvarnu trgovinu.'
     },
     {
-      patterns: ['staking', 'pasivno', 'zarada', 'prinos', 'yield'],
-      reply: function () {
-        return '💰 Pasivni prihod — Staking:\n\n🔹 Dostupni prethodno odobreni prinos:\n• ETH 2.0: ~4-5% godišnje\n• BNB: ~6-8% godišnje\n• SOL: ~7% godišnje\n• ADA: ~5% godišnje\n• USDC/USDT: ~8-12% godišnje\n\nAktivacija: Novčanik → Staking sekcija';
-      }
+      matches: /kup[io]|prodaj|how to buy|po[čc]etak|uplat|isplat|depozit|registr/i,
+      answer: 'Na stranici Trading možete isprobati demo obrazac za kupovinu i prodaju. Za probu nije potrebna uplata novca. Chatbot ne otvara račun i ne izvršava naloge.'
     },
     {
-      patterns: ['sigurnost', 'security', 'bezbedan', 'siguran', 'hakovati', 'hakovan'],
-      reply: function () {
-        return '🔒 Naša sigurnosna arhitektura:\n\n• ✅ 2FA autentifikacija (Google Auth)\n• ✅ Cold Storage za 95% aktive\n• ✅ 256-bit SSL enkripcija\n• ✅ Anti-phishing kod\n• ✅ Automatsko zaključavanje naloga\n• ✅ SOC2 Type II sertifikat\n\n🛡️ Još nikad nismo hakovani!';
-      }
+      matches: /defi|decentrali/i,
+      answer: 'DeFi je naziv za finansijske protokole koji koriste pametne ugovore. Uslovi pristupa zavise od protokola i interfejsa.'
+    },
+    {
+      matches: /bitcoin|\bbtc\b|cen[au]|price|vrednost/i,
+      answer: 'Primer za BTC: ako izmišljena cena poraste sa 100 na 102 dolara, promena je +2%. Ovaj chatbot ne preuzima tržišne kotacije.'
     }
   ];
 
-  var defaultReply = '🤖 Pitajte me o kriptovalutama, trejdingu ili našim uslugama!\n\nNpr: "Cena Bitcoina", "Kako kupiti kripto", "Koje kripto podržavate", "Kakve su naknade", "Šta je DeFi", "Preporuči portfolio"';
-
-  function getReply(msg) {
-    var lower = msg.toLowerCase();
-    for (var i = 0; i < responses.length; i++) {
-      var r = responses[i];
-      for (var j = 0; j < r.patterns.length; j++) {
-        if (lower.indexOf(r.patterns[j]) !== -1) {
-          return r.reply();
-        }
-      }
-    }
-    return defaultReply;
+  function getReply(message) {
+    var topic = topics.find(function (item) { return item.matches.test(message); });
+    var answer = topic ? topic.answer : 'Pitajte o SOC 2, bezbednosti, ceni BTC-a, naknadama ili demo trgovini.';
+    return 'Demo · ' + answer;
   }
 
   /* ---- DOM CREATION ---- */
   function buildWidget() {
     var html = '<div id="chatbot-widget">' +
-      '<button id="chatbot-fab" aria-label="Otvori AI Chat">💬</button>' +
+      '<button id="chatbot-fab" aria-label="Otvori demo čet">💬</button>' +
       '<div id="chatbot-panel" aria-live="polite">' +
         '<div id="chatbot-header">' +
           '<div style="display:flex;align-items:center;gap:10px">' +
             '<span style="font-size:1.4rem">🤖</span>' +
             '<div>' +
-              '<div style="font-weight:700;font-size:0.92rem">AI Kripto Asistent</div>' +
-              '<div style="font-size:0.7rem;color:var(--cb-online)">● Online</div>' +
+              '<div style="font-weight:700;font-size:0.92rem">Kripto asistent</div>' +
+              '<div style="font-size:0.7rem;color:var(--cb-online)">Demo · unapred pripremljeni odgovori</div>' +
             '</div>' +
           '</div>' +
           '<button id="chatbot-close" aria-label="Zatvori">✕</button>' +
@@ -200,7 +175,7 @@
 
     // Welcome message
     setTimeout(function () {
-      addMessage('👋 Zdravo! Ja sam vaš AI Kripto Asistent.\n\nMogu vam pomoći sa cenama, kupovinom, naknadama i svim o kriptovalutama!', 'bot');
+      addMessage('Dobro došli u demo. Mogu da objasnim prikaz cena, naknada i trgovine. Ovde se ne uplaćuje novac.', 'bot');
     }, 500);
 
     if (fab) {
