@@ -5,18 +5,24 @@ on:
     branches: [main]
   pull_request:
     branches: [main]
+    types: [opened, synchronize, reopened, closed]
   workflow_dispatch:
 
 jobs:
-  deploy:
+  validate:
     runs-on: ubuntu-latest
     permissions:
       contents: read
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.action == 'closed' && github.event.pull_request.merged && github.event.pull_request.merge_commit_sha || github.sha }}
 
       - name: Install validation tooling
-        run: npm install -g htmlhint linkinator vercel
+        run: npm install -g htmlhint linkinator
+
+      - name: JavaScript tests
+        run: node --test js/*.test.js
 
       - name: HTML validation
         run: htmlhint "**/*.html"
@@ -66,28 +72,44 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+  deploy:
+    needs: validate
+    if: github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true && github.event.pull_request.base.ref == 'main'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.merge_commit_sha }}
+
       - name: Install Vercel CLI
-        run: vercel --version
+        run: npm install -g vercel
 
       - name: Deploy to Vercel
-        run: vercel --prod --token=${{ secrets.VERCEL_TOKEN }} --yes
+        run: vercel --prod --token="$VERCEL_TOKEN" --yes
         env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
 
       - name: Post-deploy smoke check (single URL)
-        if: ${{ secrets.PRODUCTION_HEALTHCHECK_URL != '' }}
+        env:
+          PRODUCTION_HEALTHCHECK_URL: ${{ secrets.PRODUCTION_HEALTHCHECK_URL }}
         run: |
-          curl -fL --max-time 20 "${{ secrets.PRODUCTION_HEALTHCHECK_URL }}" > /dev/null
-          echo "Smoke check passed for ${{ secrets.PRODUCTION_HEALTHCHECK_URL }}"
+          [[ -n "$PRODUCTION_HEALTHCHECK_URL" ]] || exit 0
+          curl -fL --max-time 20 "$PRODUCTION_HEALTHCHECK_URL" > /dev/null
+          echo "Smoke check passed"
 
       - name: Post-deploy smoke checks (multiple URLs)
-        if: ${{ secrets.PRODUCTION_HEALTHCHECK_URLS != '' }}
+        env:
+          PRODUCTION_HEALTHCHECK_URLS: ${{ secrets.PRODUCTION_HEALTHCHECK_URLS }}
         run: |
-          IFS=',' read -ra URLS <<< "${{ secrets.PRODUCTION_HEALTHCHECK_URLS }}"
+          [[ -n "$PRODUCTION_HEALTHCHECK_URLS" ]] || exit 0
+          IFS=',' read -ra URLS <<< "$PRODUCTION_HEALTHCHECK_URLS"
           for raw_url in "${URLS[@]}"; do
             url="$(echo "$raw_url" | xargs)"
             [ -n "$url" ] || continue
             curl -fL --max-time 20 "$url" > /dev/null
-            echo "Smoke check passed for $url"
+            echo "Smoke check passed"
           done
