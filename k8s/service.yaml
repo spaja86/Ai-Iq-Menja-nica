@@ -1,0 +1,35 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: crypto-exchange-backend
+  labels:
+    app: crypto-exchange
+    component: backend
+spec:
+  type: ClusterIP
+  ports:
+  - port: 8000
+    targetPort: 8000
+    protocol: TCP
+    name: http
+  selector:
+    app: crypto-exchange
+    component: backend
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: crypto-exchange-frontend
+  labels:
+    app: crypto-exchange
+    component: frontend
+spec:
+  type: ClusterIP
+  ports:
+  - port: 80
+    targetPort: 80
+    protocol: TCP
+    name: http
+  selector:
+    app: crypto-exchange
+    component: frontend
